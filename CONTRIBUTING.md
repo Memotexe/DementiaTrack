@@ -23,7 +23,7 @@ This naming convention will help maintainers close solved issues.
 
 ### Pull Requests
 
-All pull requests will be reviewed by no less than 2 reviewers.<br/>At least one reviewer will be a maintainer.
+All pull requests will be reviewed by no less than 2 reviewers. At least one reviewer will be a maintainer.
 
 ### Documentation
 
