@@ -1,4 +1,4 @@
-# Contirbuting to DementiaTrack
+# Contributing to DementiaTrack
 
 Table Of Contents:
 
