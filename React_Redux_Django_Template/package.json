@@ -1,7 +1,7 @@
 {
   "name": "lead_manager_react_django",
   "version": "1.0.0",
-  "description": "",
+  "description": "1.) be in pipenv \r 2.) npm install for dependencies\r 3.) Done",
   "main": "index.js",
   "scripts": {
     "dev": "webpack --mode development --watch ./leadmanager/frontend/src/index.js -o ./leadmanager/frontend/static/frontend/"
@@ -16,7 +16,8 @@
     "babel-loader": "^8.2.2",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "webpack": "^5.11.1",
-    "webpack-cli": "^4.2.0"
+    "webpack-cli": "^4.2.0",
+    "webpack-merge": "^5.7.3"
   },
   "dependencies": {
     "axios": "^0.21.1",

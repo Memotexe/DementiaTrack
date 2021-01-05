@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import { logout } from '../../actions/auth'
 
 
+
 export class Header extends Component {
     static propTypes = {
         auth: PropTypes.object.isRequired,
@@ -16,8 +17,26 @@ export class Header extends Component {
 
         const authLinks = (
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+                <span className="navbar-text mr-2">
+                    <strong>{'Symptoms:'}</strong>
+                </span>
+                <li className="nav-item">
+                    <a className="nav-link" href="#/wanderingpacing" >Wandering/Pacing</a>
+                </li>
+                <li className="nav-item">
+                    <Link to="" className="nav-link" >Sleep Disorders</Link>
+                </li>
+                <li className="nav-item">
+                    <Link to="" className="nav-link" >UTI</Link>
+                </li>
+                <li className="nav-item">
+                    <Link to="" className="nav-link" >Daily Activities</Link>
+                </li>
+
+
+
                 <span className="navbar-text mr-3">
-                    <strong>{user ? `Welcome ${user.username}`: ""}</strong>
+                    <strong>{user ? `|Welcome ${user.username}|`: ""}</strong>
                 </span>
                 <li className="nav-item">
                     <button onClick={this.props.logout} className="nav-link btn btn-info btn-sm text-light">Logout</button>
@@ -43,7 +62,7 @@ export class Header extends Component {
                         <span className="navbar-toggler-icon"></span>
                     </button>
                     <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
-                        <a className="navbar-brand" href="#">DementiaTrack</a> 
+                        <a className="navbar-brand" href="#">DementiaTrack</a>                         
                     </div>
                     {isAuthenticated ? authLinks: guestLinks}
                 </div>

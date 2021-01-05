@@ -6,6 +6,7 @@ import Header from './layout/Header';
 import Dashboard from './leads/Dashboard';
 import Login from './accounts/Login';
 import Register from './accounts/Register';
+import WanderingPacing from './accounts/WanderingPacing';
 import PrivateRoute from './common/PrivateRoute';
 
 
@@ -30,6 +31,7 @@ class App extends Component {
                                 <PrivateRoute exact path="/" component={Dashboard} />
                                 <Route exact path="/register" component={Register} />
                                 <Route exact path="/login" component={Login} />
+                                <Route exact path="/wanderingpacing" component={WanderingPacing} />
                             </Switch>
                         </div>
                     </Fragment>
