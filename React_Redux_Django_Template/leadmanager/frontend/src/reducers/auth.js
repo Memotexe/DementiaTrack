@@ -9,6 +9,12 @@ import {
     REGISTER_FAIL
 } from "../actions/types";
 
+/**This initialstate is set to be null because when 
+ * the user goes to access the web application, if
+ * they are not logged in, we do not want them to access
+ * the application.
+ *
+ * */
 
 const initialState={
     token: localStorage.getItem('token'),
@@ -16,6 +22,24 @@ const initialState={
     isLoading: false,
     user: null
 }
+
+/**This function is used to place a switch case for
+ * the login and register features along with the
+ * logout feature. So if they login the state is changed
+ * to that of a logged in user. Same is for if a user
+ * logs out, they will be redirected to a login screen.
+ *
+ *
+ * @param {state} : State is used to find out if the user is logged in,
+ * logged out, successfully registered, or failed to login in or logout.
+ * @param {action} This is used to say what action is being done and in return
+ * sends back the state of the user based on whether the action was successful or not.
+ *
+ *
+ *
+ *
+ *
+ * */
 
 export default function(state=initialState,action){
     switch(action.type){

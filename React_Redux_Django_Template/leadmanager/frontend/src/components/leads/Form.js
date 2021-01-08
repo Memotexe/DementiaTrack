@@ -3,6 +3,14 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { addLead } from '../../actions/leads';
 
+
+/**
+ * This class is irrelevant as it was part of 
+ * the tutorial, so it can be used as a reference
+ * but has not purpose in the web application anymore
+ **/
+
+
 export class Form extends Component {
     state = {
         name: '',

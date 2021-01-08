@@ -5,6 +5,44 @@ import PropTypes from "prop-types";
 import { register } from '../../actions/auth';
 
 
+/**This function is the Registration part of the 
+ * Web application. With this there are 
+ * a set of variables like the 
+ * state, propTypes, an action called onSubmit
+ * and onChange. Finally there is the render function.
+ *
+ * Starting with the state: There is the username and
+ * password and password2 and email which is neccessary for a user 
+ * who has registered their account can log into the application.
+ *
+ * As for propTypes: We have the register feature from the proptype
+ * and the IsAuthenticated is used to make sure the user has
+ * a proper token 
+ *
+ * The onSubmit action uses the preventDefault premade function to
+ * make sure the information in the fields isnt blank
+ * then uses the credentials used to and begins to check on whether
+ * the password and password2 are matching because passwords need
+ * to match to make an account, with that the email is checked with the 
+ * auth library of django/rest/redux will ensure that the text in the
+ * email field is truly an email
+ *
+ * The onChange is a constantly updated action because in the case
+ * that the user changes what is in the fields for username and password
+ * it will update the second a change is made.
+ *
+ * Finally is the Render function, that is what is returned to the
+ * web application to allow the system display the form and headers 
+ * to make the site visually representable.
+ *
+ *
+ * At the bottom is the MapStateToProps this is to control on whether 
+ * they move on to the next page based on the account created and
+ * the token checks out.
+ **/
+
+
+
 export class Register extends Component{
     state = {
         username: '',

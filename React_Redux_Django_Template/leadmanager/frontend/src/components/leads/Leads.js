@@ -3,6 +3,22 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getLeads, deleteLead } from '../../actions/leads';
 
+
+
+/**
+ * This class is as well irrelevant
+ * as it was apart of the tutorial
+ * but can be used as a reference.
+ **/
+
+
+
+
+
+
+
+
+
 export class Leads extends Component{
     static propTypes = {
         leads: PropTypes.array.isRequired,

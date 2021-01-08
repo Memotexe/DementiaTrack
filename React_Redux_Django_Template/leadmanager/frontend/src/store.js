@@ -14,3 +14,12 @@ const store = createStore(
 );
 
 export default store;
+
+
+/**
+ * In order to use Redux, everysite needs to have this 
+ * file in their directory system. A store is the neccessary 
+ * component of having the Redux respond with Django and react
+ * and create/give some of the many prebuilt libraries and functions
+ * the capability of functioning within the web application.
+ **/

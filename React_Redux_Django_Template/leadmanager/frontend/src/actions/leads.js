@@ -4,6 +4,17 @@ import { GET_LEADS, DELETE_LEAD, ADD_LEAD } from './types';
 
 import { tokenConfig } from './auth'
 
+/**
+ *This file is only relevent to the tutorial, so it
+ * doesnt need to be commented. If anyone has questions about
+ * how it works, feel free to contact me via Discord
+ **/
+
+
+
+
+
+
 //GET LEADS
 export const getLeads = () => (dispatch, getState) => {
     axios.get('/api/leads/', tokenConfig(getState))

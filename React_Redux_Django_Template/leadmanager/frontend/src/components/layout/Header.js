@@ -4,6 +4,33 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { logout } from '../../actions/auth'
 
+/**
+ * This Header is what it sounds like, this is the top
+ * navigation bar for the web application, this will be at the 
+ * top of the site and will allow the user to cycle throughout
+ * the multiple symptoms and thier own seperate page.
+ * With that there will be the logout button for the user to log
+ * out when they do not want to be logged in anymore.
+ * This will only display certain navigation items when
+ * the user is logged in, and logged out. 
+ *
+ * The propTypes are limited to:
+ *     auth: which is to check if the user is authorized.
+ *     logout: is the fucntion to be used when the user clicks
+ *            The logout button.
+ *
+ * mapStateToProps is to be used for checking on whether the account 
+ * is logged in or logged out to properly display the correct components
+ * of the site.
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ **/
+
 
 
 export class Header extends Component {
@@ -18,19 +45,19 @@ export class Header extends Component {
         const authLinks = (
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                 <span className="navbar-text mr-2">
-                    <strong>{'Symptoms:'}</strong>
+                   <strong>{'Symptoms:'}</strong>
                 </span>
                 <li className="nav-item">
                     <a className="nav-link" href="#/wanderingpacing" >Wandering/Pacing</a>
                 </li>
                 <li className="nav-item">
-                    <Link to="" className="nav-link" >Sleep Disorders</Link>
+                    <a className="nav-link" href="#/sleepdisorders" >Sleep Disorders</a>
                 </li>
                 <li className="nav-item">
-                    <Link to="" className="nav-link" >UTI</Link>
+                    <a  className="nav-link" href="#/uti" >UTI</a>
                 </li>
                 <li className="nav-item">
-                    <Link to="" className="nav-link" >Daily Activities</Link>
+                    <a className="nav-link" href="#/dailyactivities" >Daily Activities</a>
                 </li>
 
 

@@ -1,5 +1,11 @@
 import { GET_LEADS, DELETE_LEAD, ADD_LEAD } from '../actions/types.js';
 
+/**
+ * These functions were used as part of the tutorial and have no purpose in our application
+ * they only show how functions could be made in javascript. If you have any questions
+ * message me on discord - Chase W.
+ **/
+
 const initialState = {
     leads: []
 }
