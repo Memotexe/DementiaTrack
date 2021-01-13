@@ -2,11 +2,11 @@ from django.urls import path, include
 from .api import RegisterAPI, LoginAPI, UserAPI
 from knox import views as knox_views
 
-"""
-This is for when the accounts want to login,logout,register, and for authentication by knox.
-It will link to the js that is tailored to the subject of the file, like the login screen or
-the register screen.
-"""
+# """
+# This is for when the accounts want to login,logout,register, and for authentication by knox.
+# It will link to the js that is tailored to the subject of the file, like the login screen or
+# the register screen.
+# """
 
 urlpatterns = [
         path('api/auth', include('knox.urls')),
