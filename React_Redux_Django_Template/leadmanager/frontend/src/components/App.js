@@ -47,7 +47,6 @@ class App extends Component {
                                 <Route exact path="/sleepdisorders" component={SleepDisorders} />
                                 <Route exact path="/uti" component={UTI} />
                                 <Route exact path="/dailyactivities" component={DailyActivity} />
-
                             </Switch>
                         </div>
                     </Fragment>

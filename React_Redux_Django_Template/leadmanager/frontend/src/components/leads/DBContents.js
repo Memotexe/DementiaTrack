@@ -11,7 +11,21 @@ import PropTypes from 'prop-types';
 export class DBContents extends Component{
     render(){
         return(
-            <h2>Dashboard</h2>
+            <div>
+                <h2>
+                    Dashboard
+                </h2>
+                <img></img>
+                <h5>
+                    Welcome to the DementiaTrack Web Application. Click one of the links below to head to the symptom you wish to analyze of the patient, or select from the navigation bar above:
+                </h5>
+                <ul>
+                    <li>Wandering/Pacing</li>
+                    <li>Sleep Disorders</li>
+                    <li>Urinary Tract Infection</li>
+                    <li>Daily Activities</li>
+                </ul>
+            </div>
         )
     }
 }
