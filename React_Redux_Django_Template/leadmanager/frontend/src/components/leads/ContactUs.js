@@ -11,7 +11,40 @@ import PropTypes from 'prop-types';
 export class ContactUs extends Component{
     render(){
         return(
-            <h2>Contact Us:</h2>
+            <div className="card card-body mt-4 mb-4">
+                <h2>Contact Us:</h2>
+                <form action="mailto:cmwalters61@gmail.com?subject=Problem/Concern Submission" method="post" encType="text/plain">
+                    <div className="form-group">
+                        <label>Name</label>
+                        <input
+                            className="form-control"
+                            type="text"
+                            name="Name of User "
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label>Email</label>
+                        <input
+                            className="form-control"
+                            type="email"
+                            name="Email of User "
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label>Problem/Question</label>
+                        <input
+                            className="form-control"
+                            type="text"
+                            name="Problem or Concern "
+                        />
+                    </div>
+                    <div className="form-group">
+                        <button type="submit" className="btn btn-priary">Submit</button>
+                    </div>
+                </form>
+               
+            </div>
+
         )
     }
 }

@@ -15,7 +15,7 @@ export class DBContents extends Component{
                 <h2>
                     Dashboard
                 </h2>
-                <img></img>
+                    <img src="/static/frontend/resources/Brain.png" width="250" height="210"></img>
                 <h5>
                     Welcome to the DementiaTrack Web Application. Click one of the links below to head to the symptom you wish to analyze of the patient, or select from the navigation bar above:
                 </h5>

@@ -71,8 +71,8 @@ export class Header extends Component {
                     </li>
                 </ul>
 
-                <nav class="navbar-nav fixed-bottom mb-1 me-auto navbar-light bg-light">
-                    <a class="navbar-brand" href="#">Dashboard</a>
+                <nav className="navbar-nav fixed-bottom mb-1 me-auto navbar-light bg-light">
+                    <a className="navbar-brand" href="#">Dashboard</a>
                         <li className="nav-item">
                             <a className="nav-link" href="#/contributions">Contributions</a>
                         </li>
