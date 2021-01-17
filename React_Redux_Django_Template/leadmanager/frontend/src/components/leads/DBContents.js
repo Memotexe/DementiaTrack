@@ -11,7 +11,24 @@ import PropTypes from 'prop-types';
 export class DBContents extends Component{
     render(){
         return(
-            <h2>Dashboard</h2>
+            <div>
+                <h2>
+                    Dashboard
+                </h2>
+                    <img src="/static/frontend/resources/Brain.png" width="250" height="210"></img>
+                <h5>
+                    Welcome to the DementiaTrack Web Application. Click one of the links below to head to the symptom you wish to analyze of the patient, or select from the navigation bar above:
+                </h5>
+                <ul>
+                    <li><a href="#/wanderingpacing">Wandering/Pacing</a></li>
+                    <li><a href="#/sleepdisorders">Sleep Disorders</a></li>
+                    <li><a href="#/uti">Urinary Tract Infection</a></li>
+                    <li><a href="#/dailyactivities">Daily Activities</a></li>
+                </ul>
+                <h6>
+                    Information about the contributors and the references can be found below at the bottom of the page. With that if you have any problems there is a help team email for any technical issues located below as well that you can contact us by.
+                </h6>
+            </div>
         )
     }
 }

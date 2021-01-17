@@ -4,6 +4,8 @@
 	- pipenv install
 3.) Install Dependencies for npm
 	- npm -c *This will install the dependencies from the package-lock.json*
+	- If you get issues with this ^ , perform this instead after a npm install:
+		- npm i -D webpack-cli@4.2.0
 4.) In one command line run *While in the Directory that has the .py file specified* :
 	- python manage.py runserver 
 		"The way this works is this will run the server so you can access the http link

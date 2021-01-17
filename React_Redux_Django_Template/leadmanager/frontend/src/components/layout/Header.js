@@ -43,32 +43,49 @@ export class Header extends Component {
         const { isAuthenticated, user } = this.props.auth;
 
         const authLinks = (
-            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                <span className="navbar-text mr-2">
-                   <strong>{'Symptoms:'}</strong>
-                </span>
-                <li className="nav-item">
-                    <a className="nav-link" href="#/wanderingpacing" >Wandering/Pacing</a>
-                </li>
-                <li className="nav-item">
-                    <a className="nav-link" href="#/sleepdisorders" >Sleep Disorders</a>
-                </li>
-                <li className="nav-item">
-                    <a  className="nav-link" href="#/uti" >UTI</a>
-                </li>
-                <li className="nav-item">
-                    <a className="nav-link" href="#/dailyactivities" >Daily Activities</a>
-                </li>
+            <div>
+                <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+                    <span className="navbar-text mr-2">
+                        <strong>{'Symptoms:'}</strong>
+                    </span>
+                    <li className="nav-item">
+                        <a className="nav-link" href="#/wanderingpacing" >Wandering/Pacing</a>
+                    </li>
+                    <li className="nav-item">
+                        <a className="nav-link" href="#/sleepdisorders" >Sleep Disorders</a>
+                    </li>
+                    <li className="nav-item">
+                        <a  className="nav-link" href="#/uti" >UTI</a>
+                    </li>
+                    <li className="nav-item">
+                        <a className="nav-link" href="#/dailyactivities" >Daily Activities</a>
+                    </li>
 
 
 
-                <span className="navbar-text mr-3">
-                    <strong>{user ? `|Welcome ${user.username}|`: ""}</strong>
-                </span>
-                <li className="nav-item">
-                    <button onClick={this.props.logout} className="nav-link btn btn-info btn-sm text-light">Logout</button>
-                </li>
-            </ul>
+                    <span className="navbar-text mr-3">
+                        <strong>{user ? `|Welcome ${user.username}|`: ""}</strong>
+                    </span>
+                    <li className="nav-item">
+                        <button onClick={this.props.logout} className="nav-link btn btn-info btn-sm text-light">Logout</button>
+                    </li>
+                </ul>
+
+                <nav className="navbar-nav fixed-bottom mb-1 me-auto navbar-light bg-light">
+                    <a className="navbar-brand" href="#">Dashboard</a>
+                        <li className="nav-item">
+                            <a className="nav-link" href="#/contributions">Contributions</a>
+                        </li>
+                        <li className="nav-item">
+                            <a className="nav-link" href="#/references">References</a>
+                        </li>
+                        <li className="nav-item">
+                            <a className="nav-link" href="#/contactus">Contact Us</a>
+                        </li>
+
+
+                </nav>
+            </div>
         );
 
         const guestLinks = (

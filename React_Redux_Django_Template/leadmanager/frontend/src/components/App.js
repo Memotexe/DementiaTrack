@@ -6,10 +6,13 @@ import Header from './layout/Header';
 import Dashboard from './leads/Dashboard';
 import Login from './accounts/Login';
 import Register from './accounts/Register';
-import WanderingPacing from './accounts/WanderingPacing';
-import SleepDisorders from './accounts/SleepDisorders';
-import UTI from './accounts/UTI';
-import DailyActivity from './accounts/DailyActivities';
+import WanderingPacing from './leads/WanderingPacing';
+import SleepDisorders from './leads/SleepDisorders';
+import UTI from './leads/UTI';
+import DailyActivity from './leads/DailyActivities';
+import ContactUs from './leads/ContactUs';
+import References from './leads/References';
+import Contributions from './leads/Contributions';
 import PrivateRoute from './common/PrivateRoute';
 
 
@@ -43,11 +46,13 @@ class App extends Component {
                                 <PrivateRoute exact path="/" component={Dashboard} />
                                 <Route exact path="/register" component={Register} />
                                 <Route exact path="/login" component={Login} />
-                                <Route exact path="/wanderingpacing" component={WanderingPacing} />
-                                <Route exact path="/sleepdisorders" component={SleepDisorders} />
-                                <Route exact path="/uti" component={UTI} />
-                                <Route exact path="/dailyactivities" component={DailyActivity} />
-
+                                <PrivateRoute exact path="/wanderingpacing" component={WanderingPacing} />
+                                <PrivateRoute exact path="/sleepdisorders" component={SleepDisorders} />
+                                <PrivateRoute exact path="/uti" component={UTI} />
+                                <PrivateRoute exact path="/dailyactivities" component={DailyActivity} />
+                                <PrivateRoute exact path="/contactus" component={ContactUs}/>
+                                <PrivateRoute exact path="/references" component={References}/>
+                                <PrivateRoute exact path="/contributions" component={Contributions}/>
                             </Switch>
                         </div>
                     </Fragment>
