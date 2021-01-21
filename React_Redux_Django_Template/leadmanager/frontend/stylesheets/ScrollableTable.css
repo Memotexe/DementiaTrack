@@ -1,0 +1,13 @@
+#table {
+  margin-top: 20px;
+  overflow: auto;
+  display: block;
+  border-collapse: collapse;
+  height: 100px;
+  margin: 50px;
+}
+
+.tableHeader {
+  margin-top: -20px;
+  position: absolute;
+}

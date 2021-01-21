@@ -1,5 +1,5 @@
-import {combineReducers } from 'redux'
-import leads from './leads';
+import { combineReducers } from "redux";
+import leads from "./leads";
 import auth from "./auth";
 
 /** This is here to control functions through redux and helps
@@ -8,6 +8,6 @@ import auth from "./auth";
  **/
 
 export default combineReducers({
-    leads,
-    auth
+  leads,
+  auth,
 });

@@ -1,0 +1,55 @@
+#closeFullscreenButton {
+  position: fixed;
+  top: 0;
+  right: 0;
+  background-color: #6699cc;
+  border: 1px solid #6699cc;
+  border-radius: 2px;
+  color: white;
+  margin: 10px;
+}
+
+#fullscreenContainer {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.75);
+  z-index: 1;
+}
+
+.button {
+  background-color: #6699cc;
+  border: 1px solid #6699cc;
+  border-radius: 2px;
+  color: white;
+  margin: 10px;
+}
+
+#centerDots {
+  text-align: center;
+  width: 100%;
+}
+
+#carouselContainer {
+  height: 100%;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.arrowButton {
+  color: #6699cc;
+  background-color: white;
+  font-size: x-large;
+  border: none;
+}
+
+.graphImage {
+  width: 80%;
+}

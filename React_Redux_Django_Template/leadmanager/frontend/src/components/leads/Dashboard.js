@@ -1,7 +1,7 @@
-import React, { Fragment } from 'react';
-import Form from './Form';
-import Leads from './Leads';
-import DBContents from './DBContents';
+import React, { Fragment } from "react";
+import Form from "./Form";
+import Leads from "./Leads";
+import DBContents from "./DBContents";
 
 /**This is the rendered screen for the
  * dashboard. So when the user is on the main
@@ -9,13 +9,12 @@ import DBContents from './DBContents';
  * that is a symptom, it'll show this page.
  **/
 
-export default function Dashboard(){
-    return (
-        <div>
-            <Fragment>
-                <DBContents /> 
-            </Fragment> 
-        </div>
-    )
+export default function Dashboard() {
+  return (
+    <div>
+      <Fragment>
+        <DBContents />
+      </Fragment>
+    </div>
+  );
 }
-
