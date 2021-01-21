@@ -14,8 +14,7 @@ export const REGISTER_FAIL = "REGISTER_FAIL";
  * so that we can give an action a reason and understanding
  * whenever we perform an action in the web application.
  * With this you create one when a user is registered, so if
- * you were to look at react in the Redux DevTools you can 
+ * you were to look at react in the Redux DevTools you can
  * see that when a button is clicked the user could have
  * logged in, logged out or a successful registration or etc.
  **/
-
