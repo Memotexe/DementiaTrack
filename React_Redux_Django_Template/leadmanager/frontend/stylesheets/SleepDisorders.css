@@ -1,0 +1,33 @@
+#page {
+  margin-bottom: 50px;
+  width: 100%;
+}
+#title {
+  text-align: center;
+  margin: 20px;
+}
+#overview {
+  background-color: white;
+  padding: 20px;
+  text-align: center;
+  border-radius: 10px;
+  background-color: lightgray;
+  width: 50%;
+  margin: 50px auto;
+}
+
+#set{
+  padding-top: 25px;
+  text-align: center;
+  border-style: solid;
+  border-radius: 20px;
+  border-color: black;
+  background-color: lightgray;
+  width: 50%;
+  margin: 15px auto;
+}
+
+#pic{
+    height: 100px;
+    width: 100px;
+}
