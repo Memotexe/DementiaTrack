@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import "../../../stylesheets/ScrollableTable.css";
+import { v4 as uuidv4 } from "uuid";
 
 class ScrollableTable extends React.Component {
   constructor(props) {
@@ -15,7 +16,7 @@ class ScrollableTable extends React.Component {
         <tbody>
           <tr>
             {this.props.headings.map((heading) => (
-              <th key={heading} style={{ width: "350px" }}>
+              <th key={uuidv4()} style={{ width: "350px" }}>
                 <div className="tableHeader">{heading}</div>
               </th>
             ))}
@@ -23,7 +24,7 @@ class ScrollableTable extends React.Component {
 
           {this.props.data.map((row, i) => (
             <tr
-              key={row.date + row.time}
+              key={uuidv4()}
               style={{
                 backgroundColor:
                   i % 2 == 0
@@ -32,7 +33,7 @@ class ScrollableTable extends React.Component {
               }}
             >
               <td>{row.date}</td>
-              <td>{row.time}</td>
+              <td>{row.value}</td>
             </tr>
           ))}
         </tbody>

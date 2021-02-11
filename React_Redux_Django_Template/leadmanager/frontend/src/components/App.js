@@ -14,6 +14,7 @@ import Register from "./accounts/Register";
 import WanderingPacing from "./leads/WanderingPacing";
 import SleepDisorders from "./leads/SleepDisorders";
 import UTI from "./leads/UTI";
+import Test from "./leads/Test";
 import DailyActivity from "./leads/DailyActivities";
 import ContactUs from "./leads/ContactUs";
 import References from "./leads/References";
@@ -61,6 +62,7 @@ class App extends Component {
                   component={SleepDisorders}
                 />
                 <PrivateRoute exact path="/uti" component={UTI} />
+                <PrivateRoute exact path="/test" component={Test} />
                 <PrivateRoute
                   exact
                   path="/dailyactivities"
