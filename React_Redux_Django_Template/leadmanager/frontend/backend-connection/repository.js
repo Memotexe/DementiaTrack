@@ -1,42 +1,58 @@
 import Api from "./api";
 
 class Repository {
-  async GetTemperatureAnomalies(argument) {
+  async GetTemperatureAnomalies() {
     let api = new Api();
 
-    let response = await api.get("database/test?q=" + argument);
+    let response = await api.get("database/temp");
 
     if (response[0] != 200) {
       console.log("Connection Failed");
     }
 
-    let responseData = response[1].Anomalies;
-    let data = [];
-
-    responseData.forEach((row) => {
-      data.push({ date: row[0], value: row[1] });
-    });
-
-    return { Anomalies: data, Image: response[1].Image };
+    return { Anomalies: response[1].Anomalies, Image: response[1].Image };
   }
 
-  async GetBathroomTripAnomalies(argument) {
+  async GetBathroomTripAnomalies() {
     let api = new Api();
 
-    let response = await api.get("database/test?q=" + argument);
+    let response = await api.get("database/uti");
 
     if (response[0] != 200) {
       console.log("Connection Failed");
     }
 
-    let responseData = response[1].Anomalies;
-    let data = [];
+    let anomalies = []
 
-    responseData.forEach((row) => {
-      data.push({ date: "9/18/21", value: row[0] });
+    let dayAnomalies = response[1].DayAnomalies;
+    let nightAnomalies = response[1].NightAnomalies;
+
+    dayAnomalies.forEach(anomaly => {
+      anomalies.push({"Date": anomaly[0], "Time": "Day", "Count": anomaly[1]});
+    })
+      
+    nightAnomalies.forEach(anomaly => {
+      anomalies.push({"Date": anomaly[0], "Time": "Night", "Count": anomaly[1]});
     });
 
-    return { Anomalies: data, Image: response[1].Image };
+    let images = [response[1].DayImg, response[1].NightImg]
+
+    return { 
+      Anomalies: anomalies,
+      Images: images
+    };
+  }
+
+  async testBackendConnection(start, end) {
+    let api = new Api();
+
+    let response = await api.get("database/test?startdate=" + start + "&&enddate=" + end);
+
+    if (response[0] != 200) {
+      console.log("Connection Failed");
+    }
+
+    return response[1];
   }
 }
 

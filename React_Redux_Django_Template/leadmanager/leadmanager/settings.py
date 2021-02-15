@@ -47,6 +47,11 @@ INSTALLED_APPS = [
 
 REST_FRAMEWORK={
     'DEFAULT_AUTHENTICATION_CLASSES': 
+    'database',
+}
+
+REST_FRAMEWORK={
+    'DEFAULT_AUTHENTICATION_CLASSES':
         ('knox.auth.TokenAuthentication',),
     'DEFAULT_RENDERER_CLASSES': [
         'rest_framework.renderers.JSONRenderer',
@@ -98,8 +103,12 @@ WSGI_APPLICATION = 'leadmanager.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'dementia_track',
+        'USER': 'root',
+        'PASSWORD': 'password',
+        'HOST': '127.0.0.1',
+        'PORT': '3306'
     }
 }
 

@@ -8,29 +8,31 @@ export class Test extends Component {
     super(props);
 
     this.state = {
-      result: "",
-      argument: "",
-      src: "",
+      result: [],
+      start: "",
+      end: ""
     };
-
-    this.clicked = this.clicked.bind(this);
-    this.setArgument = this.setArgument.bind(this);
   }
 
-  setArgument(e) {
-    let argument = e.target.value;
+  setStart = (e) => {
+    let start = e.target.value;
 
-    this.setState({ argument });
+    this.setState({ start });
   }
 
-  async clicked() {
+  setEnd = (e) => {
+    let end = e.target.value;
+
+    this.setState({ end });
+  }
+
+  clicked = async () => {
     let repo = new Repository();
 
-    let response = await repo.GetAnomalies(this.state.argument);
+    let response = await repo.testBackendConnection(this.state.start, this.state.end);
 
     this.setState({
-      result: response.Anomalies,
-      src: response.Image,
+      result: response.Test,
     });
   }
 
@@ -39,83 +41,29 @@ export class Test extends Component {
       <div>
         <h1>Test</h1>
         <span>Enter Command: </span>
-        <input type="text" name="args" onChange={this.setArgument}></input>
+        <input type="text" name="args"></input>
         <br />
         <button onClick={this.clicked}>Run</button>
         <p>Result: {this.state.result}</p>
-        <img src={`data:image/png;base64,${this.state.src}`} alt="oops" />
-        <Sum></Sum>
-      </div>
-    );
-  }
-}
-
-class Sum extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      sum: 0,
-    };
-  }
-
-  add = () => {
-    this.setState({ sum: this.state.sum + 1 });
-  };
-
-  subtract = () => {
-    this.setState({ sum: this.state.sum - 1 });
-  };
-
-  render() {
-    return (
-      <div>
-        <h1>Sum</h1>
-        <Ranch
-          somedata={"Hello World"}
-          add={this.add}
-          subtract={this.subtract}
-        />
-        <Ranch
-          somedata={"Chicken Wings"}
-          add={this.add}
-          subtract={this.subtract}
-        />
-        <p>sum: {this.state.sum}</p>
-      </div>
-    );
-  }
-}
-
-class Ranch extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      num: 0,
-    };
-  }
-
-  add = () => {
-    this.setState({ num: this.state.num + 1 });
-
-    this.props.add();
-  };
-
-  subtract = () => {
-    this.setState({ num: this.state.num - 1 });
-
-    this.props.subtract();
-  };
-
-  render() {
-    return (
-      <div>
-        <h1>Ranch</h1>
-        <p>{this.props.somedata}</p>
-        <p>{this.state.num}</p>
-        <button onClick={this.add}>Add Me</button>
-        <button onClick={this.subtract}>Subtract Me</button>
+        <h5>Start Date:</h5>
+        <input 
+          onChange={this.setStart}
+          type="date"
+          id="start"
+          name="starting-date"
+          min="01/01/1990"
+          max="12/31/2020"
+        ></input>
+        <br></br>
+        <h5>End Date:</h5>
+        <input
+          onChange={this.setEnd}
+          type="date"
+          id="end"
+          name="ending-date"
+          min="1990-01-01"
+          max="2020-12-31"
+        ></input>
       </div>
     );
   }

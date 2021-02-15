@@ -2,11 +2,11 @@ from rest_framework import serializers
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 
-#User serialzier
+#User serializer
 class UserSerializer(serializers.ModelSerializer):
     # """
     # This is used to create a user from the models that are provided
-    # by the django user authenitcation system and the rest frameworks
+    # by the django user authentication system and the rest frameworks
     # serializers.
     # """
     class Meta:

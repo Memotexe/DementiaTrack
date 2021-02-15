@@ -6,15 +6,12 @@ import io
 from adtk.data import validate_series
 from adtk.detector import InterQuartileRangeAD
 from adtk.visualization import plot
+from datetime import datetime
 
-def BathroomTripAnomalies():
-    pre = os.path.dirname(os.path.realpath(__file__))
-    fname = 'bathroom_data.csv'
+def BathroomTripAnomalies(data, timeOfDay):
+    df = pd.DataFrame(data, columns=['Date', timeOfDay])
 
-    df = pd.read_csv(os.path.join(pre, fname))
-    df.columns = ['Day', 'Night']
-
-    setup(df, numeric_features=['Day', 'Night'], silent=True)
+    setup(df, numeric_features=[timeOfDay], ignore_features=['Date'], silent=True)
 
     lof = create_model('lof')
 
@@ -27,11 +24,12 @@ def BathroomTripAnomalies():
 
     return buf, anomalies.values
 
-def TemperatureAnomalies():
-    pre = os.path.dirname(os.path.realpath(__file__))
-    fname = 'temp_data.csv'
+def TemperatureAnomalies(data):
+    s = pd.DataFrame(data=data, columns=['Times', 'Temp'])
 
-    s = pd.read_csv(os.path.join(pre, fname), index_col='Times', parse_dates=True, squeeze=True)
+    format = '%Y-%m-%d %H:%M:%S'
+    s['Times'] = pd.to_datetime(s['Times'], format=format)
+    s = s.set_index('Times')
 
     s = validate_series(s)
 
@@ -43,9 +41,9 @@ def TemperatureAnomalies():
     anomalyDateList = []
     i = 0
 
-    while i < len(anomalies):
-        if anomalies[i] == True:
-            anomalyDateList.append([dates[i], s[i]])
+    while i < len(anomalies['Temp']):
+        if anomalies['Temp'][i] == True:
+            anomalyDateList.append({ "Time" : dates[i], "Temperature" : s.Temp[i] })
 
         i += 1
 
