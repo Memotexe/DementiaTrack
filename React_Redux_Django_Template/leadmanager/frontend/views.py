@@ -1,4 +1,5 @@
 from django.shortcuts import render
+# from models import Aruba;
 
 # """
 # This is the main html file that is rendered so when the 
