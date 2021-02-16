@@ -1,7 +1,6 @@
 import { faBoxTissue } from "@fortawesome/free-solid-svg-icons";
 import React, { Component } from "react";
 import Repository from "../../../backend-connection/repository";
-var Buffer = require("buffer").Buffer;
 
 export class Test extends Component {
   constructor(props) {

@@ -7,6 +7,9 @@ name = "pypi"
 django = "*"
 djangorestframework = "*"
 django-rest-knox = "*"
+mysqlclient = "*"
+mysql-connector-python = "*"
+django-cors-headers = "*"
 pycaret = "*"
 adtk = "*"
 django-cors-headers = "*"
@@ -16,4 +19,4 @@ mysql-connector-python = "*"
 [dev-packages]
 
 [requires]
-python_version = "3.8"
+python_version = "3.9"

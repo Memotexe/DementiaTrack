@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'knox',
     'accounts',
     'corsheaders',
+    'database',
 ]
 
 REST_FRAMEWORK={
