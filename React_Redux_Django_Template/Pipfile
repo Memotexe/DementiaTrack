@@ -12,11 +12,9 @@ mysql-connector-python = "*"
 django-cors-headers = "*"
 pycaret = "*"
 adtk = "*"
-django-cors-headers = "*"
-mysqlclient = "*"
-mysql-connector-python = "*"
+prometheus-flask-exporter = "*"
 
 [dev-packages]
 
 [requires]
-python_version = "3.9"
+python_version = "3.8"

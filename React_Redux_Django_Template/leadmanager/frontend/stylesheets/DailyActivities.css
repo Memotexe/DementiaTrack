@@ -1,0 +1,47 @@
+#page {
+    margin-bottom: 50px;
+    width: 100%;
+}
+
+#title {
+    text-align: center;
+    margin: 20px;
+}
+
+#symptomContainer {
+    display: flex;
+    justify-content: center;
+}
+
+.symptom {
+    background-color: lightsteelblue;
+    padding: 20px;
+    border-radius: 10px;
+    width: 48%;
+    margin: 10px;
+    box-shadow: 3px 3px 5px 6px #ccc;
+}
+
+#overview {
+    background-color: white;
+    padding: 20px;
+    text-align: center;
+    border-radius: 10px;
+    background-color: lightgray;
+    width: 50%;
+    margin: 50px auto;
+}
+
+@media only screen and (max-width: 1000px) {
+    #symptomContainer {
+        flex-wrap: wrap;
+    }
+
+    .symptom {
+        width: 100%;
+    }
+
+    #overview {
+        width: 75%
+    }
+  }
