@@ -14,9 +14,9 @@ export class UTI extends Component {
       anomalies: "",
       src: "",
       bathroomAnomalies: [
-        { date: "", time: "" },
+        { date: "", time: "", count: "" },
       ],
-      bathroomImage: "",
+      bathroomImages: [],
       temperatureAnomalies: [
         { date: "", time: "" },
       ],
@@ -36,7 +36,7 @@ export class UTI extends Component {
 
     this.setState({
       bathroomAnomalies: responseBathroom.Anomalies,
-      bathroomImage: responseBathroom.Image,
+      bathroomImages: responseBathroom.Images,
       temperatureAnomalies: responseTemperature.Anomalies,
       temperatureImage: responseTemperature.Image,
       lastruntime: daysjs().format("YYYY-MM-DD hh:mm:ss A"),
@@ -56,15 +56,15 @@ export class UTI extends Component {
         <Analyzer clicked={this.clicked} />
         <div id="symptomContainer">
           <BathroomTrips
-            image={this.state.bathroomImage}
+            images={this.state.bathroomImages}
             data={this.state.bathroomAnomalies}
-            headings={["Date", "Value"]}
+            headings={["Date", "Time", "Count"]}
             key={uuidv4()}
           />
           <BodyTemperature
             image={this.state.temperatureImage}
             data={this.state.temperatureAnomalies}
-            headings={["Date", "Value"]}
+            headings={["Time", "Temperature"]}
             key={uuidv4()}
           />
         </div>
@@ -108,12 +108,13 @@ class BathroomTrips extends React.Component {
         />
         <ImageCarousel
           key={uuidv4()}
-          images={[
-            <img
-              src={`data:image/png;base64,${this.props.image}`}
-              className="graphImage"
-            />,
-          ]}
+          images=
+            {this.props.images.map((image) => (
+              <img
+                src={`data:image/png;base64,${image}`}
+                className="graphImage"
+              />
+            ))}
         />
       </div>
     );

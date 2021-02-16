@@ -32,8 +32,11 @@ class ScrollableTable extends React.Component {
                     : alternateBackgroundColor,
               }}
             >
-              <td>{row.date}</td>
-              <td>{row.value}</td>
+
+            {this.props.headings.map((heading) => (
+              <td>{row[heading]}</td>
+            ))}
+
             </tr>
           ))}
         </tbody>

@@ -13,6 +13,8 @@ django-cors-headers = "*"
 pycaret = "*"
 adtk = "*"
 django-cors-headers = "*"
+mysqlclient = "*"
+mysql-connector-python = "*"
 
 [dev-packages]
 
