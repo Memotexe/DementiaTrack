@@ -183,23 +183,27 @@ class DatabaseAPI(generics.GenericAPIView):
                                       database='dementia_track')
         cursor = cnx.cursor()
 
-        start = request.GET.get('startdate', '2000-11-01')
-        end = request.GET.get('enddate', '2000-11-01')
+        query = ("SELECT DISTINCT(date) as UniqueDays, stage, COUNT(stage) AS UniqueStage "
+                "FROM milan "
+                "WHERE stage != ''"
+                "GROUP BY UniqueDays, stage")
 
-        dateStart = datetime.strptime(start, "%Y-%m-%d").strftime("%#m/%#d/%#Y")
-        dateEnd = datetime.strptime(end, "%Y-%m-%d").strftime("%#m/%#d/%#Y")
-
-        ## NEED TO ADD BACK DATE FILTER ##
-
-        query = ("SELECT DISTINCT(date) as UniqueDays, stage, COUNT(stage) AS UniqueStage FROM aruba"
-                "WHERE stage != '' AND" + dateStart + " AND " + dateEnd + "GROUP BY UniqueDays, stage")
 
         cursor.execute(query)
         row_headers = [x[0] for x in cursor.description]  # this will extract row headers
+        
+
         rv = cursor.fetchall()
+
         json_data = []
         for result in rv:
             json_data.append(dict(zip(row_headers, result)))
+
+        """ Testing Purposes:
+        print("\n\n\n\n\n\n")
+        print(json_data)
+        print("\n\n\n\n\n\n")
+        """
 
         cursor.close()
         cnx.close()
@@ -210,6 +214,7 @@ class DatabaseAPI(generics.GenericAPIView):
         return Response({
             "Image": image,
             "Anomalies": result[1]
+
         })
 """
     @api_view(('GET',))

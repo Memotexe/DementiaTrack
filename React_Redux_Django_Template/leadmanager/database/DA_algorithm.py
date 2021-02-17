@@ -1,25 +1,19 @@
 import pandas as pd
-from pycaret.anomaly import *
 import os
-from matplotlib import *
 import io
-from adtk.data import validate_series
-from adtk.detector import InterQuartileRangeAD
-from adtk.visualization import plot
 from datetime import datetime
+from pyspc import *
 
-def DAAnomalies(data, timeOfDay):
-    df = pd.DataFrame(data, columns=['Date', timeOfDay])
+def DAAnomalies(data):
+    df = pd.DataFrame(data=data, columns=['stage', 'UniqueStage'])
 
-    setup(df, numeric_features=[timeOfDay], ignore_features=['Date'], silent=True)
+    s = spc(df)
 
-    lof = create_model('lof')
-
-    lof_predict = predict_model(lof, data=df)
-    anomalies = lof_predict[lof_predict.Anomaly == 1]
+    a = s + cusum(std=2) + rules()
 
     buf = io.BytesIO()
+    a.save('C:/Users/Ryan/Github/DementiaTrack/React_Redux_Django_Template/leadmanager/frontend/tests/images/ANOMALY.png')
 
-    lof_predict.plot().get_figure().savefig(buf, format='png')
+    anomalies = s.summary[0]['violation-points']
 
-    return buf, anomalies.values
+    return buf, anomalies
