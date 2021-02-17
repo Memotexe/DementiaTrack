@@ -13,6 +13,7 @@ django-cors-headers = "*"
 pycaret = "*"
 adtk = "*"
 prometheus-flask-exporter = "*"
+pyspc = "*"
 
 [dev-packages]
 

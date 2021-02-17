@@ -82,7 +82,7 @@ class Repository {
     return { 
       Anomalies: anomalies,
       Images: images
-    }
+    };
   }
 }
 

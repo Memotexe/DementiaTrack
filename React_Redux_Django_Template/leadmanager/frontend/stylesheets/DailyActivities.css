@@ -14,7 +14,7 @@
 }
 
 .symptom {
-    background-color: lightsteelblue;
+    background-color: #A2B5CD;
     padding: 20px;
     border-radius: 10px;
     width: 48%;
@@ -22,12 +22,19 @@
     box-shadow: 3px 3px 5px 6px #ccc;
 }
 
+.button {
+    background-color: lightcoral;
+    border: 1px solid #9954bb;
+    border-radius: 2px;
+    color: white;
+    margin: 10px;
+  }
+
 #overview {
-    background-color: white;
+    background-color: lavender;
     padding: 20px;
     text-align: center;
     border-radius: 10px;
-    background-color: lightgray;
     width: 50%;
     margin: 50px auto;
 }
