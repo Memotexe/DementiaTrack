@@ -183,14 +183,13 @@ class DatabaseAPI(generics.GenericAPIView):
                                       database='dementia_track')
         cursor = cnx.cursor()
 
-        query = ("SELECT DISTINCT(date) as UniqueDays, stage, COUNT(stage) AS UniqueStage "
-                "FROM milan "
-                "WHERE stage != ''"
-                "GROUP BY UniqueDays, stage")
+        query = ("SELECT * "
+                "FROM milan_occ ")
 
 
         cursor.execute(query)
         row_headers = [x[0] for x in cursor.description]  # this will extract row headers
+        
         
 
         rv = cursor.fetchall()

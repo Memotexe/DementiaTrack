@@ -14,6 +14,7 @@ pycaret = "*"
 adtk = "*"
 prometheus-flask-exporter = "*"
 pyspc = "*"
+numpy = "*"
 
 [dev-packages]
 
