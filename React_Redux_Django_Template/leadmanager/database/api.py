@@ -9,6 +9,8 @@ import mysql.connector
 from datetime import datetime
 import json
 from dateutil import parser
+from PIL import Image
+import os
 
 class DatabaseAPI(generics.GenericAPIView):
 
@@ -190,8 +192,6 @@ class DatabaseAPI(generics.GenericAPIView):
         cursor.execute(query)
         row_headers = [x[0] for x in cursor.description]  # this will extract row headers
         
-        
-
         rv = cursor.fetchall()
 
         json_data = []
@@ -208,50 +208,9 @@ class DatabaseAPI(generics.GenericAPIView):
         cnx.close()
         
         result = DAAnomalies(json_data)
-        image = base64.b64encode(result[0].getvalue()).decode()
+        image = Image.open(result[0])
 
         return Response({
-            "Image": image,
+            "Image": os.path.abspath(result[0]),
             "Anomalies": result[1]
-
         })
-"""
-    @api_view(('GET',))
-    def getDA(request, *args, **kwargs):
-        cnx = mysql.connector.connect(user='root', password='password', 
-                                        host='127.0.0.1',
-                                        database='dementia_track')
-        cursor = cnx.cursor()
-
-        start = request.GET.get('startdate', '2000-01-01')
-        end = request.GET.get('enddate', '2021-01-01')
-
-        dateStart = datetime.strptime(start, "%Y-%m-%d").strftime("%#m/%#d/%#Y")
-        dateEnd = datetime.strptime(end, "%Y-%m-%d").strftime("%#m/%#d/%#Y")
-
-        query = ("SELECT DISTINCT(date) as UniqueDays, stage, COUNT(stage) AS UniqueStage FROM aruba"
-                "WHERE stage != '' AND" + dateStart + " AND " + dateEnd + ""
-                "GROUP BY UniqueDays, stage")
-
-
-        cursor.execute(query)
-        row_headers = [x[0] for x in cursor.description]  # this will extract row headers
-        rv = cursor.fetchall()
-        json_data = []
-        for result in rv:
-            json_data.append(dict(zip(row_headers, result)))
-
-        # data = []
-        # for (entry) in cursor:
-        #     data.append(entry)
-
-        cursor.close()
-        cnx.close()
-
-        # original stuff in this
-        # value = request.GET.get('q', 'default value if not found')
-
-        return Response({
-            "Test": json.dumps(json_data)
-        })
-        """

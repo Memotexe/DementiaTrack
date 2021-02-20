@@ -6,21 +6,12 @@ import Repository from "../../../backend-connection/repository";
 import { v4 as uuidv4 } from "uuid";
 import daysjs from "dayjs";
 
-/*
-import arubaPic from '../../../tests/images/DA-aruba.png';
-import milanPic from '../../../tests/images/DA-milan.png';
-import mockPic from '../../../tests/images/DA-mock.png';
-import mock_2Pic from '../../../tests/images/DA-mock_2.png';
-import tripsPic from '../../../tests/images/bathroom.png'; 
-*/
-
 /**This is where the site for the Daily Activities
  * part of the project. So with this, you can 
  * utilize the javascript libraries to produce 
  * or tailor this page to the Daily Activities
  * Symptom of dementia.
  **/
-
 
 export class DailyActivities extends Component{
     constructor(props) {
@@ -44,10 +35,10 @@ export class DailyActivities extends Component{
     clicked = async () => {
         let repo = new Repository();
 
-        let responseDA = await repo.GetDAAnomalies("Bathroom");
+        let responseDA = await repo.GetDAAnomalies("Daily Activities");
 
         this.setState({
-            DAAnomalies: responseBathroom.Anomalies,
+            DAAnomalies: responseDA.Anomalies,
             DAImages: responseDA.Images,
             lastruntime: daysjs().format("YYYY-MM-DD hh:mm:ss A"),
         });
@@ -115,7 +106,7 @@ class Activities extends React.Component {
                     images=
                         {this.props.images.map((image) => (
                         <img
-                            src={`data:image/png;base64,${image}`}
+                            src={`data:image/png;base64,${this.props.image}`}
                             className="graphImage"
                         />
                     ))}
@@ -137,7 +128,5 @@ class Overview extends React.Component {
         );
     }
 }
-
-
 
 export default DailyActivities;
