@@ -190,15 +190,17 @@ class DatabaseAPI(generics.GenericAPIView):
         dateEnd = datetime.strptime(end, "%Y-%m-%d").strftime("%#m/%#d/%#Y")
 
         query = ("SELECT Location FROM aruba")
-
+        
         cursor.execute(query)
+        row_headers = [x[0] for x in cursor.description]  # this will extract row headers
         rv = cursor.fetchall()
-        json_data=[]
-        json_data.append(rv)
+        json_data = []
+        for result in rv:
+            json_data.append(dict(zip(row_headers, result)))
+
 
         cursor.close()
         cnx.close()
-
         result = MovementAlgorithm.MovementAlgo(json_data)
 
         return Response({

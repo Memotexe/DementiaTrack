@@ -1,13 +1,9 @@
-import csv
 import pandas as pd
 from matplotlib import pyplot as plt
 import seaborn as sns
 import numpy as np
-import sys
-import operator
-import io
-import os
-import json
+import re, os, io, operator, sys, csv
+
 
 
 class MovementAlgorithm:
@@ -237,15 +233,17 @@ class MovementAlgorithm:
 
 
     def MovementAlgo(data):
-        locationData = []
-        sortedLocationData = []
-        for i in data:
-            locationData.append(i)
+        locationDF = pd.DataFrame(data=data, columns=['Location'])
+        locationUnParsed = []
+        locationParsed = []
 
-        #Remove anything without m, and then run the classification method and then the 
-        #graph one.
-        print(locationData)
+        locationUnParsed = locationDF.Location.tolist()
 
+        for i in locationUnParsed:
+            x = re.findall("^M", i)
+            if x:
+                locationParsed.append(i)
+                   
         occurenceList = []
         pacingOccur = 0
         lappingOccur = 0
