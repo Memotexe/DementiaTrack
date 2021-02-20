@@ -5,4 +5,5 @@ urlpatterns = [
     path('api/database/test', DatabaseAPI.get),
     path('api/database/uti', DatabaseAPI.getBathroomTrips),
     path('api/database/temp', DatabaseAPI.getTemp),
+    path('api/database/move', DatabaseAPI.getLocations),
 ]

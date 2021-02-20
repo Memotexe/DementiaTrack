@@ -3,6 +3,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .UTI_algorithms import BathroomTripAnomalies
 from .UTI_algorithms import TemperatureAnomalies
+from .MovementAlgorithm import MovementAlgorithm
 import base64
 import mysql.connector
 from datetime import datetime
@@ -174,3 +175,35 @@ class DatabaseAPI(generics.GenericAPIView):
             "Image": image,
             "Anomalies": result[1]
         })
+
+    @api_view(('GET',))
+    def getLocations(request, *args, **kwargs):
+        cnx = mysql.connector.connect(user = 'root', password='password',
+                                      host='127.0.0.1',
+                                      database='dementia_track')
+        cursor = cnx.cursor()
+
+        start = request.GET.get('startdate','2000-11-01')
+        end = request.GET.get('enddate', '2000-11-01')
+
+        dateStart = datetime.strptime(start, "%Y-%m-%d").strftime("%#m/%#d/%#Y")
+        dateEnd = datetime.strptime(end, "%Y-%m-%d").strftime("%#m/%#d/%#Y")
+
+        query = ("SELECT Location FROM aruba")
+
+        cursor.execute(query)
+        rv = cursor.fetchall()
+        json_data=[]
+        json_data.append(rv)
+
+        cursor.close()
+        cnx.close()
+
+        result = MovementAlgorithm.MovementAlgo(json_data)
+
+        return Response({
+                "Results":result
+
+        })
+
+

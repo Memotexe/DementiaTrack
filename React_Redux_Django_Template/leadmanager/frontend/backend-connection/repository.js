@@ -43,6 +43,19 @@ class Repository {
     };
   }
 
+
+  async GetLocationOccurences(){
+      let api = new Api();
+
+      let response = await api.get("database/move");
+
+      if(response[0] != 200){
+        console.log("Connection Failed");
+      }
+
+      return { Results: response[1].Results }
+  }
+
   async testBackendConnection(start, end) {
     let api = new Api();
 
