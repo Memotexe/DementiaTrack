@@ -233,6 +233,7 @@ class MovementAlgorithm:
 
 
     def MovementAlgo(data):
+        algo = MovementAlgorithm()
         locationDF = pd.DataFrame(data=data, columns=['Location'])
         locationUnParsed = []
         locationParsed = []
@@ -250,26 +251,142 @@ class MovementAlgorithm:
         directOccur =0
         randomOccur = 0
         i=0#iterator
-        while(i<(len(self.sortedLocationData))):
-            if(self.isPacing(i)):
-                pacingOccur = pacingOccur + 1
-                i = i+1
-                continue
-            if(self.isLapping(i)):
-                lappingOccur = lappingOccur + 1
-                i = i+1
-                continue
-            if(self.isDirect(i)):
-                directOccur = directOccur +1
-                i = i+1
-                continue
-            
-            randomOccur = randomOccur +1
-            i=i+1
+        
 
-        occurenceList.append(pacingOccur)
-        occurenceList.append(lappingOccur)
-        occurenceList.append(directOccur)
-        occurenceList.append(randomOccur)       
+        #Pacing Occurence Algo
+        while(i<(len(locationParsed))):
+            try:
+                stringA =locationParsed[i]
+                stringB =locationParsed[i+1]
+                stringC =locationParsed[i+2]
+                stringD =locationParsed[i+3]
 
-        return occurenceList
+                if((stringA != stringB) and
+                        (stringA != stringC) and
+                        (stringA != stringD) and 
+                        (stringB != stringC) and
+                        (stringB != stringD) and
+                        (stringB != stringA) and
+                        (stringC != stringB) and
+                        (stringC != stringD) and
+                        (stringC != stringA) and
+                        (stringD != stringA) and
+                        (stringD != stringB) and
+                        (stringD != stringC)):
+                    pacingOccur=pacingOccur + 1
+                    occurenceList.append('Pacing')
+                    i=i+1
+                else:
+                    i=i+1
+            except:
+                break
+
+
+        #Lapping Occurence Algo
+        j=0
+        while(j<(len(locationParsed))):
+            try:
+                stringA = locationParsed[j]
+                stringB = locationParsed[j+1]
+                stringC = locationParsed[j+2]
+                stringD = locationParsed[j+3]
+                stringE = locationParsed[j+4]
+                stringF = locationParsed[j+5]
+                stringG = locationParsed[j+6]
+                stringH = locationParsed[j+7]
+                stringI = locationParsed[j+8]
+
+
+
+
+                if(((stringA != stringB) and (stringA != stringE) and
+                        (stringA != stringF) and (stringA != stringC) and
+                        (stringD != stringB) and (stringD != stringE) and
+                        (stringD != stringF) and (stringD != stringC)and 
+                        (stringB == stringF) and (stringC == stringE)) 
+                        or ((stringA == stringD == stringF == stringI) 
+                                and (stringB == stringG) 
+                                and (stringC == stringH))):
+                    lappingOccur = lappingOccur+1
+                    occurenceList.append('Lapping')
+                    j=j+1
+                else:
+                    j=j+1
+
+            except:
+                break
+
+
+
+        #Direct Occurence Algo
+        k=0
+        while(k<(len(locationParsed))):
+            try:
+                stringA = locationParsed[k]
+                stringB = locationParsed[k+1]
+                stringC = locationParsed[k+2]
+                stringD = locationParsed[k+3]
+                if((stringA == stringC) and (stringB == stringD)):
+                    directOccur = directOccur+1
+                    occurenceList.append('Direct')
+                    k=k+1
+                else:
+                    k=k+1
+
+            except:
+                break
+    
+        
+
+
+
+        #Random Occurence Algo
+        l=0
+        while(l<(len(locationParsed))):
+            try:
+                stringA = locationParsed[l]
+                stringB = locationParsed[l+1]
+                stringC = locationParsed[l+2]
+                stringD = locationParsed[l+3]
+                stringE = locationParsed[l+4]
+                stringF = locationParsed[l+5]
+                stringG = locationParsed[l+6]
+                stringH = locationParsed[l+7]
+                stringI = locationParsed[l+8]
+
+                if( not(((stringA == stringC) and (stringB == stringD)) or
+                        (((stringA != stringB) and (stringA != stringE) and
+                        (stringA != stringF) and (stringA != stringC) and
+                        (stringD != stringB) and (stringD != stringE) and
+                        (stringD != stringF) and (stringD != stringC)and 
+                        (stringB == stringF) and (stringC == stringE)) 
+                        or ((stringA == stringD == stringF == stringI) 
+                                and (stringB == stringG) 
+                                and (stringC == stringH))) or ((stringA != stringB) and
+                        (stringA != stringC) and
+                        (stringA != stringD) and 
+                        (stringB != stringC) and
+                        (stringB != stringD) and
+                        (stringB != stringA) and
+                        (stringC != stringB) and
+                        (stringC != stringD) and
+                        (stringC != stringA) and
+                        (stringD != stringA) and
+                        (stringD != stringB) and
+                        (stringD != stringC)))):
+                                    l=l+1
+                                    randomOccur = randomOccur +1
+                                    occurenceList.append('Random')
+
+                else:
+                    l=l+1
+            except:
+                break
+
+
+        sns.countplot(x=occurenceList)
+        buff = plt.savefig(buf, format='png')
+
+        
+                
+        return pacingOccur, lappingOccur, directOccur, randomOccur, buff
