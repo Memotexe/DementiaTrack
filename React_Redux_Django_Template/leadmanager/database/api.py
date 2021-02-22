@@ -173,6 +173,8 @@ class DatabaseAPI(generics.GenericAPIView):
         result = TemperatureAnomalies(json_data)
         image = base64.b64encode(result[0].getvalue()).decode()
 
+        print(result[1])
+
         return Response({
             "Image": image,
             "Anomalies": result[1]
@@ -208,9 +210,17 @@ class DatabaseAPI(generics.GenericAPIView):
         cnx.close()
         
         result = DAAnomalies(json_data)
-        image = Image.open(result[0])
+        image = base64.b64encode(result[0].getvalue()).decode()
+
+        return Response({
+            "Image": image,
+            "Anomalies": result[1]
+        })
+        
+        """Image.open(result[0])
 
         return Response({
             "Image": os.path.abspath(result[0]),
             "Anomalies": result[1]
         })
+        """
