@@ -6,7 +6,8 @@ from pyspc import *
 from datetime import datetime
 
 def DAAnomalies(data):
-    df = pd.DataFrame(data=data)
+    
+
     """
     x = 0
     while x < len(data):
@@ -18,6 +19,8 @@ def DAAnomalies(data):
     date = pd.DataFrame(data=data, columns=['date'])
     df = pd.DataFrame(data=data, columns=['bed_to_toilet_begin', 'sleep_begin', 'leave_home_begin'])
 
+    #df = df.set_index('date')
+
     s = spc(df)
 
     a = s + cusum(std=2) + rules()
@@ -28,21 +31,25 @@ def DAAnomalies(data):
 
     anomalies = s.summary[0]['violation-points']
 
-    print(date)
+    #print(date)
 
-    pd.to_datetime(date)
+    #pd.to_datetime(date)
 
     anomalyDateList = []
     i = 0
     
+    #print(date)
+    #print(date[anomalies[0]])
+
+    """
     while i < len(anomalies):
         if(anomalies[i] == True):
             anomalyDateList.append({"Time" : date[anomalies[i]], "Temperature" : s.temp[i]})
 
         i += 1
+    """
 
-
-    return buf, anomalyDateList
+    return buf, anomalies
     
     
     

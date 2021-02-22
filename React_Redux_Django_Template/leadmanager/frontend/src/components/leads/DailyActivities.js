@@ -22,7 +22,7 @@ export class DailyActivities extends Component{
             anomalies: "",
             src: "",
             DAAnomalies: [
-                { date: "", time: "", count: "" },
+                { date: "", bed_to_toilet_begin: "", sleep_begin: "", leave_home_begin: "" },
             ],
             DAImages: [],
             lastruntime: "",
@@ -59,7 +59,7 @@ export class DailyActivities extends Component{
                     <Activities
                         images={this.state.DAImages}
                         data={this.state.DAAnomalies}
-                        headings={["Date", "Time", "Count"]}
+                        headings={["Date", "bed_to_toilet_begin", "sleep_begin", "leave_home_begin"]}
                         key={uuidv4()}
                     />
                 </div>
