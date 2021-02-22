@@ -187,6 +187,12 @@ class DatabaseAPI(generics.GenericAPIView):
                                       database='dementia_track')
         cursor = cnx.cursor()
 
+        start = request.GET.get('startdate', '2000-11-01')
+        end = request.GET.get('enddate', '2000-11-01')
+
+        dateStart = datetime.strptime(start, "%Y-%m-%d").strftime("%#m/%#d/%#Y")
+        dateEnd = datetime.strptime(end, "%Y-%m-%d").strftime("%#m/%#d/%#Y")
+
         query = ("SELECT * "
                 "FROM milan_occ ")
 
@@ -216,11 +222,3 @@ class DatabaseAPI(generics.GenericAPIView):
             "Image": image,
             "Anomalies": result[1]
         })
-        
-        """Image.open(result[0])
-
-        return Response({
-            "Image": os.path.abspath(result[0]),
-            "Anomalies": result[1]
-        })
-        """
