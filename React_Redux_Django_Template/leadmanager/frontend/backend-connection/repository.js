@@ -53,7 +53,14 @@ class Repository {
         console.log("Connection Failed");
       }
 
-      return { Results: response[1].Results }
+
+
+      return { Pacing: response[1].Pacing, 
+          Lapping: response[1].Lapping, 
+          Direct: response[1].Direct,
+          Random: response[1].Random,
+          Image: response[1].Image,
+        };
   }
 
   async testBackendConnection(start, end) {

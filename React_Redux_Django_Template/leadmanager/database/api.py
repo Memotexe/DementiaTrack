@@ -202,9 +202,17 @@ class DatabaseAPI(generics.GenericAPIView):
         cursor.close()
         cnx.close()
         result = MovementAlgorithm.MovementAlgo(json_data)
+        image = base64.b64encode(result[4].getvalue()).decode()
 
         return Response({
-                "Results":result
+                "Pacing" : result[0],
+                "Lapping": result[1],
+                "Direct" : result[2],
+                "Random" : result[3],
+                "Image" : image
+
+
+
 
         })
 

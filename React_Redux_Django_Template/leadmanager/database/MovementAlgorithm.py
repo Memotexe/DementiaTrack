@@ -384,9 +384,16 @@ class MovementAlgorithm:
                 break
 
 
-        sns.countplot(x=occurenceList)
-        buff = plt.savefig(buf, format='png')
+        sns_plot = sns.countplot(x=occurenceList)
+        bytes_image = io.BytesIO()
+        plt.savefig(bytes_image, format='png')
+        bytes_image.seek(0)
+        total = pacingOccur + lappingOccur + directOccur + randomOccur
+        pacingOccur = str(round(((pacingOccur / total) * 100), 2))
+        lappingOccur = str(round(((lappingOccur / total) * 100), 2))
+        directOccur = str(round(((directOccur / total) * 100), 2))
+        randomOccur = str(round(((randomOccur / total) * 100),2))
 
         
                 
-        return pacingOccur, lappingOccur, directOccur, randomOccur, buff
+        return pacingOccur, lappingOccur, directOccur, randomOccur, bytes_image

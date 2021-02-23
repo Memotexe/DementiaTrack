@@ -11,17 +11,12 @@ export class WanderingPacing extends Component {
     super(props);
 
     this.state = {
-      anomalies: "",
-      src: "",
-      bathroomAnomalies: [
-        { date: "", time: "", count: "" },
-      ],
-      bathroomImages: [],
-      temperatureAnomalies: [
-        { date: "", time: "" },
-      ],
-      temperatureImage: "",
-      lastruntime: "",
+        Pacing: "",
+        Lapping: "",
+        Direct: "",
+        Random: "",
+        Chart: "",
+        lastruntime: "",
     };
 
     this.defaultData = ["No data to show"];
@@ -34,8 +29,12 @@ export class WanderingPacing extends Component {
     let responseMovement = await repo.GetLocationOccurences("Location");
 
     this.setState({
-      bathroomAnomalies: responseMovement.Results,
-      lastruntime: daysjs().format("YYYY-MM-DD hh:mm:ss A"),
+        Pacing: responseMovement.Pacing,
+        Lapping: responseMovement.Lapping,
+        Direct: responseMovement.Direct,
+        Random: responseMovement.Random,
+        Chart: responseMovement.Image,
+        lastruntime: daysjs().format("YYYY-MM-DD hh:mm:ss A"),
     });
   };
 
@@ -44,18 +43,20 @@ export class WanderingPacing extends Component {
       <div id="page">
         <h1 id="title">Movement Patterns</h1>
         <Overview
-          bathroomAnomalyCount={this.state.bathroomAnomalies.length - 1}
           time={this.state.lastruntime}
+          pacing={this.state.Pacing}
+          lapping={this.state.Lapping}
+          direct={this.state.Direct}
+          random={this.state.Random}
+          
           key={uuidv4()}
         />
         <Analyzer clicked={this.clicked} />
         <div id="symptomContainer">
-          <BathroomTrips
-            images={this.state.bathroomImages}
-            data={this.state.bathroomAnomalies}
-            headings={["Date", "Time", "Count"]}
-            key={uuidv4()}
-          />
+            <BathroomTrips
+                image={this.state.Chart}
+                key={uuidv4()}
+            />
         </div>
       </div>
     );
@@ -92,14 +93,14 @@ class BathroomTrips extends React.Component {
         <h4>Occurences</h4>
         <ImageCarousel
           key={uuidv4()}
-          images=
-            {this.props.images.map((image) => (
-              <img
-                src={`data:image/png;base64,${image}`}
-                className="graphImage"
-              />
-            ))}
+          images={[
+            <img
+              src={`data:image/png;base64,${this.props.image}`}
+              className="graphImage"
+            />,
+          ]}
         />
+
       </div>
     );
   }
@@ -113,11 +114,12 @@ class Overview extends React.Component {
       <div id="overview">
         <h3>Symptom Summary</h3>
         <hr style={{ backgroundColor: "#6699CC", borderWidth: "2px" }} />
+        <h4>Percentage of Occurences</h4>
         <p>Data last updated: {this.props.time}</p>
-        <p>Pacing: {this.props.bathroomAnomalyCount}</p>
-        <p>Lapping: </p>
-        <p>Direct: </p>
-        <p>Random: </p>
+        <p>Pacing: {this.props.pacing} %</p>
+        <p>Lapping:{this.props.lapping} %</p>
+        <p>Direct: {this.props.direct} %</p>
+        <p>Random: {this.props.random} %</p>
       </div>
     );
   }
