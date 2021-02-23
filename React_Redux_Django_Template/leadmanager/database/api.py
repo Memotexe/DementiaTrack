@@ -203,14 +203,16 @@ class DatabaseAPI(generics.GenericAPIView):
         rv = cursor.fetchall()
 
         json_data = []
+        date = []
+        bed = []
+        sleep = []
+        leave = []
         for result in rv:
             json_data.append(dict(zip(row_headers, result)))
-
-        """ Testing Purposes:
-        print("\n\n\n\n\n\n")
-        print(json_data)
-        print("\n\n\n\n\n\n")
-        """
+            date.append(result[0])
+            bed.append(result[1])
+            sleep.append(result[3])
+            leave.append(result[5])
 
         cursor.close()
         cnx.close()
@@ -220,5 +222,15 @@ class DatabaseAPI(generics.GenericAPIView):
 
         return Response({
             "Image": image,
-            "Anomalies": result[1]
+            "Anomalies": result[1],
+            "Date": date, 
+            "Bed" : bed, 
+            "Sleep" : sleep, 
+            "Leave" : leave
         })
+
+        """ Testing Purposes:
+        print("\n\n\n\n\n\n")
+        print(json_data)
+        print("\n\n\n\n\n\n")
+        """

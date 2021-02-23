@@ -35,7 +35,7 @@ export class DailyActivities extends Component{
     clicked = async () => {
         let repo = new Repository();
 
-        let responseDA = await repo.GetDAAnomalies("Daily Activities");
+        let responseDA = await repo.GetDAAnomalies("Daily");
 
         this.setState({
             DAAnomalies: responseDA.Anomalies,
@@ -45,9 +45,11 @@ export class DailyActivities extends Component{
     }
 
     render(){
+       
         return(
             <div id="page">
                 <h1 id="title">Daily Activities</h1>
+                
                 <Overview 
                     DAAnomalyCount={this.state.DAAnomalies.length - 1}
                     time={this.state.lastruntime}
@@ -59,7 +61,7 @@ export class DailyActivities extends Component{
                     <Activities
                         images={this.state.DAImages}
                         data={this.state.DAAnomalies}
-                        headings={["Date", "bed_to_toilet_begin", "sleep_begin", "leave_home_begin"]}
+                        headings={["Date", "Bed to Toilet", "Sleep", "Leave Home"]}
                         key={uuidv4()}
                     />
                 </div>
@@ -106,7 +108,7 @@ class Activities extends React.Component {
                     images=
                         {this.props.images.map((image) => (
                         <img
-                            src={`data:image/png;base64,${this.props.image}`}
+                            src={`data:image/png;base64,${image}`}
                             className="graphImage"
                         />
                     ))}
