@@ -9,12 +9,12 @@ djangorestframework = "*"
 django-rest-knox = "*"
 mysqlclient = "*"
 mysql-connector-python = "*"
-django-cors-headers = "*"
 pycaret = "*"
 adtk = "*"
 prometheus-flask-exporter = "*"
 pyspc = "*"
 numpy = "*"
+django-cors-headers = "*"
 
 [dev-packages]
 

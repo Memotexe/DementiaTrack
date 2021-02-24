@@ -4,6 +4,7 @@ from rest_framework.decorators import api_view
 from .UTI_algorithms import BathroomTripAnomalies
 from .UTI_algorithms import TemperatureAnomalies
 from .DA_algorithm import DAAnomalies
+from .MovementAlgorithm import MovementAlgorithm
 import base64
 import mysql.connector
 from datetime import datetime
@@ -182,19 +183,8 @@ class DatabaseAPI(generics.GenericAPIView):
 
     @api_view(('GET',))
     def getDA(request, *args, **kwargs):
-        cnx = mysql.connector.connect(user='root', password='password',
-                                      host='127.0.0.1',
-                                      database='dementia_track')
-        cursor = cnx.cursor()
-
-        start = request.GET.get('startdate', '2000-11-01')
-        end = request.GET.get('enddate', '2000-11-01')
-
-        dateStart = datetime.strptime(start, "%Y-%m-%d").strftime("%#m/%#d/%#Y")
-        dateEnd = datetime.strptime(end, "%Y-%m-%d").strftime("%#m/%#d/%#Y")
-
-        query = ("SELECT * "
-                "FROM milan_occ ")
+        cnx = mysql.connector.connect(user='root', password='password', host='127.0.0.1', database='dementia_track')        
+        query = ("SELECT * FROM milan_occ ")
 
 
         cursor.execute(query)
@@ -234,3 +224,41 @@ class DatabaseAPI(generics.GenericAPIView):
         print(json_data)
         print("\n\n\n\n\n\n")
         """
+
+
+    @api_view(('GET',))
+    def getLocations(request, *args, **kwargs):
+        cnx = mysql.connector.connect(user = 'root', password='password', host='127.0.0.1', database='dementia_track')
+
+        cursor = cnx.cursor()
+
+        start = request.GET.get('startdate','2000-11-01')
+        end = request.GET.get('enddate', '2000-11-01')
+
+        dateStart = datetime.strptime(start, "%Y-%m-%d").strftime("%#m/%#d/%#Y")
+        dateEnd = datetime.strptime(end, "%Y-%m-%d").strftime("%#m/%#d/%#Y")
+
+
+        query = ("SELECT Location FROM aruba")
+        
+        
+        cursor.execute(query)
+        row_headers = [x[0] for x in cursor.description]  # this will extract row headers
+        rv = cursor.fetchall()
+        json_data = []
+        for result in rv:
+            json_data.append(dict(zip(row_headers, result)))
+
+
+        cursor.close()
+        cnx.close()
+        result = MovementAlgorithm.MovementAlgo(json_data)
+        image = base64.b64encode(result[4].getvalue()).decode()
+
+        return Response({
+                "Pacing" : result[0],
+                "Lapping": result[1],
+                "Direct" : result[2],
+                "Random" : result[3],
+                "Image" : image
+        })
