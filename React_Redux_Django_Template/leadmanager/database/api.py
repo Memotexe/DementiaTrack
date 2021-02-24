@@ -3,11 +3,14 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .UTI_algorithms import BathroomTripAnomalies
 from .UTI_algorithms import TemperatureAnomalies
+from .DA_algorithm import DAAnomalies
 import base64
 import mysql.connector
 from datetime import datetime
 import json
 from dateutil import parser
+from PIL import Image
+import os
 
 class DatabaseAPI(generics.GenericAPIView):
 
@@ -170,7 +173,64 @@ class DatabaseAPI(generics.GenericAPIView):
         result = TemperatureAnomalies(json_data)
         image = base64.b64encode(result[0].getvalue()).decode()
 
+        print(result[1])
+
         return Response({
             "Image": image,
             "Anomalies": result[1]
         })
+
+    @api_view(('GET',))
+    def getDA(request, *args, **kwargs):
+        cnx = mysql.connector.connect(user='root', password='password',
+                                      host='127.0.0.1',
+                                      database='dementia_track')
+        cursor = cnx.cursor()
+
+        start = request.GET.get('startdate', '2000-11-01')
+        end = request.GET.get('enddate', '2000-11-01')
+
+        dateStart = datetime.strptime(start, "%Y-%m-%d").strftime("%#m/%#d/%#Y")
+        dateEnd = datetime.strptime(end, "%Y-%m-%d").strftime("%#m/%#d/%#Y")
+
+        query = ("SELECT * "
+                "FROM milan_occ ")
+
+
+        cursor.execute(query)
+        row_headers = [x[0] for x in cursor.description]  # this will extract row headers
+        
+        rv = cursor.fetchall()
+
+        json_data = []
+        date = []
+        bed = []
+        sleep = []
+        leave = []
+        for result in rv:
+            json_data.append(dict(zip(row_headers, result)))
+            date.append(result[0])
+            bed.append(result[1])
+            sleep.append(result[3])
+            leave.append(result[5])
+
+        cursor.close()
+        cnx.close()
+        
+        result = DAAnomalies(json_data)
+        image = base64.b64encode(result[0].getvalue()).decode()
+
+        return Response({
+            "Image": image,
+            "Anomalies": result[1],
+            "Date": date, 
+            "Bed" : bed, 
+            "Sleep" : sleep, 
+            "Leave" : leave
+        })
+
+        """ Testing Purposes:
+        print("\n\n\n\n\n\n")
+        print(json_data)
+        print("\n\n\n\n\n\n")
+        """
