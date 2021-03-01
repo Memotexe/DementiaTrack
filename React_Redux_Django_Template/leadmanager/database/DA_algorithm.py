@@ -1,15 +1,10 @@
 import pandas as pd
-import os
 import io
-from datetime import datetime
-from pyspc import *
-from datetime import datetime
+from pyspcalt import *
 
 def DAAnomalies(data):
     date = pd.DataFrame(data=data, columns=['date'])
     df = pd.DataFrame(data=data, columns=['bed_to_toilet_begin', 'sleep_begin', 'leave_home_begin'])
-
-    #df = df.set_index('date')
 
     s = spc(df)
 
@@ -19,7 +14,7 @@ def DAAnomalies(data):
 
     a.save(buf)
 
-    anomalies = s.summary[0]['violation-points']
+    anomalies = s.summary['violation-points']
 
     return buf, anomalies
     
