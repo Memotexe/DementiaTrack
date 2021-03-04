@@ -15,6 +15,7 @@ prometheus-flask-exporter = "*"
 pyspc = "*"
 numpy = "*"
 django-cors-headers = "*"
+pyspcalt = "*"
 
 [dev-packages]
 

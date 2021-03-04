@@ -12,6 +12,9 @@ import json
 from dateutil import parser
 from PIL import Image
 import os
+import matplotlib as mpl
+
+mpl.rcParams['lines.markersize'] = 4
 
 class DatabaseAPI(generics.GenericAPIView):
 
@@ -170,7 +173,7 @@ class DatabaseAPI(generics.GenericAPIView):
 
         cursor.close()
         cnx.close()
-        
+
         result = TemperatureAnomalies(json_data)
         image = base64.b64encode(result[0].getvalue()).decode()
 
@@ -186,7 +189,7 @@ class DatabaseAPI(generics.GenericAPIView):
         cnx = mysql.connector.connect(user='root', password='password', host='127.0.0.1', database='dementia_track')        
         query = ("SELECT * FROM milan_occ ")
 
-
+        cursor = cnx.cursor()
         cursor.execute(query)
         row_headers = [x[0] for x in cursor.description]  # this will extract row headers
         

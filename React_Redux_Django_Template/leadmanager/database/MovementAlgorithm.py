@@ -3,6 +3,7 @@ from matplotlib import pyplot as plt
 import seaborn as sns
 import numpy as np
 import re, os, io, operator, sys, csv
+from .UTI_algorithms import BathroomTripAnomalies
 #Check this!
 
 
@@ -160,10 +161,13 @@ class MovementAlgorithm:
                 break
 
 
+        # this is only here because the graph this generates resets everything in case the Daily Activity algorithm runs first
+        res = BathroomTripAnomalies([{'Date': '1989-11-21', 'Day': 10}, {'Date': '1989-11-21', 'Day': 10}, {'Date': '1989-11-21', 'Day': 10}], 'Day')
+
         sns_plot = sns.countplot(x=occurenceList)
+        plt.legend(labels=[])
         bytes_image = io.BytesIO()
         plt.savefig(bytes_image, format='png')
-        bytes_image.seek(0)
         total = pacingOccur + lappingOccur + directOccur + randomOccur
         pacingOccur = str(round(((pacingOccur / total) * 100), 2))
         lappingOccur = str(round(((lappingOccur / total) * 100), 2))
