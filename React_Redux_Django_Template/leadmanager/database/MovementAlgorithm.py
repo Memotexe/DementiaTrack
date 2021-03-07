@@ -364,30 +364,45 @@ class MovementAlgorithm:
         # this is only here because the graph this generates resets everything in case the Daily Activity algorithm runs first
         res = BathroomTripAnomalies([{'Date': '1989-11-21', 'Day': 10}, {'Date': '1989-11-21', 'Day': 10}, {'Date': '1989-11-21', 'Day': 10}], 'Day')
 
+        plt.figure(figsize=(6.4,3.8))
         sns_plot = sns.countplot(x=novList)
+        sns_plot.set(title="November")
         plt.legend(labels=[])
         bytes_image = io.BytesIO()
         plt.savefig(bytes_image, format='png')
+        plt.close()
 
+        plt.figure(figsize=(6.4,3.8))
         sns_plot2 = sns.countplot(x=decList)
+        sns_plot2.set(title="December")
         plt.legend(labels=[])
         bytes_image2 = io.BytesIO()
         plt.savefig(bytes_image2, format='png')
-
+        plt.close()
+      
+        plt.figure(figsize=(6.4,3.8))
         sns_plot3 = sns.countplot(x=janList)
+        sns_plot3.set(title="January")
         plt.legend(labels=[])
         bytes_image3 = io.BytesIO()
         plt.savefig(bytes_image3, format='png')
+        plt.close()
 
+        plt.figure(figsize=(6.4,3.8))
         sns_plot4 = sns.countplot(x=febList)
+        sns_plot4.set(title="February")
         plt.legend(labels=[])
         bytes_image4 = io.BytesIO()
         plt.savefig(bytes_image4, format='png')
+        plt.close()
 
+        plt.figure(figsize=(6.4,3.8))
         sns_plot5 = sns.countplot(x=marList)
+        sns_plot5.set(title="March")
         plt.legend(labels=[])
         bytes_image5 = io.BytesIO()
         plt.savefig(bytes_image5, format='png')
+        plt.close()
 
 
 

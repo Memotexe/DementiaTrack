@@ -15,7 +15,7 @@ export class WanderingPacing extends Component {
         Lapping: "",
         Direct: "",
         Random: "",
-        Chart: "",
+        Image: [],
         lastruntime: "",
     };
 
@@ -35,7 +35,7 @@ export class WanderingPacing extends Component {
         Lapping: responseMovement.Lapping,
         Direct: responseMovement.Direct,
         Random: responseMovement.Random,
-        Chart: responseMovement.Image,
+        Image: responseMovement.Images,
         lastruntime: daysjs().format("YYYY-MM-DD hh:mm:ss A"),
     });
   };
@@ -56,7 +56,7 @@ export class WanderingPacing extends Component {
         <Analyzer clicked={this.clicked} />
         <div id="symptomContainer">
             <MovementTrips
-                image={this.state.Chart}
+                images={this.state.Image}
                 key={uuidv4()}
             />
         </div>
@@ -100,12 +100,13 @@ class MovementTrips extends React.Component {
         <h4>Occurences</h4>
         <ImageCarousel
           key={uuidv4()}
-          images={[
-            <img
-              src={`data:image/png;base64,${this.props.image}`}
-              className="graphImage"
-            />,
-          ]}
+          images=
+            {this.props.images.map((image) =>(
+                <img
+                    src={`data:image/png;base64,${image}`}
+                    className="graphImage"
+                />
+            ))}
         />
 
       </div>
