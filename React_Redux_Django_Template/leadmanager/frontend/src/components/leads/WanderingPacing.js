@@ -26,7 +26,9 @@ export class WanderingPacing extends Component {
   clicked = async () => {
     let repo = new Repository();
 
-    let responseMovement = await repo.GetLocationOccurences("Location");
+    let dataTypeToRun = document.getElementById("dropdown").value;
+
+    let responseMovement = await repo.GetLocationOccurences(dataTypeToRun);
 
     this.setState({
         Pacing: responseMovement.Pacing,
@@ -53,7 +55,7 @@ export class WanderingPacing extends Component {
         />
         <Analyzer clicked={this.clicked} />
         <div id="symptomContainer">
-            <BathroomTrips
+            <MovementTrips
                 image={this.state.Chart}
                 key={uuidv4()}
             />
@@ -76,12 +78,17 @@ class Analyzer extends React.Component {
         <button onClick={this.props.clicked} className="button">
           {"Run"}
         </button>
+        <select id="dropdown">
+            <option value="Normal">Normal</option>
+            <option value="Abnormal">Abnormal</option>
+            <option value="Radical">Radical</option>
+        </select>
       </div>
     );
   }
 }
 
-class BathroomTrips extends React.Component {
+class MovementTrips extends React.Component {
   constructor(props) {
     super(props);
   }

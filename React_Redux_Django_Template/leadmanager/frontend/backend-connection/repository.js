@@ -44,22 +44,24 @@ class Repository {
   }
 
 
-  async GetLocationOccurences(){
+  async GetLocationOccurences(dataTypeToRun){
       let api = new Api();
 
-      let response = await api.get("database/move");
+      let response = await api.get("database/move?dataTypeToRun=" + dataTypeToRun);
 
       if(response[0] != 200){
         console.log("Connection Failed");
       }
 
+      let images = [response[1].Image1, response[1].Image2, response[1].Image3, response[1].Image4, response[1].Image5]
 
+    
 
       return { Pacing: response[1].Pacing, 
           Lapping: response[1].Lapping, 
           Direct: response[1].Direct,
           Random: response[1].Random,
-          Image: response[1].Image,
+          Images: images
         };
   }
 
