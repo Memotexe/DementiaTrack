@@ -370,7 +370,7 @@ class MovementAlgorithm:
         plt.legend(labels=[])
         bytes_image = io.BytesIO()
         plt.savefig(bytes_image, format='png')
-        plt.close()
+        plt.clf()
 
         plt.figure(figsize=(6.4,3.8))
         sns_plot2 = sns.countplot(x=decList)
@@ -378,7 +378,7 @@ class MovementAlgorithm:
         plt.legend(labels=[])
         bytes_image2 = io.BytesIO()
         plt.savefig(bytes_image2, format='png')
-        plt.close()
+        plt.clf()
       
         plt.figure(figsize=(6.4,3.8))
         sns_plot3 = sns.countplot(x=janList)
@@ -386,7 +386,7 @@ class MovementAlgorithm:
         plt.legend(labels=[])
         bytes_image3 = io.BytesIO()
         plt.savefig(bytes_image3, format='png')
-        plt.close()
+        plt.clf()
 
         plt.figure(figsize=(6.4,3.8))
         sns_plot4 = sns.countplot(x=febList)
@@ -394,7 +394,7 @@ class MovementAlgorithm:
         plt.legend(labels=[])
         bytes_image4 = io.BytesIO()
         plt.savefig(bytes_image4, format='png')
-        plt.close()
+        plt.clf()
 
         plt.figure(figsize=(6.4,3.8))
         sns_plot5 = sns.countplot(x=marList)
@@ -402,7 +402,7 @@ class MovementAlgorithm:
         plt.legend(labels=[])
         bytes_image5 = io.BytesIO()
         plt.savefig(bytes_image5, format='png')
-        plt.close()
+        plt.clf()
 
 
 
