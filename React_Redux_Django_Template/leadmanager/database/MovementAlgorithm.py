@@ -365,7 +365,7 @@ class MovementAlgorithm:
         res = BathroomTripAnomalies([{'Date': '1989-11-21', 'Day': 10}, {'Date': '1989-11-21', 'Day': 10}, {'Date': '1989-11-21', 'Day': 10}], 'Day')
 
         plt.figure(figsize=(6.4,3.8))
-        sns_plot = sns.countplot(x=novList)
+        sns_plot = sns.countplot(y=novList)
         sns_plot.set(title="November")
         plt.legend(labels=[])
         bytes_image = io.BytesIO()
@@ -373,7 +373,7 @@ class MovementAlgorithm:
         plt.clf()
 
         plt.figure(figsize=(6.4,3.8))
-        sns_plot2 = sns.countplot(x=decList)
+        sns_plot2 = sns.countplot(y=decList)
         sns_plot2.set(title="December")
         plt.legend(labels=[])
         bytes_image2 = io.BytesIO()
@@ -381,7 +381,7 @@ class MovementAlgorithm:
         plt.clf()
       
         plt.figure(figsize=(6.4,3.8))
-        sns_plot3 = sns.countplot(x=janList)
+        sns_plot3 = sns.countplot(y=janList)
         sns_plot3.set(title="January")
         plt.legend(labels=[])
         bytes_image3 = io.BytesIO()
@@ -389,7 +389,7 @@ class MovementAlgorithm:
         plt.clf()
 
         plt.figure(figsize=(6.4,3.8))
-        sns_plot4 = sns.countplot(x=febList)
+        sns_plot4 = sns.countplot(y=febList)
         sns_plot4.set(title="February")
         plt.legend(labels=[])
         bytes_image4 = io.BytesIO()
@@ -397,7 +397,7 @@ class MovementAlgorithm:
         plt.clf()
 
         plt.figure(figsize=(6.4,3.8))
-        sns_plot5 = sns.countplot(x=marList)
+        sns_plot5 = sns.countplot(y=marList)
         sns_plot5.set(title="March")
         plt.legend(labels=[])
         bytes_image5 = io.BytesIO()
