@@ -214,6 +214,11 @@ class DatabaseAPI(generics.GenericAPIView):
             eMeds.append(result[5])
             meditate.append(result[6])
 
+        """
+        print("\n\n")
+        print(meditate)
+        print("\n\n")
+        """
 
         cursor.close()
         cnx.close()
@@ -225,11 +230,11 @@ class DatabaseAPI(generics.GenericAPIView):
             "Image": image,
             "Anomalies": result[1],
             "Date": date, 
-            "mMeds": mMeds,
-            "TV": tv,
+            "Morn_Meds": mMeds,
+            "WatchTV": tv,
             "Chores": chores,
             "Read": read,
-            "eMeds": eMeds,
+            "Eve_Meds": eMeds,
             "Meditate": meditate
         })
 

@@ -25,7 +25,6 @@ export class DailyActivities extends Component{
                 date: "", 
                 Morning_Meds: "", 
                 Watch_TV: "", 
-                Kitchen_Activity: "", 
                 Chores: "", 
                 Read: "",
                 Eve_Meds: "", 
@@ -96,19 +95,20 @@ export class DailyActivities extends Component{
                     <MiActivities
                         images={this.state.MiImages}
                         data={this.state.MiAnomalies}
-                        headings={["Date", "Morn. Meds", "TV", "Chores", "Read", "Even. Meds", "Meditate"]}
+                        headings={["Date", "Morning Meds", "Watch TV", "Chores", "Read", "Evening Meds", "Meditate"]}
                         key={uuidv4()}
                     />
                     <ArActivities
                         images={this.state.ArImages}
                         data={this.state.ArAnomalies}
-                        headings={["Date", "Meal Prep.", "Housekeeping", "Eating", "Relax", "Wash Dishes", "Respiration"]}
+                        headings={["Date", "Meal Preparation", "Housekeeping", "Eating", "Relax", "Wash Dishes", "Respiration"]}
                         key={uuidv4()}
                     />
+
                     <RaActivities
                         images={this.state.RaImages}
                         data={this.state.RaAnomalies}
-                        headings={["Date", "Meal Prep.", "Housekeeping", "Eating", "Relax", "Wash Dishes", "Respiration"]}
+                        headings={["Date", "Meal Preparation", "Housekeeping", "Eating", "Relax", "Wash Dishes", "Respiration"]}
                         key={uuidv4()}
                     />
                 </div>

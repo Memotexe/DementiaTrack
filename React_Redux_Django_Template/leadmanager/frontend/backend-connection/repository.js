@@ -87,13 +87,14 @@ class Repository {
     let anomalies = [];
     let dAnomalies = response[1].Anomalies;
     let dates = response[1].Date
-    let mMeds = response[1].mMeds
-    let tv = response[1].TV
+    let mMeds = response[1].Morn_Meds
+    let tv = response[1].WatchTV
     let chores = response[1].Chores
     let read = response[1].Read
-    let eMeds = response[1].eMeds
+    let eMeds = response[1].Eve_Meds
     let meditate = response[1].Meditate
 
+    console.log(mMeds)
 
     dAnomalies.forEach(anomaly => {
       anomalies.push({
@@ -136,12 +137,12 @@ class Repository {
     dAnomalies.forEach(anomaly => {
       anomalies.push({
         "Date" : dates[anomaly],
-        "Meal Preparation Begin" : meal[anomaly],
+        "Meal Preparation" : meal[anomaly],
         "Housekeeping" : house[anomaly],
         "Eating" : eat[anomaly],
         "Relax" : relax[anomaly],
         "Wash Dishes" : dish[anomaly],
-        "Respirate" : resp[anomaly]
+        "Respiration" : resp[anomaly]
       })   
     })
       
@@ -176,12 +177,12 @@ class Repository {
     dAnomalies.forEach(anomaly => {
       anomalies.push({
         "Date" : dates[anomaly],
-        "Meal Preparation Begin" : meal[anomaly],
+        "Meal Preparation" : meal[anomaly],
         "Housekeeping" : house[anomaly],
         "Eating" : eat[anomaly],
         "Relax" : relax[anomaly],
         "Wash Dishes" : dish[anomaly],
-        "Respirate" : resp[anomaly]
+        "Respiration" : resp[anomaly]
       })    
     })
       
