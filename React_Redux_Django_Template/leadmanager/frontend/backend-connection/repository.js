@@ -75,39 +75,6 @@ class Repository {
     return response[1];
   }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
   async GetDAMi() {
     let api = new Api();
 
@@ -117,16 +84,26 @@ class Repository {
       console.log("Connection Failed");
     }
 
-    let anomalies = []
+    let anomalies = [];
     let dAnomalies = response[1].Anomalies;
     let dates = response[1].Date
-    let bed = response[1].Bed
-    let sleep = response[1].Sleep
-    let Leave = response[1].Leave
+    let mMeds = response[1].mMeds
+    let tv = response[1].TV
+    let chores = response[1].Chores
+    let read = response[1].Read
+    let eMeds = response[1].eMeds
+    let meditate = response[1].Meditate
 
 
     dAnomalies.forEach(anomaly => {
-      anomalies.push({"Date" : dates[anomaly], "Bed to Toilet" : bed[anomaly], "Sleep" : sleep[anomaly], "Leave Home" : Leave[anomaly]})
+      anomalies.push({
+        "Date": dates[anomaly], 
+        "Morning Meds": mMeds[anomaly], 
+        "Watch TV": tv[anomaly], 
+        "Chores": chores[anomaly], 
+        "Read": read[anomaly], 
+        "Evening Meds": eMeds[anomaly], 
+        "Meditate": meditate[anomaly]})
     })
       
     let images = [response[1].Image]
@@ -146,33 +123,24 @@ class Repository {
       console.log("Connection Failed");
     }
 
-    let anomalies = []
+    let anomalies = [];
     let dAnomalies = response[1].Anomalies;
     let dates = response[1].Date
-    let bed = response[1].Bed
     let meal = response[1].Meal
     let house = response[1].Housekeeping
     let eat = response[1].Eating
-    let leave = response[1].Leave
-    let sleep = response[1].Sleep
     let relax = response[1].Relax
     let dish = response[1].Dishes
-    let work = response[1].Work
     let resp = response[1].Respirate
-
 
     dAnomalies.forEach(anomaly => {
       anomalies.push({
         "Date" : dates[anomaly],
-        "Bed to Toilet" : bed[anomaly],
         "Meal Preparation Begin" : meal[anomaly],
         "Housekeeping" : house[anomaly],
         "Eating" : eat[anomaly],
-        "Leave Home" : leave[anomaly],
-        "Sleep" : sleep[anomaly],
         "Relax" : relax[anomaly],
         "Wash Dishes" : dish[anomaly],
-        "Work" : work[anomaly],
         "Respirate" : resp[anomaly]
       })   
     })
@@ -183,16 +151,7 @@ class Repository {
       Anomalies: anomalies,
       Images: images
     };
-
-
-    
-
   }
-
-
-
-
-
 
   async GetDARa() {
     let api = new Api();
@@ -203,35 +162,27 @@ class Repository {
       console.log("Connection Failed");
     }
 
-    let anomalies = []
+    let anomalies = [];
     let dAnomalies = response[1].Anomalies;
     let dates = response[1].Date
-    let bed = response[1].Bed
     let meal = response[1].Meal
     let house = response[1].Housekeeping
     let eat = response[1].Eating
-    let leave = response[1].Leave
-    let sleep = response[1].Sleep
     let relax = response[1].Relax
     let dish = response[1].Dishes
-    let work = response[1].Work
     let resp = response[1].Respirate
 
 
     dAnomalies.forEach(anomaly => {
       anomalies.push({
         "Date" : dates[anomaly],
-        "Bed to Toilet" : bed[anomaly],
         "Meal Preparation Begin" : meal[anomaly],
         "Housekeeping" : house[anomaly],
         "Eating" : eat[anomaly],
-        "Leave Home" : leave[anomaly],
-        "Sleep" : sleep[anomaly],
         "Relax" : relax[anomaly],
         "Wash Dishes" : dish[anomaly],
-        "Work" : work[anomaly],
         "Respirate" : resp[anomaly]
-      })   
+      })    
     })
       
     let images = [response[1].Image]
@@ -241,7 +192,6 @@ class Repository {
       Images: images
     };
   }
-
 }
 
 export default Repository;

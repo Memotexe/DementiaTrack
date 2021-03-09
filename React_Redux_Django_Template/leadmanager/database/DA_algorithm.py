@@ -3,11 +3,11 @@ import io
 from pyspcalt import *
 
 def MiAnomalies(data):
-    df = pd.DataFrame(data=data, columns=['bed_to_toilet_begin', 'sleep_begin', 'leave_home_begin'])
+    df = pd.DataFrame(data=data, columns=['Morning_Meds', 'Watch_TV', 'Chores', 'Read', 'Eve_Meds', 'Meditate'])
 
     s = spc(df)
 
-    a = s + cusum(std=2) + rules()
+    a = s + cusum(std=1.5) + rules()
 
     buf = io.BytesIO()
 
@@ -18,11 +18,11 @@ def MiAnomalies(data):
     return buf, anomalies
 
 def ArAnomalies(data):
-    df = pd.DataFrame(data=data, columns=['Bed_to_Toilet_begin', 'meal_Preparation_begin', 'Housekeeping_begin', 'Eating_begin', 'Leave_Home_begin', 'Sleeping_begin', 'relax_begin', 'Wash_Dishes_begin', 'Work_begin', 'respirate_begin'])
+    df = pd.DataFrame(data=data, columns=['meal_preparation_begin', 'housekeeping_begin', 'eating_begin', 'relax_begin', 'wash_dishes_begin', 'respirate_begin'])
 
     s = spc(df)
 
-    a = s + cusum(std=2) + rules()
+    a = s + cusum(std=1.5) + rules()
 
     buf = io.BytesIO()
 
@@ -33,11 +33,11 @@ def ArAnomalies(data):
     return buf, anomalies
     
 def RaAnomalies(data):
-    df = pd.DataFrame(data=data, columns=['Bed_to_Toilet_begin', 'meal_Preparation_begin', 'Housekeeping_begin', 'Eating_begin', 'Leave_Home_begin', 'Sleeping_begin', 'relax_begin', 'Wash_Dishes_begin', 'Work_begin', 'respirate_begin'])
+    df = pd.DataFrame(data=data, columns=['meal_preparation_begin', 'housekeeping_begin', 'eating_begin', 'relax_begin', 'wash_dishes_begin', 'respirate_begin'])
 
     s = spc(df)
 
-    a = s + cusum(std=2) + rules()
+    a = s + cusum(std=1.5) + rules()
 
     buf = io.BytesIO()
 

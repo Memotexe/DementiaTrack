@@ -21,36 +21,38 @@ export class DailyActivities extends Component{
             std: 2,
             anomalies: "",
             src: "",
-            MiAnomalies: [
-                { date: "", bed_to_toilet: "", sleep_begin: "", leave_home_begin: "" },
+            MiAnomalies: [{ 
+                date: "", 
+                Morning_Meds: "", 
+                Watch_TV: "", 
+                Kitchen_Activity: "", 
+                Chores: "", 
+                Read: "",
+                Eve_Meds: "", 
+                Meditate: ""
+             },
             ],
             MiImages: [],
+            
             ArAnomalies: [{
-                date: "",
-                bed_to_toilet: "",
-                meal_preparation: "",
-                housekeeping: "",
-                eating: "",
-                leave_home_begin: "",
-                sleep: "",
+                date: "",                
+                meal_preparation_begin: "",
+                housekeeping_begin: "",
+                eating_begin: "",
                 relax_begin: "",
-                wash_dishes: "",
-                work: "",
-                respiration: "" },
+                wash_dishes_begin: "",
+                respirate_begin: "" },
             ],
             ArImages: [],
+            
             RaAnomalies: [{
-                date: "",
-                bed_to_toilet: "",
-                meal_preparation: "",
-                housekeeping: "",
-                eating: "",
-                leave_home_begin: "",
-                sleep: "",
-                relax_begin: "",
-                wash_dishes: "",
-                work: "",
-                respiration: "" },
+                date: "",               
+                meal_preparation_begin: "", 
+                housekeeping_begin: "", 
+                eating_begin: "", 
+                relax_begin: "", 
+                wash_dishes_begin: "", 
+                respirate_begin: "" },
             ],
             RaImages: [],
             lastruntime: "",
@@ -94,19 +96,19 @@ export class DailyActivities extends Component{
                     <MiActivities
                         images={this.state.MiImages}
                         data={this.state.MiAnomalies}
-                        headings={["Date", "Bed to Toilet", "Sleep", "Leave Home"]}
+                        headings={["Date", "Morn. Meds", "TV", "Chores", "Read", "Even. Meds", "Meditate"]}
                         key={uuidv4()}
                     />
                     <ArActivities
                         images={this.state.ArImages}
                         data={this.state.ArAnomalies}
-                        headings={["Date", "Bed to Toilet", "Meal Preparation", "Housekeeping", "Eating", "Leave Home", "Sleep", "Relaxation", "Wash Dishes", "Work Begin", "Respiration"]}
+                        headings={["Date", "Meal Prep.", "Housekeeping", "Eating", "Relax", "Wash Dishes", "Respiration"]}
                         key={uuidv4()}
                     />
                     <RaActivities
                         images={this.state.RaImages}
                         data={this.state.RaAnomalies}
-                        headings={["Date", "Bed to Toilet", "Meal Preparation", "Housekeeping", "Eating", "Leave Home", "Sleep", "Relaxation", "Wash Dishes", "Work Begin", "Respiration"]}
+                        headings={["Date", "Meal Prep.", "Housekeeping", "Eating", "Relax", "Wash Dishes", "Respiration"]}
                         key={uuidv4()}
                     />
                 </div>
@@ -124,8 +126,8 @@ class Analyzer extends React.Component {
         return  (
             <div id="overview">
                 <h3>Analyze</h3>
-                <hr style={{backgroundColor: "#9954bb", borderWidth: "2px"}} />
-                <button style={{backgroundColor: "lightcoral", borderColor: "#9954bb"}} onClick={this.props.clicked} className="button">
+                <hr style={{backgroundColor: "#69995D", borderWidth: "2px"}} />
+                <button style={{backgroundColor: "#ffffa1"}} onClick={this.props.clicked} className="button">
                     {"Run"}
                 </button>
             </div>
@@ -228,7 +230,7 @@ class Overview extends React.Component {
         return (
           <div id="overview">
             <h3>Symptom Summary</h3>
-            <hr style={{ backgroundColor: "#9954bb", borderWidth: "2px" }} />
+            <hr style={{ backgroundColor: "#69995D", borderWidth: "2px" }} />
             <p>Data last updated: {this.props.time}</p>
             <p>Daily Activity Anomalies: {this.props.DAAnomalyCount}</p>
           </div>

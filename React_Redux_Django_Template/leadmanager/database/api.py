@@ -179,8 +179,6 @@ class DatabaseAPI(generics.GenericAPIView):
         result = TemperatureAnomalies(json_data)
         image = base64.b64encode(result[0].getvalue()).decode()
 
-        print(result[1])
-
         return Response({
             "Image": image,
             "Anomalies": result[1]
@@ -199,15 +197,23 @@ class DatabaseAPI(generics.GenericAPIView):
 
         json_data = []
         date = []
-        bed = []
-        sleep = []
-        leave = []
+        mMeds = []
+        tv = []
+        chores = []
+        read = []
+        eMeds = []
+        meditate = []
+
         for result in rv:
             json_data.append(dict(zip(row_headers, result)))
             date.append(result[0])
-            bed.append(result[1])
-            sleep.append(result[3])
-            leave.append(result[5])
+            mMeds.append(result[1])
+            tv.append(result[2])
+            chores.append(result[3])
+            read.append(result[4])
+            eMeds.append(result[5])
+            meditate.append(result[6])
+
 
         cursor.close()
         cnx.close()
@@ -219,9 +225,12 @@ class DatabaseAPI(generics.GenericAPIView):
             "Image": image,
             "Anomalies": result[1],
             "Date": date, 
-            "Bed" : bed, 
-            "Sleep" : sleep, 
-            "Leave" : leave
+            "mMeds": mMeds,
+            "TV": tv,
+            "Chores": chores,
+            "Read": read,
+            "eMeds": eMeds,
+            "Meditate": meditate
         })
 
     @api_view(('GET',))
@@ -237,60 +246,22 @@ class DatabaseAPI(generics.GenericAPIView):
 
         json_data = []
         date = []
-        bed = []
         meal = []
         house = []
         eat = []
-        leave = []
-        sleep = []
         relax = []
         dishes = []
-        work = []
         resp = []
-
-        """
-        Image
-        Anomalies
-        Date 
-        Bed 
-        Meal
-        Housekeeping
-        Eating
-        Leave
-        Sleep
-        Relax
-        Dishes
-        Work
-        Respirate
-
-        date
-        bed
-        meal
-        house
-        eat
-        leave
-        sleep
-        relax
-        dishes
-        work
-        resp
-        """
         
         for result in rv:
             json_data.append(dict(zip(row_headers, result)))
             date.append(result[0])
-            bed.append(result[1])
-            meal.append(result[2])
-            house.append(result[3])
-            eat.append(result[4])
-            leave.append(result[6])
-            sleep.append(result[7])
-            relax.append(result[9])
-            dishes.append(result[11])
-            work.append(result[12])
-            resp.append(result[13])
-            print(1)
-            print("\n")
+            meal.append(result[1])
+            house.append(result[2])
+            eat.append(result[3])
+            relax.append(result[4])
+            dishes.append(result[5])
+            resp.append(result[6])
 
         cursor.close()
         cnx.close()
@@ -302,21 +273,13 @@ class DatabaseAPI(generics.GenericAPIView):
             "Image": image,
             "Anomalies": result[1],
             "Date": date, 
-            "Bed" : bed, 
             "Meal" : meal,
             "Housekeeping" : house,
             "Eating" : eat,
-            "Leave" : leave,
-            "Sleep" : sleep,
             "Relax" : relax,
             "Dishes" : dishes,
-            "Work" : work,
             "Respirate" : resp
         })
-
-
-
-
 
     @api_view(('GET',))
     def getDARa(request, *args, **kwargs):
@@ -331,30 +294,22 @@ class DatabaseAPI(generics.GenericAPIView):
 
         json_data = []
         date = []
-        bed = []
         meal = []
         house = []
         eat = []
-        leave = []
-        sleep = []
         relax = []
         dishes = []
-        work = []
         resp = []
-
+        
         for result in rv:
             json_data.append(dict(zip(row_headers, result)))
             date.append(result[0])
-            bed.append(result[1])
-            meal.append(result[2])
-            house.append(result[3])
-            eat.append(result[4])
-            leave.append(result[5])
-            sleep.append(result[6])
-            relax.append(result[7])
-            dishes.append(result[8])
-            work.append(result[9])
-            resp.append(result[10])
+            meal.append(result[1])
+            house.append(result[2])
+            eat.append(result[3])
+            relax.append(result[4])
+            dishes.append(result[5])
+            resp.append(result[6])
 
         cursor.close()
         cnx.close()
@@ -366,15 +321,11 @@ class DatabaseAPI(generics.GenericAPIView):
             "Image": image,
             "Anomalies": result[1],
             "Date": date, 
-            "Bed" : bed, 
             "Meal" : meal,
             "Housekeeping" : house,
             "Eating" : eat,
-            "Leave" : leave,
-            "Sleep" : sleep,
             "Relax" : relax,
             "Dishes" : dishes,
-            "Work" : work,
             "Respirate" : resp
         })
 

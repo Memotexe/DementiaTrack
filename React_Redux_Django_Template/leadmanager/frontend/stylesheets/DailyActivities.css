@@ -13,8 +13,10 @@
     justify-content: center;
 }
 
+
+
 .symptom {
-    background-color: #A2B5CD;
+    background-color: #8eadbf;
     padding: 20px;
     border-radius: 10px;
     width: 48%;
@@ -23,20 +25,29 @@
 }
 
 .button {
-    background-color: lightcoral;
-    border: 1px solid #9954bb;
+    background-color: #ffffa1;
+    border: 1px solid white;
     border-radius: 2px;
-    color: white;
+    color: black;
     margin: 10px;
   }
 
 #overview {
-    background-color: lavender;
+    /*
+    background: hsla(202, 28%, 65%, 1);
+    background: linear-gradient(90deg, hsla(202, 28%, 65%, 1) 63%, hsla(356, 68%, 91%, 1) 99%, hsla(350, 100%, 94%, 1) 100%);
+    background: -moz-linear-gradient(90deg, hsla(202, 28%, 65%, 1) 63%, hsla(356, 68%, 91%, 1) 99%, hsla(350, 100%, 94%, 1) 100%);
+    background: -webkit-linear-gradient(90deg, hsla(202, 28%, 65%, 1) 63%, hsla(356, 68%, 91%, 1) 99%, hsla(350, 100%, 94%, 1) 100%);
+    filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#8EADBF", endColorstr="#F8DADC", GradientType=1 );
+    */
+    
+    background-color: #8eadbf;
     padding: 20px;
     text-align: center;
     border-radius: 10px;
     width: 50%;
     margin: 50px auto;
+    
 }
 
 @media only screen and (max-width: 1000px) {
@@ -52,3 +63,7 @@
         width: 75%
     }
   }
+
+.arrowButton {
+    color: #69995D;
+}
