@@ -7,7 +7,7 @@ def MiAnomalies(data):
 
     s = spc(df)
 
-    a = s + cusum(std=1.5) + rules()
+    a = s + cusum(std=1.2) + rules()
 
     buf = io.BytesIO()
 
@@ -22,7 +22,7 @@ def ArAnomalies(data):
 
     s = spc(df)
 
-    a = s + cusum(std=1.5) + rules()
+    a = s + cusum(std=1.2) + rules()
 
     buf = io.BytesIO()
 
@@ -37,7 +37,7 @@ def RaAnomalies(data):
 
     s = spc(df)
 
-    a = s + cusum(std=1.5) + rules()
+    a = s + cusum(std=1.2) + rules()
 
     buf = io.BytesIO()
 

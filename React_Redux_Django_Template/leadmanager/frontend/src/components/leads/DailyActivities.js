@@ -92,18 +92,20 @@ export class DailyActivities extends Component{
                 />
                 <Analyzer clicked={this.clicked} />
                 <div id="symptomContainer">
-                    <MiActivities
-                        images={this.state.MiImages}
-                        data={this.state.MiAnomalies}
-                        headings={["Date", "Morning Meds", "Watch TV", "Chores", "Read", "Evening Meds", "Meditate"]}
-                        key={uuidv4()}
-                    />
                     <ArActivities
                         images={this.state.ArImages}
                         data={this.state.ArAnomalies}
                         headings={["Date", "Meal Preparation", "Housekeeping", "Eating", "Relax", "Wash Dishes", "Respiration"]}
                         key={uuidv4()}
                     />
+                    
+                    <MiActivities
+                        images={this.state.MiImages}
+                        data={this.state.MiAnomalies}
+                        headings={["Date", "Morning Meds", "Watch TV", "Chores", "Read", "Evening Meds", "Meditate"]}
+                        key={uuidv4()}
+                    />
+                    
 
                     <RaActivities
                         images={this.state.RaImages}
@@ -126,16 +128,17 @@ class Analyzer extends React.Component {
         return  (
             <div id="overview">
                 <h3>Analyze</h3>
-                <hr style={{backgroundColor: "#69995D", borderWidth: "2px"}} />
-                <button style={{backgroundColor: "#ffffa1"}} onClick={this.props.clicked} className="button">
+                <hr style={{backgroundColor: "#9954bb", borderWidth: "2px"}} />
+                <button style={{backgroundColor: "lightcoral", borderColor: "#9954bb"}} onClick={this.props.clicked} className="button">
                     {"Run"}
                 </button>
+
             </div>
         );
     }
 }
 
-class MiActivities extends React.Component {
+class ArActivities extends React.Component {
     constructor(props) {
         super(props);
     }
@@ -143,8 +146,8 @@ class MiActivities extends React.Component {
     render() {
         return (
             <div className="symptom">
-                <h3>Milan Daily Activities</h3>
-                <h4>Milan Anomalies</h4>
+                <h3>Aruba Daily Activities</h3>
+                <h4>Aruba Anomalies</h4>
                 <ScrollableTable
                     headings={this.props.headings}
                     data={this.props.data}
@@ -165,7 +168,7 @@ class MiActivities extends React.Component {
     }
 }
 
-class ArActivities extends React.Component {
+class MiActivities extends React.Component {
     constructor(props) {
         super(props);
     }
@@ -173,8 +176,8 @@ class ArActivities extends React.Component {
     render() {
         return (
             <div className="symptom">
-                <h3>Aruba Daily Activities</h3>
-                <h4>Aruba Anomalies</h4>
+                <h3>Milan Daily Activities</h3>
+                <h4>Milan Anomalies</h4>
                 <ScrollableTable
                     headings={this.props.headings}
                     data={this.props.data}
