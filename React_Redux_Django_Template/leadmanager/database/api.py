@@ -429,16 +429,16 @@ class DatabaseAPI(generics.GenericAPIView):
         else:
             query = ("SELECT Date, Location FROM aruba_rad WHERE Location like 'M%'")
 
-        cursor.execute(query)
-        row_headers = [x[0] for x in cursor.description]  # this will extract row headers
-        rv = cursor.fetchall()
+        cursor1.execute(query)
+        row_headers = [x[0] for x in cursor1.description]  # this will extract row headers
+        rv = cursor1.fetchall()
         json_data = []
         for result in rv:
             json_data.append(dict(zip(row_headers, result)))
 
 
-        cursor.close()
-        cnx.close()
+        cursor1.close()
+        cnx1.close()
         result = MovementAlgorithm.MovementAlgo(json_data)
 
 
