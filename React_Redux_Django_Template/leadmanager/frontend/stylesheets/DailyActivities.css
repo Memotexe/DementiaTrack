@@ -1,3 +1,4 @@
+
 #page {
     margin-bottom: 50px;
     width: 100%;
@@ -8,64 +9,7 @@
     margin: 20px;
 }
 
-#symptomContainer {
-    display: flex;
-    justify-content: center;
-}
-
-.symptom {
-    background-color: #A2B5CD;
-    padding: 20px;
-    border-radius: 10px;
-    width: 48%;
-    margin: 10px;
-    box-shadow: 3px 3px 5px 6px #ccc;
-}
-
-.button {
-    background-color: lightcoral;
-    border: 1px solid #9954bb;
-    border-radius: 2px;
-    color: white;
-    margin: 10px;
-  }
-
-#overview {
-    background-color: lavender;
-    padding: 20px;
-    text-align: center;
-    border-radius: 10px;
-    width: 50%;
-    margin: 50px auto;
-}
-
-@media only screen and (max-width: 1000px) {
-    #symptomContainer {
-        flex-wrap: wrap;
-    }
-
-    .symptom {
-        width: 100%;
-    }
-
-    #overview {
-        width: 75%
-    }
-  }
-
-
-/*
-#page {
-    margin-bottom: 50px;
-    width: 100%;
-}
-
-#title {
-    text-align: center;
-    margin: 20px;
-}
-
-#symptomContainer {
+#DAsymptomContainer {
     display: block;
     justify-content: center;
 }
@@ -81,7 +25,7 @@
     margin-right: 5px;
 }
 
-.symptom {
+.DAsymptom {
     background-color: #8eadbf;
     padding: 20px;
     border-radius: 10px;
@@ -99,14 +43,14 @@
     margin: 10px;
   }
 
-#overview {
-    //THIS SECTION WAS COMMENTED OUT
+#DAoverview {
+    /*
     background: hsla(202, 28%, 65%, 1);
     background: linear-gradient(90deg, hsla(202, 28%, 65%, 1) 63%, hsla(356, 68%, 91%, 1) 99%, hsla(350, 100%, 94%, 1) 100%);
     background: -moz-linear-gradient(90deg, hsla(202, 28%, 65%, 1) 63%, hsla(356, 68%, 91%, 1) 99%, hsla(350, 100%, 94%, 1) 100%);
     background: -webkit-linear-gradient(90deg, hsla(202, 28%, 65%, 1) 63%, hsla(356, 68%, 91%, 1) 99%, hsla(350, 100%, 94%, 1) 100%);
     filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#8EADBF", endColorstr="#F8DADC", GradientType=1 );
-    
+    */
     
     background-color: #8eadbf;
     padding: 20px;
@@ -122,11 +66,11 @@
         flex-wrap: wrap;
     }
 
-    .symptom {
+    .DAsymptom {
         width: 100%;
     }
 
-    #overview {
+    #DAoverview {
         width: 75%
     }
   }
@@ -134,4 +78,3 @@
 .arrowButton {
     color: #69995D;
 }
-*/
