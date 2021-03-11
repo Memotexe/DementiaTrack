@@ -6,10 +6,13 @@ from .UTI_algorithms import TemperatureAnomalies
 from .DA_algorithm import MiAnomalies
 from .DA_algorithm import ArAnomalies
 from .DA_algorithm import RaAnomalies
+from .Sleep.run_sleep import run_sleep
+from .Sleep.sleep import SleepPy
 from .MovementAlgorithm import MovementAlgorithm
 import base64
 import mysql.connector
 from datetime import datetime
+from .Sleep.utils import import_dummy_data
 import json
 from dateutil import parser
 from PIL import Image
@@ -49,7 +52,6 @@ class DatabaseAPI(generics.GenericAPIView):
 
         cursor.close()
         cnx.close()
-
         # original stuff in this
         # value = request.GET.get('q', 'default value if not found')
 
@@ -175,7 +177,7 @@ class DatabaseAPI(generics.GenericAPIView):
 
         cursor.close()
         cnx.close()
-
+        
         result = TemperatureAnomalies(json_data)
         image = base64.b64encode(result[0].getvalue()).decode()
 
@@ -185,14 +187,92 @@ class DatabaseAPI(generics.GenericAPIView):
         })
 
     @api_view(('GET',))
+    def getSleep(request, *args, **kwargs):
+        cnx = mysql.connector.connect(user='root', password='password',
+                                      host='127.0.0.1',
+                                      database='dementia_track')
+        cursor = cnx.cursor()
+
+        # NEED TO ADD BACK DATE FILTER ##
+
+        query = ("SELECT * FROM normal_sleep_month")
+
+        cursor.execute(query)
+        row_headers = [x[0] for x in cursor.description]  # this will extract row headers
+        rv = cursor.fetchall()
+        json_data = []
+        for result in rv:
+            json_data.append(dict(zip(row_headers, result)))
+
+        normal_result, normal_buf = run_sleep(json_data, "Normal")
+        normal_img = base64.b64encode(normal_buf.getvalue()).decode()
+
+        query = ("SELECT * FROM bad_sleep_month")
+
+        cursor.execute(query)
+        row_headers = [x[0] for x in cursor.description]  # this will extract row headers
+        rv = cursor.fetchall()
+        json_data = []
+        for result in rv:
+            json_data.append(dict(zip(row_headers, result)))
+
+        bad_result, bad_buf = run_sleep(json_data, "Bad")
+        bad_img = base64.b64encode(bad_buf.getvalue()).decode()
+
+        query = ("SELECT * FROM random_sleep_month")
+
+        cursor.execute(query)
+        row_headers = [x[0] for x in cursor.description]  # this will extract row headers
+        rv = cursor.fetchall()
+        json_data = []
+        for result in rv:
+            json_data.append(dict(zip(row_headers, result)))
+
+        random_result, random_buf = run_sleep(json_data, "Random")
+        random_img = base64.b64encode(random_buf.getvalue()).decode()
+
+        cursor.close()
+        cnx.close()
+
+        # data, start, end = import_dummy_data(json_data)
+        #
+        # sleep = SleepPy(
+        #     "dummy/test_report.csv", "/Sleep", sampling_frequency=20.0
+        # )
+        # sleep.raw_days = [data, data]
+        # sleep.raw_days_to_plot = [
+        #     data.resample("60s").median(),
+        #     data.resample("60s").median(),
+        # ]
+        #
+        # # PREDICTIONS
+        # sleep.calculate_major_rest_periods()
+        # sleep.calculate_sleep_predictions()
+        # sleep.calculate_endpoints()
+        #
+        # # RUN VISUALIZATION
+        #
+        # result, buf = sleep.visualize()
+        # img = base64.b64encode(buf.getvalue()).decode()
+
+        return Response({
+            "Normal_Image": normal_img,
+            "Bad_Image": bad_img,
+            "Random_Image": random_img,
+            "Normal_Anomalies": normal_result,
+            "Bad_Anomalies": bad_result,
+            "Random_Anomalies": random_result
+        })
+
+    @api_view(('GET',))    
     def getDAMi(request, *args, **kwargs):
-        cnx = mysql.connector.connect(user='root', password='password', host='127.0.0.1', database='dementia_track')        
+        cnx = mysql.connector.connect(user='root', password='password', host='127.0.0.1', database='dementia_track')    
         query = ("SELECT * FROM milan_occ ")
 
         cursor = cnx.cursor()
         cursor.execute(query)
         row_headers = [x[0] for x in cursor.description]  # this will extract row headers
-        
+
         rv = cursor.fetchall()
 
         json_data = []
@@ -340,16 +420,17 @@ class DatabaseAPI(generics.GenericAPIView):
 
         cursor = cnx.cursor()
 
-        start = request.GET.get('startdate','2000-11-01')
-        end = request.GET.get('enddate', '2000-11-01')
+        #Need To Set Date to Format of 01/1/20XX
 
-        dateStart = datetime.strptime(start, "%Y-%m-%d").strftime("%#m/%#d/%#Y")
-        dateEnd = datetime.strptime(end, "%Y-%m-%d").strftime("%#m/%#d/%#Y")
+        dataTypeToRun = request.GET.get('dataTypeToRun')
 
+        if(dataTypeToRun == 'Normal'):
+            query = ("SELECT Date, Location FROM aruba WHERE Location like 'M%'")
+        elif(dataTypeToRun == 'Abnormal'):
+            query = ("SELECT Date, Location FROM aruba_abn WHERE Location like 'M%'")
+        else:
+            query = ("SELECT Date, Location FROM aruba_rad WHERE Location like 'M%'")
 
-        query = ("SELECT Location FROM aruba")
-        
-        
         cursor.execute(query)
         row_headers = [x[0] for x in cursor.description]  # this will extract row headers
         rv = cursor.fetchall()
@@ -361,12 +442,25 @@ class DatabaseAPI(generics.GenericAPIView):
         cursor.close()
         cnx.close()
         result = MovementAlgorithm.MovementAlgo(json_data)
-        image = base64.b64encode(result[4].getvalue()).decode()
+
+
+
+        image1 = base64.b64encode(result[4].getvalue()).decode()
+        image2 = base64.b64encode(result[5].getvalue()).decode()
+        image3 = base64.b64encode(result[6].getvalue()).decode()
+        image4 = base64.b64encode(result[7].getvalue()).decode()
+        image5 = base64.b64encode(result[8].getvalue()).decode()
+
 
         return Response({
                 "Pacing" : result[0],
                 "Lapping": result[1],
                 "Direct" : result[2],
                 "Random" : result[3],
-                "Image" : image
+                "Image1" : image1,
+                "Image2" : image2,
+                "Image3" : image3,
+                "Image4" : image4,
+                "Image5" : image5,
+
         })

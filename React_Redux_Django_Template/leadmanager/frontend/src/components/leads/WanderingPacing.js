@@ -15,7 +15,7 @@ export class WanderingPacing extends Component {
         Lapping: "",
         Direct: "",
         Random: "",
-        Chart: "",
+        Image: [],
         lastruntime: "",
     };
 
@@ -26,14 +26,16 @@ export class WanderingPacing extends Component {
   clicked = async () => {
     let repo = new Repository();
 
-    let responseMovement = await repo.GetLocationOccurences("Location");
+    let dataTypeToRun = document.getElementById("dropdown").value;
+
+    let responseMovement = await repo.GetLocationOccurences(dataTypeToRun);
 
     this.setState({
         Pacing: responseMovement.Pacing,
         Lapping: responseMovement.Lapping,
         Direct: responseMovement.Direct,
         Random: responseMovement.Random,
-        Chart: responseMovement.Image,
+        Image: responseMovement.Images,
         lastruntime: daysjs().format("YYYY-MM-DD hh:mm:ss A"),
     });
   };
@@ -53,8 +55,8 @@ export class WanderingPacing extends Component {
         />
         <Analyzer clicked={this.clicked} />
         <div id="symptomContainer">
-            <BathroomTrips
-                image={this.state.Chart}
+            <MovementTrips
+                images={this.state.Image}
                 key={uuidv4()}
             />
         </div>
@@ -76,12 +78,17 @@ class Analyzer extends React.Component {
         <button onClick={this.props.clicked} className="button">
           {"Run"}
         </button>
+        <select id="dropdown">
+            <option value="Normal">Normal</option>
+            <option value="Abnormal">Abnormal</option>
+            <option value="Radical">Radical</option>
+        </select>
       </div>
     );
   }
 }
 
-class BathroomTrips extends React.Component {
+class MovementTrips extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -93,12 +100,13 @@ class BathroomTrips extends React.Component {
         <h4>Occurences</h4>
         <ImageCarousel
           key={uuidv4()}
-          images={[
-            <img
-              src={`data:image/png;base64,${this.props.image}`}
-              className="graphImage"
-            />,
-          ]}
+          images=
+            {this.props.images.map((image) =>(
+                <img
+                    src={`data:image/png;base64,${image}`}
+                    className="graphImage"
+                />
+            ))}
         />
 
       </div>
