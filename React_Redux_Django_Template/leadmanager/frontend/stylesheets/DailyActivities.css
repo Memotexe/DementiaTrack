@@ -62,7 +62,7 @@
 }
 
 @media only screen and (max-width: 1000px) {
-    #symptomContainer {
+    #symptomContainerDA {
         flex-wrap: wrap;
     }
 

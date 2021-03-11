@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import ScrollableTable from "../helpers/ScrollableTable";
 import ImageCarousel from "../helpers/ImageCarousel";
-import "../../../stylesheets/UTI.css";
+import "../../../stylesheets/Move.css";
 import Repository from "../../../backend-connection/repository";
 import { v4 as uuidv4 } from "uuid";
 import daysjs from "dayjs";

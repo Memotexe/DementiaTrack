@@ -3,6 +3,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .UTI_algorithms import BathroomTripAnomalies
 from .UTI_algorithms import TemperatureAnomalies
+from .UTI_algorithms import GetCombinedGraph
 from .DA_algorithm import MiAnomalies
 from .DA_algorithm import ArAnomalies
 from .DA_algorithm import RaAnomalies
@@ -60,7 +61,7 @@ class DatabaseAPI(generics.GenericAPIView):
         })
 
     @api_view(('GET',))
-    def getBathroomTrips(request, *args, **kwargs):
+    def getUTI(request, *args, **kwargs):
         cnx = mysql.connector.connect(user='root', password='password',
                                       host='127.0.0.1',
                                       database='dementia_track')
@@ -68,72 +69,98 @@ class DatabaseAPI(generics.GenericAPIView):
 
         start = request.GET.get('startdate', '2000-11-01')
         end = request.GET.get('enddate', '2000-11-01')
+        dataTypeToRun = request.GET.get('dataTypeToRun', 'Normal')
 
         dateStart = datetime.strptime(start, "%Y-%m-%d").strftime("%#m/%#d/%#Y")
         dateEnd = datetime.strptime(end, "%Y-%m-%d").strftime("%#m/%#d/%#Y")
 
-
-        ## NEED TO ADD BACK DATE FILTER ##
-
-
-        query = ("SELECT Date, Time, Location FROM aruba "
-                 "WHERE (Location = 'M029')")
+        if (dataTypeToRun == 'Normal'):
+            query = ("SELECT * FROM temp_data_normal")
+        elif (dataTypeToRun == 'Abnormal'):
+            query = ("SELECT * FROM temp_data_abnormal")
+        else:
+            query = ("SELECT * FROM temp_data_random")
 
         cursor.execute(query)
         row_headers = [x[0] for x in cursor.description]  # this will extract row headers
         rv = cursor.fetchall()
-        json_data = []
+        json_data_temp = []
         for result in rv:
-            json_data.append(dict(zip(row_headers, result)))
+            json_data_temp.append(dict(zip(row_headers, result)))
+
+        if (dataTypeToRun == 'Normal'):
+            query = ("SELECT date_format(Date, '%m/%d/%Y') as Date, Day, Night from bathroom_normal")
+        elif (dataTypeToRun == 'Abnormal'):
+            query = ("SELECT date_format(FDate, '%m/%d/%Y') as Date, Time, Location FROM aruba "
+                 "WHERE (Location = 'M029') AND (FDate BETWEEN '2010-11-10' AND '2010-12-10')")
+        else:
+            query = ("SELECT date_format(Date, '%m/%d/%Y') as Date, Day, Night from bathroom_random")
+
+        cursor.execute(query)
+        row_headers = [x[0] for x in cursor.description]  # this will extract row headers
+        rv = cursor.fetchall()
+        json_data_bathroom = []
+        for result in rv:
+            json_data_bathroom.append(dict(zip(row_headers, result)))
 
         cursor.close()
         cnx.close()
-        
-        datesDay = []
+
         dataDay = []
-        datesNight = []
         dataNight = []
+        
+        if (dataTypeToRun == 'Normal' or dataTypeToRun == 'Random'):
+            for row in json_data_bathroom:
+                dataDay.append({ 'Date': row['Date'], 'Day': row['Day'] })
+                dataNight.append({ 'Date': row['Date'], 'Night': row['Night'] })
 
-        for hit in json_data:
-            current = parser.parse(hit['Date'] + ' ' + hit['Time'])
-            midnight = parser.parse(hit['Date'] + ' ' + '0:00:00')
-            fouram = parser.parse(hit['Date'] + ' ' + '4:00:00')
+        elif (dataTypeToRun == 'Abnormal'):
+            datesDay = []
+            datesNight = []
 
-            # initialize the date if not added yet
-            if hit['Date'] not in datesDay:
-                datesDay.append(hit['Date'])
-                dataDay.append({'Date' : hit['Date'], 'Day' : 0})
+            for hit in json_data_bathroom:
+                current = parser.parse(hit['Date'] + ' ' + hit['Time'])
+                midnight = parser.parse(hit['Date'] + ' ' + '0:00:00')
+                fouram = parser.parse(hit['Date'] + ' ' + '4:00:00')
 
-            # initialize the date if not added yet
-            if hit['Date'] not in datesNight:
-                datesNight.append(hit['Date'])
-                dataNight.append({'Date' : hit['Date'], 'Night' : 0})
+                # initialize the date if not added yet
+                if hit['Date'] not in datesDay:
+                    datesDay.append(hit['Date'])
+                    dataDay.append({'Date' : hit['Date'], 'Day' : 0})
 
-            # if night time
-            if current > midnight and current < fouram:
-                i = 0
-                while (i < len(datesNight)):
-                    if (datesNight[i] == hit['Date']):
-                        dataNight[i]['Night'] = dataNight[i]['Night'] + 1
-                        break
-                    
-                    i += 1
-            # if day time
-            else:
-                i = 0
-                while (i < len(datesDay)):
-                    if (datesDay[i] == hit['Date']):
-                        dataDay[i]['Day'] = dataDay[i]['Day'] + 1
-                        break
-                    
-                    i += 1
+                # initialize the date if not added yet
+                if hit['Date'] not in datesNight:
+                    datesNight.append(hit['Date'])
+                    dataNight.append({'Date' : hit['Date'], 'Night' : 0})
 
-        # divide each by 2 to account for the ON / OFF calls
-        for hit in dataDay:
-            hit['Day'] = hit['Day'] / 2
+                # if night time
+                if current > midnight and current < fouram:
+                    i = 0
+                    while (i < len(datesNight)):
+                        if (datesNight[i] == hit['Date']):
+                            dataNight[i]['Night'] = dataNight[i]['Night'] + 1
+                            break
+                        
+                        i += 1
+                # if day time
+                else:
+                    i = 0
+                    while (i < len(datesDay)):
+                        if (datesDay[i] == hit['Date']):
+                            dataDay[i]['Day'] = dataDay[i]['Day'] + 1
+                            break
+                        
+                        i += 1
 
-        for hit in dataNight:
-            hit['Night'] = hit['Night'] / 2
+            # divide each by 2 to account for the ON / OFF calls
+            for hit in dataDay:
+                hit['Day'] = hit['Day'] / 2
+
+            for hit in dataNight:
+                hit['Night'] = hit['Night'] / 2
+
+        resultTemp = TemperatureAnomalies(json_data_temp)
+        imageTemp = base64.b64encode(resultTemp[0].getvalue()).decode()
 
         resultDay = BathroomTripAnomalies(dataDay, 'Day')
         resultNight = BathroomTripAnomalies(dataNight, 'Night')
@@ -144,46 +171,17 @@ class DatabaseAPI(generics.GenericAPIView):
         imgNight = base64.b64encode(resultNight[0].getvalue()).decode()
         anomaliesNight = resultNight[1]
 
+        combinedResult = GetCombinedGraph(json_data_temp, dataDay, dataNight)
+        combinedGraph = base64.b64encode(combinedResult.getvalue()).decode()
+
         return Response({
             "DayImg": imgDay,
             "DayAnomalies": anomaliesDay,
             "NightImg": imgNight,
-            "NightAnomalies": anomaliesNight
-        })
-
-    @api_view(('GET',))
-    def getTemp(request, *args, **kwargs):
-        cnx = mysql.connector.connect(user='root', password='password',
-                                      host='127.0.0.1',
-                                      database='dementia_track')
-        cursor = cnx.cursor()
-
-        start = request.GET.get('startdate', '2000-11-01')
-        end = request.GET.get('enddate', '2000-11-01')
-
-        dateStart = datetime.strptime(start, "%Y-%m-%d").strftime("%#m/%#d/%#Y")
-        dateEnd = datetime.strptime(end, "%Y-%m-%d").strftime("%#m/%#d/%#Y")
-
-        ## NEED TO ADD BACK DATE FILTER ##
-
-        query = ("SELECT * FROM temperature")
-
-        cursor.execute(query)
-        row_headers = [x[0] for x in cursor.description]  # this will extract row headers
-        rv = cursor.fetchall()
-        json_data = []
-        for result in rv:
-            json_data.append(dict(zip(row_headers, result)))
-
-        cursor.close()
-        cnx.close()
-        
-        result = TemperatureAnomalies(json_data)
-        image = base64.b64encode(result[0].getvalue()).decode()
-
-        return Response({
-            "Image": image,
-            "Anomalies": result[1]
+            "NightAnomalies": anomaliesNight,
+            "TempAnomalies": resultTemp[1],
+            "TempImg": imageTemp,
+            "CombinedGraph": combinedGraph
         })
 
     @api_view(('GET',))
@@ -416,9 +414,9 @@ class DatabaseAPI(generics.GenericAPIView):
 
     @api_view(('GET',))
     def getLocations(request, *args, **kwargs):
-        cnx = mysql.connector.connect(user = 'root', password='password', host='127.0.0.1', database='dementia_track')
+        cnx1 = mysql.connector.connect(user = 'root', password='password', host='127.0.0.1', database='dementia_track')
 
-        cursor = cnx.cursor()
+        cursor1 = cnx1.cursor()
 
         #Need To Set Date to Format of 01/1/20XX
 

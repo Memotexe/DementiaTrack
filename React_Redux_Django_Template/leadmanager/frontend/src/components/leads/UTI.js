@@ -5,6 +5,7 @@ import "../../../stylesheets/UTI.css";
 import Repository from "../../../backend-connection/repository";
 import { v4 as uuidv4 } from "uuid";
 import daysjs from "dayjs";
+import DetermineUTI from "../../../backend-connection/DetermineUTI";
 
 export class UTI extends Component {
   constructor(props) {
@@ -14,13 +15,22 @@ export class UTI extends Component {
       anomalies: "",
       src: "",
       bathroomAnomalies: [
-        { date: "", time: "", count: "" },
+        { "Date": " ", "Time": " ", "Count": " " },
+        { "Date": " ", "Time": " ", "Count": " " },
+        { "Date": " ", "Time": " ", "Count": " " },
+        { "Date": " ", "Time": " ", "Count": " " },
+        { "Date": " ", "Time": " ", "Count": " " },
       ],
-      bathroomImages: [],
       temperatureAnomalies: [
-        { date: "", time: "" },
+        { "Date": " ", "Time": " ", "Temperature": " " },
+        { "Date": " ", "Time": " ", "Temperature": " " },
+        { "Date": " ", "Time": " ", "Temperature": " " },
+        { "Date": " ", "Time": " ", "Temperature": " " },
+        { "Date": " ", "Time": " ", "Temperature": " " },
       ],
-      temperatureImage: "",
+      bathroomAnomalyCount: 0,
+      tempAnomalyCount: 0,
+      images: [],
       lastruntime: "",
     };
 
@@ -31,15 +41,35 @@ export class UTI extends Component {
   clicked = async () => {
     let repo = new Repository();
 
-    let responseBathroom = await repo.GetBathroomTripAnomalies("Bathroom");
-    let responseTemperature = await repo.GetTemperatureAnomalies("Temperature");
+    let dataTypeToRun = document.getElementById("dropdown").value;
+
+    let response = await repo.GetUTIAnomalies(dataTypeToRun);
+    let bathroomAnomalies = response.BathroomAnomalies;
+    let tempAnomalies = response.TempAnomalies;
+
+    let det = new DetermineUTI();
+    let result = det.getDetermination(bathroomAnomalies, tempAnomalies, 30);
+
+    // insert blank rows to populate table
+    let diffBathroom = 5 - bathroomAnomalies.length;
+    let diffTemp = 5 - tempAnomalies.length;
+
+    for (let i = 0; i < diffBathroom; i++) {
+      bathroomAnomalies.push({"Date": " ", "Time": " ", "Count": " "});
+    }
+
+    for (let i = 0; i < diffTemp; i++) {
+      tempAnomalies.push({ "Date": " ", "Time": " ", "Temperature": " " })
+    }
 
     this.setState({
-      bathroomAnomalies: responseBathroom.Anomalies,
-      bathroomImages: responseBathroom.Images,
-      temperatureAnomalies: responseTemperature.Anomalies,
-      temperatureImage: responseTemperature.Image,
+      bathroomAnomalies: bathroomAnomalies,
+      temperatureAnomalies: tempAnomalies,
+      bathroomAnomalyCount: response.BathroomAnomalyCount,
+      tempAnomalyCount: response.TempAnomalyCount,
+      images: response.Images,
       lastruntime: daysjs().format("YYYY-MM-DD hh:mm:ss A"),
+      determination: result.Determination
     });
   };
 
@@ -48,23 +78,20 @@ export class UTI extends Component {
       <div id="page">
         <h1 id="title">Urinary Tract Infection</h1>
         <Overview
-          bathroomAnomalyCount={this.state.bathroomAnomalies.length - 1}
-          temperatureAnomalyCount={this.state.temperatureAnomalies.length - 1}
+          bathroomAnomalyCount={this.state.bathroomAnomalyCount}
+          temperatureAnomalyCount={this.state.tempAnomalyCount}
           time={this.state.lastruntime}
           key={uuidv4()}
+          result={this.state.determination}
         />
         <Analyzer clicked={this.clicked} />
         <div id="symptomContainer">
-          <BathroomTrips
-            images={this.state.bathroomImages}
-            data={this.state.bathroomAnomalies}
-            headings={["Date", "Time", "Count"]}
-            key={uuidv4()}
-          />
-          <BodyTemperature
-            image={this.state.temperatureImage}
-            data={this.state.temperatureAnomalies}
-            headings={["Time", "Temperature"]}
+          <Symptoms
+            images={this.state.images}
+            dataBathroom={this.state.bathroomAnomalies}
+            headingsBathroom={["Date", "Time", "Count"]}
+            dataTemp={this.state.temperatureAnomalies}
+            headingsTemp={["Date", "Time", "Temperature"]}
             key={uuidv4()}
           />
         </div>
@@ -83,6 +110,12 @@ class Analyzer extends React.Component {
       <div id="overview">
         <h3>Analyze</h3>
         <hr style={{ backgroundColor: "#6699CC", borderWidth: "2px" }} />
+        <select id="dropdown">
+          <option value="Normal">Normal</option>
+          <option value="Abnormal">Abnormal</option>
+          <option value="Random">Random</option>
+        </select>
+        <br />
         <button onClick={this.props.clicked} className="button">
           {"Run"}
         </button>
@@ -91,60 +124,48 @@ class Analyzer extends React.Component {
   }
 }
 
-class BathroomTrips extends React.Component {
+class Symptoms extends React.Component {
   constructor(props) {
     super(props);
   }
 
   render() {
     return (
-      <div className="symptom">
-        <h3>Bathroom Trips</h3>
-        <h4>Anomalies</h4>
-        <ScrollableTable
-          headings={this.props.headings}
-          data={this.props.data}
-          key={uuidv4()}
-        />
-        <ImageCarousel
-          key={uuidv4()}
-          images=
-            {this.props.images.map((image) => (
-              <img
-                src={`data:image/png;base64,${image}`}
-                className="graphImage"
-              />
-            ))}
-        />
-      </div>
-    );
-  }
-}
-
-class BodyTemperature extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-    return (
-      <div className="symptom">
-        <h3>Body Temperature</h3>
-        <h4>Anomalies</h4>
-        <ScrollableTable
-          headings={this.props.headings}
-          data={this.props.data}
-          key={uuidv4()}
-        />
-        <ImageCarousel
-          key={uuidv4()}
-          images={[
-            <img
-              src={`data:image/png;base64,${this.props.image}`}
-              className="graphImage"
-            />,
-          ]}
-        />
+      <div className="uti">
+        <div id="tableContainer">
+          <div>
+            <h3>Bathroom Trips</h3>
+            <h4>Anomalies</h4>
+            <ScrollableTable
+              className="table"
+              headings={this.props.headingsBathroom}
+              data={this.props.dataBathroom}
+              key={uuidv4()}
+            />
+          </div>
+          <div>
+            <h3>Body Temperature</h3>
+            <h4>Anomalies</h4>
+            <ScrollableTable
+              className="table"
+              headings={this.props.headingsTemp}
+              data={this.props.dataTemp}
+              key={uuidv4()}
+            />
+          </div>
+        </div>
+        {this.props.images.length != 0 && 
+          <ImageCarousel
+            key={uuidv4()}
+            images=
+              {this.props.images.map((image) => (
+                <img
+                  src={`data:image/png;base64,${image}`}
+                  className="graphImage"
+                />
+              ))}
+          />
+        }
       </div>
     );
   }
@@ -156,9 +177,12 @@ class Overview extends React.Component {
       <div id="overview">
         <h3>Symptom Summary</h3>
         <hr style={{ backgroundColor: "#6699CC", borderWidth: "2px" }} />
-        <p>Data last updated: {this.props.time}</p>
         <p>Bathroom Trip Anomalies: {this.props.bathroomAnomalyCount}</p>
         <p>Body Temperature Anomalies: {this.props.temperatureAnomalyCount}</p>
+        {this.props.time != "" && 
+          <p>Time of Analysis: {this.props.time}</p>
+        }
+        <p>{this.props.result}</p>
       </div>
     );
   }

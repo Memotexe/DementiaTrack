@@ -1,45 +1,51 @@
 import Api from "./api";
 
 class Repository {
-  async GetTemperatureAnomalies() {
+  async GetUTIAnomalies(dataTypeToRun) {
     let api = new Api();
 
-    let response = await api.get("database/temp");
+    let response = await api.get("database/uti?dataTypeToRun=" + dataTypeToRun);
+
+    console.log(response)
 
     if (response[0] != 200) {
       console.log("Connection Failed");
     }
 
-    return { Anomalies: response[1].Anomalies, Image: response[1].Image };
-  }
-
-  async GetBathroomTripAnomalies() {
-    let api = new Api();
-
-    let response = await api.get("database/uti");
-
-    if (response[0] != 200) {
-      console.log("Connection Failed");
-    }
-
-    let anomalies = []
+    let bathroomAnomalies = []
 
     let dayAnomalies = response[1].DayAnomalies;
     let nightAnomalies = response[1].NightAnomalies;
 
+    let tempAnomalies = [];
+
+    response[1].TempAnomalies.forEach(anomaly => {
+      console.log(anomaly)
+      let date = anomaly["Time"].split(" ")[0]
+      let time = anomaly["Time"].split(" ")[1]
+
+      tempAnomalies.push({ "Date": date, "Time": time, "Temperature": anomaly['Temperature'] })
+    })
+
     dayAnomalies.forEach(anomaly => {
-      anomalies.push({"Date": anomaly[0], "Time": "Day", "Count": anomaly[1]});
+      bathroomAnomalies.push({"Date": anomaly[0], "Time": "Day", "Count": anomaly[1]});
     })
 
     nightAnomalies.forEach(anomaly => {
-      anomalies.push({"Date": anomaly[0], "Time": "Night", "Count": anomaly[1]});
+      bathroomAnomalies.push({"Date": anomaly[0], "Time": "Night", "Count": anomaly[1]});
     })
 
-    let images = [response[1].DayImg, response[1].NightImg]
+    let images = [response[1].DayImg, response[1].NightImg, response[1].TempImg, response[1].CombinedGraph]
+
+    let bathroomAnomalyCount = bathroomAnomalies.length;
+    let tempAnomalyCount = tempAnomalies.length;
 
     return { 
-      Anomalies: anomalies,
-      Images: images
+      BathroomAnomalyCount: bathroomAnomalyCount,
+      BathroomAnomalies: bathroomAnomalies,
+      TempAnomalyCount: tempAnomalyCount,
+      TempAnomalies: tempAnomalies,
+      Images: images,
     };
   }
 

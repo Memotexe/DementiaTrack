@@ -2,8 +2,8 @@
   position: fixed;
   top: 0;
   right: 0;
-  background-color: lightcoral;
-  border: 1px solid #9954bb;
+  background-color: #6699cc;
+  border: 1px solid #6699cc;
   border-radius: 2px;
   color: white;
   margin: 10px;
@@ -18,14 +18,13 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: black;
-  border: 1px solid #9954bb;
+  background-color: rgba(0, 0, 0, 0.75);
   z-index: 1;
 }
 
 .button {
-  background-color: lightcoral;
-  border: 1px solid #9954bb;
+  background-color: #6699cc;
+  border: 1px solid #6699cc;
   border-radius: 2px;
   color: white;
   margin: 10px;
@@ -34,6 +33,7 @@
 #centerDots {
   text-align: center;
   width: 100%;
+  margin: 20px;
 }
 
 #carouselContainer {
@@ -45,13 +45,13 @@
 }
 
 .arrowButton {
-  color: lightcoral;
-  border: 1px solid #9954bb;
+  color: #6699cc;
   background-color: white;
   font-size: x-large;
   border: none;
 }
 
 .graphImage {
-  width: 80%;
+  object-fit: contain;
+  width: 98%;
 }
