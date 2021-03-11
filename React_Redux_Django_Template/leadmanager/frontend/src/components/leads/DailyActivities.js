@@ -21,10 +21,39 @@ export class DailyActivities extends Component{
             std: 2,
             anomalies: "",
             src: "",
-            DAAnomalies: [
-                { date: "", bed_to_toilet_begin: "", sleep_begin: "", leave_home_begin: "" },
+            MiAnomalies: [{ 
+                date: "", 
+                Morning_Meds: "", 
+                Watch_TV: "", 
+                Chores: "", 
+                Read: "",
+                Eve_Meds: "", 
+                Meditate: ""
+             },
             ],
-            DAImages: [],
+            MiImages: [],
+            
+            ArAnomalies: [{
+                date: "",                
+                meal_preparation_begin: "",
+                housekeeping_begin: "",
+                eating_begin: "",
+                relax_begin: "",
+                wash_dishes_begin: "",
+                respirate_begin: "" },
+            ],
+            ArImages: [],
+            
+            RaAnomalies: [{
+                date: "",               
+                meal_preparation_begin: "", 
+                housekeeping_begin: "", 
+                eating_begin: "", 
+                relax_begin: "", 
+                wash_dishes_begin: "", 
+                respirate_begin: "" },
+            ],
+            RaImages: [],
             lastruntime: "",
         };
 
@@ -35,33 +64,53 @@ export class DailyActivities extends Component{
     clicked = async () => {
         let repo = new Repository();
 
-        let responseDA = await repo.GetDAAnomalies("Daily");
+        let responseDAMi = await repo.GetDAMi("Milan");
+        let responseDAAr = await repo.GetDAAr("Aruba");
+        let responseDARa = await repo.GetDARa("Random");
 
         this.setState({
-            DAAnomalies: responseDA.Anomalies,
-            DAImages: responseDA.Images,
+            MiAnomalies: responseDAMi.Anomalies,
+            MiImages: responseDAMi.Images,
+            ArAnomalies: responseDAAr.Anomalies,
+            ArImages: responseDAAr.Images,
+            RaAnomalies: responseDARa.Anomalies,
+            RaImages: responseDARa.Images,
             lastruntime: daysjs().format("YYYY-MM-DD hh:mm:ss A"),
         });
     }
 
     render(){
-       
         return(
             <div id="page">
                 <h1 id="title">Daily Activities</h1>
                 
                 <Overview 
-                    DAAnomalyCount={this.state.DAAnomalies.length - 1}
+                    DAAnomalyCount={(this.state.MiAnomalies.length + this.state.ArAnomalies.length + this.state.RaAnomalies.length) - 3}
                     time={this.state.lastruntime}
                     key={uuidv4()}
                     std={this.state.std}  
                 />
                 <Analyzer clicked={this.clicked} />
-                <div id="symptomContainer">
-                    <Activities
-                        images={this.state.DAImages}
-                        data={this.state.DAAnomalies}
-                        headings={["Date", "Bed to Toilet", "Sleep", "Leave Home"]}
+                <div id="DAsymptomContainer">
+                    <ArActivities
+                        images={this.state.ArImages}
+                        data={this.state.ArAnomalies}
+                        headings={["Date", "Meal Preparation", "Housekeeping", "Eating", "Relax", "Wash Dishes", "Respiration"]}
+                        key={uuidv4()}
+                    />
+                    
+                    <MiActivities
+                        images={this.state.MiImages}
+                        data={this.state.MiAnomalies}
+                        headings={["Date", "Morning Meds", "Watch TV", "Chores", "Read", "Evening Meds", "Meditate"]}
+                        key={uuidv4()}
+                    />
+                    
+
+                    <RaActivities
+                        images={this.state.RaImages}
+                        data={this.state.RaAnomalies}
+                        headings={["Date", "Meal Preparation", "Housekeeping", "Eating", "Relax", "Wash Dishes", "Respiration"]}
                         key={uuidv4()}
                     />
                 </div>
@@ -77,27 +126,88 @@ class Analyzer extends React.Component {
 
     render() {
         return  (
-            <div id="overview">
+            <div id="DAoverview">
                 <h3>Analyze</h3>
                 <hr style={{backgroundColor: "#9954bb", borderWidth: "2px"}} />
                 <button style={{backgroundColor: "lightcoral", borderColor: "#9954bb"}} onClick={this.props.clicked} className="button">
                     {"Run"}
                 </button>
+
             </div>
         );
     }
 }
 
-class Activities extends React.Component {
+class ArActivities extends React.Component {
     constructor(props) {
         super(props);
     }
 
     render() {
         return (
-            <div className="symptom">
-                <h3>Daily Activities</h3>
-                <h4>Anomalies</h4>
+            <div className="DAsymptom">
+                <h3>Aruba Daily Activities</h3>
+                <h4>Aruba Anomalies</h4>
+                <ScrollableTable
+                    headings={this.props.headings}
+                    data={this.props.data}
+                    key={uuidv4()}
+                />
+                <ImageCarousel
+                    key={uuidv4()}
+                    images=
+                        {this.props.images.map((image) => (
+                        <img
+                            src={`data:image/png;base64,${image}`}
+                            className="graphImage"
+                        />
+                    ))}
+                />
+            </div>
+        );
+    }
+}
+
+class MiActivities extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        return (
+            <div className="DAsymptom">
+                <h3>Milan Daily Activities</h3>
+                <h4>Milan Anomalies</h4>
+                <ScrollableTable
+                    headings={this.props.headings}
+                    data={this.props.data}
+                    key={uuidv4()}
+                />
+                <ImageCarousel
+                    key={uuidv4()}
+                    images=
+                        {this.props.images.map((image) => (
+                        <img
+                            src={`data:image/png;base64,${image}`}
+                            className="graphImage"
+                        />
+                    ))}
+                />
+            </div>
+        );
+    }
+}
+
+class RaActivities extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        return (
+            <div className="DAsymptom">
+                <h3>Random Dataset Daily Activities</h3>
+                <h4>Random Anomalies</h4>
                 <ScrollableTable
                     headings={this.props.headings}
                     data={this.props.data}
@@ -121,9 +231,9 @@ class Activities extends React.Component {
 class Overview extends React.Component {
     render() {
         return (
-          <div id="overview">
+          <div id="DAoverview">
             <h3>Symptom Summary</h3>
-            <hr style={{ backgroundColor: "#9954bb", borderWidth: "2px" }} />
+            <hr style={{ backgroundColor: "#69995D", borderWidth: "2px" }} />
             <p>Data last updated: {this.props.time}</p>
             <p>Daily Activity Anomalies: {this.props.DAAnomalyCount}</p>
           </div>

@@ -3,9 +3,11 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .UTI_algorithms import BathroomTripAnomalies
 from .UTI_algorithms import TemperatureAnomalies
+from .DA_algorithm import MiAnomalies
+from .DA_algorithm import ArAnomalies
+from .DA_algorithm import RaAnomalies
 from .Sleep.run_sleep import run_sleep
 from .Sleep.sleep import SleepPy
-from .DA_algorithm import DAAnomalies
 from .MovementAlgorithm import MovementAlgorithm
 import base64
 import mysql.connector
@@ -262,9 +264,9 @@ class DatabaseAPI(generics.GenericAPIView):
             "Random_Anomalies": random_result
         })
 
-    @api_view(('GET',))
-    def getDA(request, *args, **kwargs):
-        cnx = mysql.connector.connect(user='root', password='password', host='127.0.0.1', database='dementia_track')
+    @api_view(('GET',))    
+    def getDAMi(request, *args, **kwargs):
+        cnx = mysql.connector.connect(user='root', password='password', host='127.0.0.1', database='dementia_track')    
         query = ("SELECT * FROM milan_occ ")
 
         cursor = cnx.cursor()
@@ -275,38 +277,143 @@ class DatabaseAPI(generics.GenericAPIView):
 
         json_data = []
         date = []
-        bed = []
-        sleep = []
-        leave = []
+        mMeds = []
+        tv = []
+        chores = []
+        read = []
+        eMeds = []
+        meditate = []
+
         for result in rv:
             json_data.append(dict(zip(row_headers, result)))
             date.append(result[0])
-            bed.append(result[1])
-            sleep.append(result[3])
-            leave.append(result[5])
+            mMeds.append(result[1])
+            tv.append(result[2])
+            chores.append(result[3])
+            read.append(result[4])
+            eMeds.append(result[5])
+            meditate.append(result[6])
+
+        """
+        print("\n\n")
+        print(meditate)
+        print("\n\n")
+        """
 
         cursor.close()
         cnx.close()
-
-        result = DAAnomalies(json_data)
+        
+        result = MiAnomalies(json_data)
         image = base64.b64encode(result[0].getvalue()).decode()
 
         return Response({
             "Image": image,
             "Anomalies": result[1],
-            "Date": date,
-            "Bed" : bed,
-            "Sleep" : sleep,
-            "Leave" : leave
+            "Date": date, 
+            "Morn_Meds": mMeds,
+            "WatchTV": tv,
+            "Chores": chores,
+            "Read": read,
+            "Eve_Meds": eMeds,
+            "Meditate": meditate
         })
 
-        """ Testing Purposes:
-        print("\n\n\n\n\n\n")
-        print(json_data)
-        print("\n\n\n\n\n\n")
-        """
+    @api_view(('GET',))
+    def getDAAr(request, *args, **kwargs):
+        cnx = mysql.connector.connect(user='root', password='password', host='127.0.0.1', database='dementia_track')        
+        query = ("SELECT * FROM aruba_occ ")
 
-    #WILL NEED TO HAVE ALL IMPORT NEW TABLES FOR THIS NEW API CALL
+        cursor = cnx.cursor()
+        cursor.execute(query)
+        row_headers = [x[0] for x in cursor.description]  # this will extract row headers
+        
+        rv = cursor.fetchall()
+
+        json_data = []
+        date = []
+        meal = []
+        house = []
+        eat = []
+        relax = []
+        dishes = []
+        resp = []
+        
+        for result in rv:
+            json_data.append(dict(zip(row_headers, result)))
+            date.append(result[0])
+            meal.append(result[1])
+            house.append(result[2])
+            eat.append(result[3])
+            relax.append(result[4])
+            dishes.append(result[5])
+            resp.append(result[6])
+
+        cursor.close()
+        cnx.close()
+        
+        result = ArAnomalies(json_data)
+        image = base64.b64encode(result[0].getvalue()).decode()
+
+        return Response({
+            "Image": image,
+            "Anomalies": result[1],
+            "Date": date, 
+            "Meal" : meal,
+            "Housekeeping" : house,
+            "Eating" : eat,
+            "Relax" : relax,
+            "Dishes" : dishes,
+            "Respirate" : resp
+        })
+
+    @api_view(('GET',))
+    def getDARa(request, *args, **kwargs):
+        cnx = mysql.connector.connect(user='root', password='password', host='127.0.0.1', database='dementia_track')        
+        query = ("SELECT * FROM rand_occ ")
+
+        cursor = cnx.cursor()
+        cursor.execute(query)
+        row_headers = [x[0] for x in cursor.description]  # this will extract row headers
+        
+        rv = cursor.fetchall()
+
+        json_data = []
+        date = []
+        meal = []
+        house = []
+        eat = []
+        relax = []
+        dishes = []
+        resp = []
+        
+        for result in rv:
+            json_data.append(dict(zip(row_headers, result)))
+            date.append(result[0])
+            meal.append(result[1])
+            house.append(result[2])
+            eat.append(result[3])
+            relax.append(result[4])
+            dishes.append(result[5])
+            resp.append(result[6])
+
+        cursor.close()
+        cnx.close()
+        
+        result = RaAnomalies(json_data)
+        image = base64.b64encode(result[0].getvalue()).decode()
+
+        return Response({
+            "Image": image,
+            "Anomalies": result[1],
+            "Date": date, 
+            "Meal" : meal,
+            "Housekeeping" : house,
+            "Eating" : eat,
+            "Relax" : relax,
+            "Dishes" : dishes,
+            "Respirate" : resp
+        })
+
     @api_view(('GET',))
     def getLocations(request, *args, **kwargs):
         cnx = mysql.connector.connect(user = 'root', password='password', host='127.0.0.1', database='dementia_track')

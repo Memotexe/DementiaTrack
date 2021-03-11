@@ -2,13 +2,27 @@ import pandas as pd
 import io
 from pyspcalt import *
 
-def DAAnomalies(data):
-    date = pd.DataFrame(data=data, columns=['date'])
-    df = pd.DataFrame(data=data, columns=['bed_to_toilet_begin', 'sleep_begin', 'leave_home_begin'])
+def MiAnomalies(data):
+    df = pd.DataFrame(data=data, columns=['Morning_Meds', 'Watch_TV', 'Chores', 'Read', 'Eve_Meds', 'Meditate'])
 
     s = spc(df)
 
-    a = s + cusum(std=2) + rules()
+    a = s + cusum(std=1.2) + rules()
+
+    buf = io.BytesIO()
+
+    a.save(buf)
+
+    anomalies = s.summary['violation-points']
+
+    return buf, anomalies
+
+def ArAnomalies(data):
+    df = pd.DataFrame(data=data, columns=['meal_preparation_begin', 'housekeeping_begin', 'eating_begin', 'relax_begin', 'wash_dishes_begin', 'respirate_begin'])
+
+    s = spc(df)
+
+    a = s + cusum(std=1.2) + rules()
 
     buf = io.BytesIO()
 
@@ -18,5 +32,17 @@ def DAAnomalies(data):
 
     return buf, anomalies
     
-    
-    
+def RaAnomalies(data):
+    df = pd.DataFrame(data=data, columns=['meal_preparation_begin', 'housekeeping_begin', 'eating_begin', 'relax_begin', 'wash_dishes_begin', 'respirate_begin'])
+
+    s = spc(df)
+
+    a = s + cusum(std=1.2) + rules()
+
+    buf = io.BytesIO()
+
+    a.save(buf)
+
+    anomalies = s.summary['violation-points']
+
+    return buf, anomalies

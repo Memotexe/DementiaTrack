@@ -1,3 +1,4 @@
+
 #page {
     margin-bottom: 50px;
     width: 100%;
@@ -8,35 +9,56 @@
     margin: 20px;
 }
 
-#symptomContainer {
-    display: flex;
+#DAsymptomContainer {
+    display: block;
     justify-content: center;
 }
 
-.symptom {
-    background-color: #A2B5CD;
+#carouselContainer {
+    height: 400px;
+}
+
+#table {
+    margin-top: 30px;
+    margin-bottom: 10px;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.DAsymptom {
+    background-color: #8eadbf;
     padding: 20px;
     border-radius: 10px;
-    width: 48%;
-    margin: 10px;
+    width: 70%;
+    margin: auto;
+    margin-bottom: 20px;
     box-shadow: 3px 3px 5px 6px #ccc;
 }
 
 .button {
-    background-color: lightcoral;
-    border: 1px solid #9954bb;
+    background-color: #ffffa1;
+    border: 1px solid white;
     border-radius: 2px;
-    color: white;
+    color: black;
     margin: 10px;
   }
 
-#overview {
-    background-color: lavender;
+#DAoverview {
+    /*
+    background: hsla(202, 28%, 65%, 1);
+    background: linear-gradient(90deg, hsla(202, 28%, 65%, 1) 63%, hsla(356, 68%, 91%, 1) 99%, hsla(350, 100%, 94%, 1) 100%);
+    background: -moz-linear-gradient(90deg, hsla(202, 28%, 65%, 1) 63%, hsla(356, 68%, 91%, 1) 99%, hsla(350, 100%, 94%, 1) 100%);
+    background: -webkit-linear-gradient(90deg, hsla(202, 28%, 65%, 1) 63%, hsla(356, 68%, 91%, 1) 99%, hsla(350, 100%, 94%, 1) 100%);
+    filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#8EADBF", endColorstr="#F8DADC", GradientType=1 );
+    */
+    
+    background-color: #8eadbf;
     padding: 20px;
     text-align: center;
     border-radius: 10px;
     width: 50%;
     margin: 50px auto;
+    
 }
 
 @media only screen and (max-width: 1000px) {
@@ -44,11 +66,15 @@
         flex-wrap: wrap;
     }
 
-    .symptom {
+    .DAsymptom {
         width: 100%;
     }
 
-    #overview {
+    #DAoverview {
         width: 75%
     }
   }
+
+.arrowButton {
+    color: #69995D;
+}
