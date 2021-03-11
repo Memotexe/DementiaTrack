@@ -9,7 +9,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowCircleLeft } from "@fortawesome/free-solid-svg-icons";
 import { faArrowCircleRight } from "@fortawesome/free-solid-svg-icons";
 import "../../../stylesheets/ImageCarousel.css";
-import { v4 as uuidv4 } from "uuid";
 
 class ImageCarousel extends React.Component {
   constructor(props) {

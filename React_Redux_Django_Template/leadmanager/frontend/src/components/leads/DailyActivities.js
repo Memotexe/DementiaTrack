@@ -129,7 +129,7 @@ class Analyzer extends React.Component {
             <div id="DAoverview">
                 <h3>Analyze</h3>
                 <hr style={{backgroundColor: "#9954bb", borderWidth: "2px"}} />
-                <button style={{backgroundColor: "lightcoral", borderColor: "#9954bb"}} onClick={this.props.clicked} className="button">
+                <button style={{backgroundColor: "lightcoral", borderColor: "#9954bb"}} onClick={this.props.clicked} className="buttonDA">
                     {"Run"}
                 </button>
 

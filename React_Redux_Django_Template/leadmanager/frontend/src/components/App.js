@@ -51,26 +51,26 @@ class App extends Component {
                 <PrivateRoute exact path="/" component={Dashboard} />
                 <Route exact path="/register" component={Register} />
                 <Route exact path="/login" component={Login} />
-                <PrivateRoute
+                <Route
                   exact
                   path="/wanderingpacing"
                   component={WanderingPacing}
                 />
-                <PrivateRoute
+                <Route
                   exact
                   path="/sleepdisorders"
                   component={SleepDisorders}
                 />
-                <PrivateRoute exact path="/uti" component={UTI} />
-                <PrivateRoute exact path="/test" component={Test} />
-                <PrivateRoute
+                <Route exact path="/uti" component={UTI} />
+                <Route exact path="/test" component={Test} />
+                <Route
                   exact
                   path="/dailyactivities"
                   component={DailyActivity}
                 />
-                <PrivateRoute exact path="/contactus" component={ContactUs} />
-                <PrivateRoute exact path="/references" component={References} />
-                <PrivateRoute
+                <Route exact path="/contactus" component={ContactUs} />
+                <Route exact path="/references" component={References} />
+                <Route
                   exact
                   path="/contributions"
                   component={Contributions}
