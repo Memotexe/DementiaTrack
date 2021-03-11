@@ -177,8 +177,6 @@ class DatabaseAPI(generics.GenericAPIView):
         result = TemperatureAnomalies(json_data)
         image = base64.b64encode(result[0].getvalue()).decode()
 
-        print(result[1])
-
         return Response({
             "Image": image,
             "Anomalies": result[1]
@@ -228,23 +226,24 @@ class DatabaseAPI(generics.GenericAPIView):
         print("\n\n\n\n\n\n")
         """
 
-
+    #WILL NEED TO HAVE ALL IMPORT NEW TABLES FOR THIS NEW API CALL
     @api_view(('GET',))
     def getLocations(request, *args, **kwargs):
         cnx = mysql.connector.connect(user = 'root', password='password', host='127.0.0.1', database='dementia_track')
 
         cursor = cnx.cursor()
 
-        start = request.GET.get('startdate','2000-11-01')
-        end = request.GET.get('enddate', '2000-11-01')
+        #Need To Set Date to Format of 01/1/20XX
 
-        dateStart = datetime.strptime(start, "%Y-%m-%d").strftime("%#m/%#d/%#Y")
-        dateEnd = datetime.strptime(end, "%Y-%m-%d").strftime("%#m/%#d/%#Y")
+        dataTypeToRun = request.GET.get('dataTypeToRun')
 
+        if(dataTypeToRun == 'Normal'):
+            query = ("SELECT Date, Location FROM aruba WHERE Location like 'M%'")
+        elif(dataTypeToRun == 'Abnormal'):
+            query = ("SELECT Date, Location FROM aruba_abn WHERE Location like 'M%'")
+        else:
+            query = ("SELECT Date, Location FROM aruba_rad WHERE Location like 'M%'")
 
-        query = ("SELECT Location FROM aruba")
-        
-        
         cursor.execute(query)
         row_headers = [x[0] for x in cursor.description]  # this will extract row headers
         rv = cursor.fetchall()
@@ -256,12 +255,25 @@ class DatabaseAPI(generics.GenericAPIView):
         cursor.close()
         cnx.close()
         result = MovementAlgorithm.MovementAlgo(json_data)
-        image = base64.b64encode(result[4].getvalue()).decode()
+
+
+       
+        image1 = base64.b64encode(result[4].getvalue()).decode()
+        image2 = base64.b64encode(result[5].getvalue()).decode()
+        image3 = base64.b64encode(result[6].getvalue()).decode()
+        image4 = base64.b64encode(result[7].getvalue()).decode()
+        image5 = base64.b64encode(result[8].getvalue()).decode()
+        
 
         return Response({
                 "Pacing" : result[0],
                 "Lapping": result[1],
                 "Direct" : result[2],
                 "Random" : result[3],
-                "Image" : image
+                "Image1" : image1,
+                "Image2" : image2,
+                "Image3" : image3,
+                "Image4" : image4,
+                "Image5" : image5,
+
         })
