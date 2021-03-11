@@ -3,11 +3,14 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .UTI_algorithms import BathroomTripAnomalies
 from .UTI_algorithms import TemperatureAnomalies
+from .Sleep.run_sleep import run_sleep
+from .Sleep.sleep import SleepPy
 from .DA_algorithm import DAAnomalies
 from .MovementAlgorithm import MovementAlgorithm
 import base64
 import mysql.connector
 from datetime import datetime
+from .Sleep.utils import import_dummy_data
 import json
 from dateutil import parser
 from PIL import Image
@@ -47,7 +50,6 @@ class DatabaseAPI(generics.GenericAPIView):
 
         cursor.close()
         cnx.close()
-
         # original stuff in this
         # value = request.GET.get('q', 'default value if not found')
 
@@ -173,7 +175,7 @@ class DatabaseAPI(generics.GenericAPIView):
 
         cursor.close()
         cnx.close()
-
+        
         result = TemperatureAnomalies(json_data)
         image = base64.b64encode(result[0].getvalue()).decode()
 
@@ -183,14 +185,92 @@ class DatabaseAPI(generics.GenericAPIView):
         })
 
     @api_view(('GET',))
+    def getSleep(request, *args, **kwargs):
+        cnx = mysql.connector.connect(user='root', password='password',
+                                      host='127.0.0.1',
+                                      database='dementia_track')
+        cursor = cnx.cursor()
+
+        # NEED TO ADD BACK DATE FILTER ##
+
+        query = ("SELECT * FROM normal_sleep_month")
+
+        cursor.execute(query)
+        row_headers = [x[0] for x in cursor.description]  # this will extract row headers
+        rv = cursor.fetchall()
+        json_data = []
+        for result in rv:
+            json_data.append(dict(zip(row_headers, result)))
+
+        normal_result, normal_buf = run_sleep(json_data, "Normal")
+        normal_img = base64.b64encode(normal_buf.getvalue()).decode()
+
+        query = ("SELECT * FROM bad_sleep_month")
+
+        cursor.execute(query)
+        row_headers = [x[0] for x in cursor.description]  # this will extract row headers
+        rv = cursor.fetchall()
+        json_data = []
+        for result in rv:
+            json_data.append(dict(zip(row_headers, result)))
+
+        bad_result, bad_buf = run_sleep(json_data, "Bad")
+        bad_img = base64.b64encode(bad_buf.getvalue()).decode()
+
+        query = ("SELECT * FROM random_sleep_month")
+
+        cursor.execute(query)
+        row_headers = [x[0] for x in cursor.description]  # this will extract row headers
+        rv = cursor.fetchall()
+        json_data = []
+        for result in rv:
+            json_data.append(dict(zip(row_headers, result)))
+
+        random_result, random_buf = run_sleep(json_data, "Random")
+        random_img = base64.b64encode(random_buf.getvalue()).decode()
+
+        cursor.close()
+        cnx.close()
+
+        # data, start, end = import_dummy_data(json_data)
+        #
+        # sleep = SleepPy(
+        #     "dummy/test_report.csv", "/Sleep", sampling_frequency=20.0
+        # )
+        # sleep.raw_days = [data, data]
+        # sleep.raw_days_to_plot = [
+        #     data.resample("60s").median(),
+        #     data.resample("60s").median(),
+        # ]
+        #
+        # # PREDICTIONS
+        # sleep.calculate_major_rest_periods()
+        # sleep.calculate_sleep_predictions()
+        # sleep.calculate_endpoints()
+        #
+        # # RUN VISUALIZATION
+        #
+        # result, buf = sleep.visualize()
+        # img = base64.b64encode(buf.getvalue()).decode()
+
+        return Response({
+            "Normal_Image": normal_img,
+            "Bad_Image": bad_img,
+            "Random_Image": random_img,
+            "Normal_Anomalies": normal_result,
+            "Bad_Anomalies": bad_result,
+            "Random_Anomalies": random_result
+        })
+
+    @api_view(('GET',))
     def getDA(request, *args, **kwargs):
-        cnx = mysql.connector.connect(user='root', password='password', host='127.0.0.1', database='dementia_track')        
+        cnx = mysql.connector.connect(user='root', password='password', host='127.0.0.1', database='dementia_track')
         query = ("SELECT * FROM milan_occ ")
 
         cursor = cnx.cursor()
         cursor.execute(query)
         row_headers = [x[0] for x in cursor.description]  # this will extract row headers
-        
+
         rv = cursor.fetchall()
 
         json_data = []
@@ -207,16 +287,16 @@ class DatabaseAPI(generics.GenericAPIView):
 
         cursor.close()
         cnx.close()
-        
+
         result = DAAnomalies(json_data)
         image = base64.b64encode(result[0].getvalue()).decode()
 
         return Response({
             "Image": image,
             "Anomalies": result[1],
-            "Date": date, 
-            "Bed" : bed, 
-            "Sleep" : sleep, 
+            "Date": date,
+            "Bed" : bed,
+            "Sleep" : sleep,
             "Leave" : leave
         })
 
@@ -257,13 +337,13 @@ class DatabaseAPI(generics.GenericAPIView):
         result = MovementAlgorithm.MovementAlgo(json_data)
 
 
-       
+
         image1 = base64.b64encode(result[4].getvalue()).decode()
         image2 = base64.b64encode(result[5].getvalue()).decode()
         image3 = base64.b64encode(result[6].getvalue()).decode()
         image4 = base64.b64encode(result[7].getvalue()).decode()
         image5 = base64.b64encode(result[8].getvalue()).decode()
-        
+
 
         return Response({
                 "Pacing" : result[0],

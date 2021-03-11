@@ -30,7 +30,7 @@ class Repository {
     dayAnomalies.forEach(anomaly => {
       anomalies.push({"Date": anomaly[0], "Time": "Day", "Count": anomaly[1]});
     })
-      
+
     nightAnomalies.forEach(anomaly => {
       anomalies.push({"Date": anomaly[0], "Time": "Night", "Count": anomaly[1]});
     })
@@ -40,6 +40,32 @@ class Repository {
     return { 
       Anomalies: anomalies,
       Images: images
+    };
+  }
+
+  async GetSleepAnomalies() {
+    let api = new Api();
+
+    let response = await api.get("database/sleep");
+
+    if (response[0] != 200) {
+      console.log("Connection Failed");
+    }
+
+    let normal_anomalies = response[1].Normal_Anomalies
+    let bad_anomalies = response[1].Bad_Anomalies
+    let random_anomalies = response[1].Random_Anomalies
+    let normal_image = response[1].Normal_Image
+    let bad_image = response[1].Bad_Image
+    let random_image = response[1].Random_Image
+
+    return {
+      Normal_Anomalies: normal_anomalies,
+      Bad_Anomalies: bad_anomalies,
+      Random_Anomalies: random_anomalies,
+      Normal_Image: normal_image,
+      Bad_Image: bad_image,
+      Random_Image: random_image
     };
   }
 
@@ -55,10 +81,10 @@ class Repository {
 
       let images = [response[1].Image1, response[1].Image2, response[1].Image3, response[1].Image4, response[1].Image5]
 
-    
 
-      return { Pacing: response[1].Pacing, 
-          Lapping: response[1].Lapping, 
+
+      return { Pacing: response[1].Pacing,
+          Lapping: response[1].Lapping,
           Direct: response[1].Direct,
           Random: response[1].Random,
           Images: images
@@ -97,10 +123,10 @@ class Repository {
     dAnomalies.forEach(anomaly => {
       anomalies.push({"Date" : dates[anomaly], "Bed to Toilet" : bed[anomaly], "Sleep" : sleep[anomaly], "Leave Home" : Leave[anomaly]})
     })
-      
+
     let images = [response[1].Image]
 
-    return { 
+    return {
       Anomalies: anomalies,
       Images: images
     };

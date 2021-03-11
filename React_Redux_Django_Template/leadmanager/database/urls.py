@@ -7,5 +7,6 @@ urlpatterns = [
     path('api/database/temp', DatabaseAPI.getTemp),
     path('api/database/daily', DatabaseAPI.getDA),
     path('api/database/move', DatabaseAPI.getLocations),
+    path('api/database/sleep', DatabaseAPI.getSleep),
 ]
 
