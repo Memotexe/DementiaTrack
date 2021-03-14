@@ -37,11 +37,11 @@
 }
 
 #carouselContainer {
-  height: 300px;
   background-color: white;
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 .arrowButton {
@@ -51,7 +51,12 @@
   border: none;
 }
 
-.graphImage {
+.graphImageLong {
   object-fit: contain;
   width: 98%;
+}
+
+.graphImageSquare {
+  object-fit: contain;
+  width: 40%;
 }

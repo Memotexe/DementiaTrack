@@ -34,7 +34,6 @@ class ImageCarousel extends React.Component {
 
   render() {
     return (
-      <div>
         <div id="carouselContainer">
           <Carousel
             plugins={[
@@ -62,7 +61,6 @@ class ImageCarousel extends React.Component {
             slides={this.props.images}
             onChange={this.onChange}
           />
-        </div>
         <div id="centerDots">
           <Dots
             value={this.state.value}
