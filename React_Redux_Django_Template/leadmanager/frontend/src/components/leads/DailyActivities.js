@@ -83,7 +83,9 @@ export class DailyActivities extends Component{
         return(
             <div id="page">
                 <h1 id="title">Daily Activities</h1>
-                
+                <h2>Message: {this.state.ArAnomalies.length}</h2>
+                <h2>Message: {this.state.MiAnomalies.length}</h2>
+                <h2>Message: {this.state.RaAnomalies.length}</h2>
                 <Overview 
                     DAAnomalyCount={(this.state.MiAnomalies.length + this.state.ArAnomalies.length + this.state.RaAnomalies.length) - 3}
                     time={this.state.lastruntime}
@@ -92,27 +94,58 @@ export class DailyActivities extends Component{
                 />
                 <Analyzer clicked={this.clicked} />
                 <div id="DAsymptomContainer">
-                    <ArActivities
-                        images={this.state.ArImages}
-                        data={this.state.ArAnomalies}
-                        headings={["Date", "Meal Preparation", "Housekeeping", "Eating", "Relax", "Wash Dishes", "Respiration"]}
-                        key={uuidv4()}
-                    />
-                    
-                    <MiActivities
-                        images={this.state.MiImages}
-                        data={this.state.MiAnomalies}
-                        headings={["Date", "Morning Meds", "Watch TV", "Chores", "Read", "Evening Meds", "Meditate"]}
-                        key={uuidv4()}
-                    />
-                    
+                    { this.state.ArAnomalies.length <= 1 &&
+                        <ArActivities
+                            images={this.state.ArImages}
+                            data={this.state.ArAnomalies}
+                            headings={[]}
+                            key={uuidv4()}
+                        />
+                    }
+                    { this.state.ArAnomalies.length > 1 &&
+                        <ArActivities
+                            images={this.state.ArImages}
+                            data={this.state.ArAnomalies}
+                            headings={["Date", "Meal Preparation", "Housekeeping", "Eating", "Relax", "Wash Dishes", "Respiration"]}
+                            key={uuidv4()}
+                        />
+                    }
 
-                    <RaActivities
-                        images={this.state.RaImages}
-                        data={this.state.RaAnomalies}
-                        headings={["Date", "Meal Preparation", "Housekeeping", "Eating", "Relax", "Wash Dishes", "Respiration"]}
-                        key={uuidv4()}
-                    />
+                    { this.state.MiAnomalies.length <= 1 &&
+                        <MiActivities
+                            images={this.state.MiImages}
+                            data={this.state.MiAnomalies}
+                            headings={[]}
+                            key={uuidv4()}
+                        />
+                    }
+
+                    { this.state.MiAnomalies.length > 1 &&
+                        <MiActivities
+                            images={this.state.MiImages}
+                            data={this.state.MiAnomalies}
+                            headings={["Date", "Morning Meds", "Watch TV", "Chores", "Read", "Evening Meds", "Meditate"]}
+                            key={uuidv4()}
+                        />
+                    }
+                    
+                    { this.state.RaAnomalies.length <= 1 &&
+                        <RaActivities
+                            images={this.state.RaImages}
+                            data={this.state.RaAnomalies}
+                            headings={[]}
+                            key={uuidv4()}
+                        />
+                    } 
+                    
+                    { this.state.RaAnomalies.length > 1 &&
+                        <RaActivities
+                            images={this.state.RaImages}
+                            data={this.state.RaAnomalies}
+                            headings={["Date", "Meal Preparation", "Housekeeping", "Eating", "Relax", "Wash Dishes", "Respiration"]}
+                            key={uuidv4()}
+                        />
+                    } 
                 </div>
             </div>
         );
