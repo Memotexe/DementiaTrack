@@ -83,9 +83,6 @@ export class DailyActivities extends Component{
         return(
             <div id="page">
                 <h1 id="title">Daily Activities</h1>
-                <h2>Message: {this.state.ArAnomalies.length}</h2>
-                <h2>Message: {this.state.MiAnomalies.length}</h2>
-                <h2>Message: {this.state.RaAnomalies.length}</h2>
                 <Overview 
                     DAAnomalyCount={(this.state.MiAnomalies.length + this.state.ArAnomalies.length + this.state.RaAnomalies.length) - 3}
                     time={this.state.lastruntime}
