@@ -78,7 +78,7 @@ class Analyzer extends React.Component {
         <select id="dropdown">
             <option value="Normal">Normal</option>
             <option value="Abnormal">Abnormal</option>
-            <option value="Radical">Radical</option>
+            <option value="Radical">Random</option>
         </select>
         <br />
         <button onClick={this.props.clicked} className="button">
