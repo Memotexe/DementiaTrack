@@ -125,7 +125,7 @@ def TemperatureAnomalies(data):
     plt.legend(['Temperature', 'Anomalies'], loc="best")
     plt.ylabel('Temperature')
     plt.xlabel('Date')
-    plt.title("All Data")
+    plt.title("Body Temperature")
     plt.yticks([96, 97, 98, 99, 100, 101, 102, 103])
     plt.gca().xaxis.grid(False)
     plt.savefig(buf, format="png")
