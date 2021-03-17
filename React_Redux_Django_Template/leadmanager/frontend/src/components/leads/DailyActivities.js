@@ -85,6 +85,9 @@ export class DailyActivities extends Component{
                 <h1 id="title">Daily Activities</h1>
                 <Overview 
                     DAAnomalyCount={(this.state.MiAnomalies.length + this.state.ArAnomalies.length + this.state.RaAnomalies.length) - 3}
+                    ArAnomalyCount={(this.state.ArAnomalies.length)}
+                    MiAnomalyCount={(this.state.MiAnomalies.length) - 1}
+                    RaAnomalyCount={(this.state.RaAnomalies.length) - 1}
                     time={this.state.lastruntime}
                     key={uuidv4()}
                     std={this.state.std}  
@@ -271,7 +274,10 @@ class Overview extends React.Component {
             <h3>Symptom Summary</h3>
             <hr style={{ backgroundColor: "#6699CC", borderWidth: "2px" }} />
             <p>Data last updated: {this.props.time}</p>
-            <p>Daily Activity Anomalies: {this.props.DAAnomalyCount}</p>
+            <p>Total Daily Activity Anomalies: {this.props.DAAnomalyCount}</p>
+            <p>Normal Activity Anomalies: {this.props.ArAnomalyCount}</p>
+            <p>Abnormal Activity Anomalies: {this.props.MiAnomalyCount}</p>
+            <p>Random Activity Anomalies: {this.props.RaAnomalyCount}</p>
           </div>
         );
     }
