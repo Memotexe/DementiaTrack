@@ -3,6 +3,7 @@ import Repository from "../../../backend-connection/repository";
 import "../../../stylesheets/Overview.css";
 import DetermineUTI from "../../../backend-connection/DetermineUTI";
 import daysjs from "dayjs";
+import DetermineDA from "../../../backend-connection/determineDA";
 
 export class Overview extends Component {
   constructor(props) {
@@ -13,13 +14,16 @@ export class Overview extends Component {
         analysis: "Please analyze to see results.",
         utiDetermination: null,
         utiFlag: "",
+        DAFlag: "",
     }
   }
 
   clicked = async () => {
     let utiFlag = await this.updateUTI();
+    let DAFlag = await this.updateDA();
 
     this.sendNotification(utiFlag);
+    this.sendNotification(DAFlag);
   };
 
   sendNotification = (utiFlag) => {
@@ -45,6 +49,31 @@ export class Overview extends Component {
         analysis: resultText
     })
   }
+
+  sendNotification = (DAFlag) => {
+    /* decision logic will need to be put in here */
+
+    let resultText = "";
+
+    if (DAFlag == "red") {
+        console.log("SEND EMAIL")
+        resultText = "Severe irregularities were found.";
+    }
+    else if (DAFlag == "yellow") {
+        console.log("RANDOM BAD")
+        resultText = "Some irregularities were found.";
+    }
+    else {
+        console.log("NOTHING TO REPORT")
+        resultText = "No irregularities were found."
+    }
+
+    this.setState({
+        analysisTime: daysjs().format("YYYY-MM-DD hh:mm:ss A"),
+        analysis: resultText
+    })
+  }
+
 
   updateUTI = async () => {
     let flag;
@@ -76,6 +105,86 @@ export class Overview extends Component {
     return flag;
   }
 
+  updateDA = async () => {
+    let flag;
+
+    let repo = new Repository();
+
+    let dataTypeToRun = document.getElementById("dropdown").value;
+
+    //console.log(document.getElementById("dropdown").value);
+
+  
+    if (document.getElementById("dropdown").value == "Normal") {
+      let response = await repo.GetDAAr();
+      let det = new DetermineDA();
+      let result = det.getDetermination(response.Anomalies, 99);
+
+      //console.log(result);
+
+      if (result.Determination == "No determination can be made.") {
+         flag = "yellow";
+      }
+      else if (result.Determination == "We detected several days of irregular behavior.") {
+          flag = "red";
+      }
+      else {
+          flag = "green";
+      }
+
+      this.setState({
+          DADetermination: result.Determination,
+          DAFlag: flag
+      })
+    } 
+    else if (document.getElementById("dropdown").value == "Abnormal") {
+      let response = await repo.GetDAMi();
+      let det = new DetermineDA();
+      let result = det.getDetermination(response.Anomalies, 83);
+
+      //console.log(result);
+
+      if (result.Determination == "No determination can be made.") {
+          flag = "yellow";
+      }
+      else if (result.Determination == "We detected several days of irregular behavior.") {
+          flag = "red";
+      }
+      else {
+          flag = "green";
+      }
+
+      this.setState({
+          DADetermination: result.Determination,
+          DAFlag: flag
+      })
+    } 
+    else if (document.getElementById("dropdown").value == "Random") {
+      let response = await repo.GetDARa();
+      let det = new DetermineDA();
+      let result = det.getDetermination(response.Anomalies, 99);
+
+      //console.log(result);
+
+      if (result.Determination == "No determination can be made.") {
+          flag = "yellow";
+      }
+      else if (result.Determination == "We detected several days of irregular behavior.") {
+          flag = "red";
+      }
+      else {
+          flag = "green";
+      }
+
+      this.setState({
+          DADetermination: result.Determination,
+          DAFlag: flag
+      })
+    } 
+
+    return flag;
+  }
+
   render() {
       return (
           <div>
@@ -83,6 +192,7 @@ export class Overview extends Component {
               <Summary analysis={this.state.analysis} time={this.state.analysisTime} />
               <Analyzer clicked={this.clicked} />
               <UTI determination={this.state.utiDetermination} flag={this.state.utiFlag} />
+              <DA determination={this.state.DADetermination} flag={this.state.DAFlag} />
           </div>
       )
   }
@@ -168,6 +278,48 @@ class UTI extends React.Component {
             </div>
         );
     }
+}
+
+class DA extends React.Component {
+  constructor(props) {
+      super(props);
+  }
+
+  render() {
+      return (
+          <div id="overview">
+              <div className="overviewSymptom">
+                  {this.props.flag == "" && 
+                      <span className="dot" style={{ backgroundColor : "white" }} />
+                  }
+
+                  {this.props.flag == "red" && 
+                      <span className="dot" style={{ backgroundColor : "rgb(249, 21, 47)" }} />
+                  }
+
+                  {this.props.flag == "yellow" && 
+                      <span className="dot" style={{ backgroundColor : "rgb(250, 219, 1)" }} />
+                  }
+
+                  {this.props.flag == "green" && 
+                      <span className="dot" style={{ backgroundColor : "rgb(39, 232, 51)" }} />
+                  }
+
+                  <div className="overviewSymptomTextContainer">
+                      <h3>Daily Activity</h3>
+
+                      {this.props.determination == null && 
+                          <p>Please analyze to see results.</p>
+                      }
+
+                      {this.props.determination && 
+                          <p>{this.props.determination}</p>
+                      }
+                  </div>
+              </div>
+          </div>
+      );
+  }
 }
 
 export default Overview;
