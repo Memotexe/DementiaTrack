@@ -16,7 +16,9 @@ export class Overview extends Component {
         utiFlag: "",
         DAFlag: "",
         sleepDetermination: "Please analyze to see results.",
-        sleepFlag: ""
+        sleepFlag: "",
+        moveDetermination: null,
+        moveFlag: "",
     }
   }
 
@@ -24,6 +26,7 @@ export class Overview extends Component {
     let sleepFlag = await this.updateSleep();
     let utiFlag = await this.updateUTI();
     let DAFlag = await this.updateDA();
+    let moveFlag = await this.updateMovement();
 
     this.sendNotification(utiFlag);
   };
@@ -191,6 +194,51 @@ export class Overview extends Component {
     return flag;
   }
 
+  updateMovement = async () => {
+    let flag;
+    let moveDetermination;
+    let repo = new Repository();
+    let dataTypeToRun = document.getElementById("dropdown").value;
+    let responseMove = await repo.GetLocationOccurences(dataTypeToRun);
+
+    let pacing = parseFloat(responseMove.Pacing);
+    let lapping = parseFloat(responseMove.Lapping);
+    let direct = parseFloat(responseMove.Direct);
+    let Random = parseFloat(responseMove.Random);
+
+    let pacingAndlapping = pacing + lapping;
+    console.log(pacing);
+    console.log(lapping);
+    console.log(direct);
+    console.log(Random);
+    console.log(pacingAndlapping);
+
+
+    if(pacingAndlapping >= 50){
+        flag = "red";
+        moveDetermination = "Severe movement irregularities were present.";
+    }else if (Random >= 60){
+        flag = "yellow";
+        moveDetermination = "Irregular movements found but not severe.";
+    }else{
+        flag = "green";
+        moveDetermination = "No abnormal movement to be found.";
+    
+    }
+
+    this.setState({
+        moveFlag: flag,
+        moveDetermination : moveDetermination
+        
+    })
+
+    return flag;
+  }
+
+
+
+
+
   render() {
       return (
           <div>
@@ -200,6 +248,7 @@ export class Overview extends Component {
               <UTI determination={this.state.utiDetermination} flag={this.state.utiFlag} />
               <DA determination={this.state.DADetermination} flag={this.state.DAFlag} />
               <Sleep determination={this.state.sleepDetermination} flag={this.state.sleepFlag} />
+              <MOVE determination={this.state.moveDetermination} flag ={this.state.moveFlag} />
           </div>
       )
   }
@@ -370,5 +419,49 @@ class DA extends React.Component {
       );
   }
 }
+
+class MOVE extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        return (
+            <div id="overview">
+                <div className="overviewSymptom">
+                    {this.props.flag == "" && 
+                        <span className="dot" style={{ backgroundColor : "white" }} />
+                    }
+
+                    {this.props.flag == "red" && 
+                        <span className="dot" style={{ backgroundColor : "rgb(249, 21, 47)" }} />
+                    }
+
+                    {this.props.flag == "yellow" && 
+                        <span className="dot" style={{ backgroundColor : "rgb(250, 219, 1)" }} />
+                    }
+
+                    {this.props.flag == "green" && 
+                        <span className="dot" style={{ backgroundColor : "rgb(39, 232, 51)" }} />
+                    }
+
+                    <div className="overviewSymptomTextContainer">
+                        <h3>Movement</h3>
+
+                        {this.props.determination == null && 
+                            <p>Please analyze to see results.</p>
+                        }
+
+                        {this.props.determination && 
+                            <p>{this.props.determination}</p>
+                        }
+                    </div>
+                </div>
+            </div>
+        );
+    }
+}
+
+
 
 export default Overview;
