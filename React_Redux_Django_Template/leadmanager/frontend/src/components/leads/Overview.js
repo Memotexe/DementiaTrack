@@ -26,7 +26,6 @@ export class Overview extends Component {
     let DAFlag = await this.updateDA();
 
     this.sendNotification(utiFlag);
-    this.sendNotification(DAFlag);
   };
 
   sendNotification = (utiFlag) => {
@@ -39,30 +38,6 @@ export class Overview extends Component {
         resultText = "Severe irregularities were found.";
     }
     else if (utiFlag == "yellow") {
-        console.log("RANDOM BAD")
-        resultText = "Some irregularities were found.";
-    }
-    else {
-        console.log("NOTHING TO REPORT")
-        resultText = "No irregularities were found."
-    }
-
-    this.setState({
-        analysisTime: daysjs().format("YYYY-MM-DD hh:mm:ss A"),
-        analysis: resultText
-    })
-  }
-
-  sendNotification = (DAFlag) => {
-    /* decision logic will need to be put in here */
-
-    let resultText = "";
-
-    if (DAFlag == "red") {
-        console.log("SEND EMAIL")
-        resultText = "Severe irregularities were found.";
-    }
-    else if (DAFlag == "yellow") {
         console.log("RANDOM BAD")
         resultText = "Some irregularities were found.";
     }
@@ -188,6 +163,12 @@ export class Overview extends Component {
 
 
   updateSleep = async () => {
+    let flag;
+
+    let repo = new Repository();
+
+    let dataTypeToRun = document.getElementById("dropdown").value;
+
     let response = await repo.GetSleepSelect(dataTypeToRun);
 
     flag = response.Color;
