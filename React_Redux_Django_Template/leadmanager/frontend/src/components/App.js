@@ -11,6 +11,7 @@ import Header from "./layout/Header";
 import Dashboard from "./leads/Dashboard";
 import Login from "./accounts/Login";
 import Register from "./accounts/Register";
+import Overview from "./leads/Overview";
 import WanderingPacing from "./leads/WanderingPacing";
 import SleepDisorders from "./leads/SleepDisorders";
 import UTI from "./leads/UTI";
@@ -51,6 +52,11 @@ class App extends Component {
                 <PrivateRoute exact path="/" component={Dashboard} />
                 <Route exact path="/register" component={Register} />
                 <Route exact path="/login" component={Login} />
+                <Route
+                  exact
+                  path="/overview"
+                  component={Overview}
+                />
                 <Route
                   exact
                   path="/wanderingpacing"

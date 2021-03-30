@@ -25,6 +25,9 @@ export class DBContents extends Component {
         </h5>
         <ul>
           <li>
+            <a href="#/overview">Overview</a>
+          </li>
+          <li>
             <a href="#/wanderingpacing">Wandering/Pacing</a>
           </li>
           <li>
