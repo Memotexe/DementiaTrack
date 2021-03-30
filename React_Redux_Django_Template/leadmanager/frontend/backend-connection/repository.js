@@ -224,6 +224,23 @@ class Repository {
       Images: images
     };
   }
+  async GetSleepSelect(dataTypeToRun) {
+    let api = new Api();
+
+    let response = await api.get("database/sleepSelect?dataTypeToRun=" + dataTypeToRun);
+
+    if (response[0] != 200) {
+      console.log("Connection Failed");
+    }
+
+    let anomalies = response[1].Anomalies
+    let color = response[1].Color
+
+    return {
+      Anomalies: anomalies,
+      Color: color
+    };
+  }
 }
 
 export default Repository;

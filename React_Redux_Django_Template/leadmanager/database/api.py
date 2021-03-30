@@ -214,7 +214,7 @@ class DatabaseAPI(generics.GenericAPIView):
         for result in rv:
             json_data.append(dict(zip(row_headers, result)))
 
-        bad_result, bad_buf = run_sleep(json_data, "Bad")
+        bad_result, bad_buf = run_sleep(json_data, "Abnormal")
         bad_img = base64.b64encode(bad_buf.getvalue()).decode()
 
         query = ("SELECT * FROM random_sleep_month")
@@ -461,4 +461,47 @@ class DatabaseAPI(generics.GenericAPIView):
                 "Image4" : image4,
                 "Image5" : image5,
 
+        })
+
+    @api_view(('GET',))
+    def getSleepSelect(request, *args, **kwargs):
+        cnx = mysql.connector.connect(user='root', password='password',
+                                      host='127.0.0.1',
+                                      database='dementia_track')
+        cursor = cnx.cursor()
+
+        # NEED TO ADD BACK DATE FILTER ##
+        dataTypeToRun = request.GET.get('dataTypeToRun')
+        tableTitle = ""
+        color = ""
+
+        if (dataTypeToRun == 'Normal'):
+            query = ("SELECT * FROM normal_sleep_month")
+            tableTitle = "Normal"
+            color = "green"
+        elif (dataTypeToRun == 'Abnormal'):
+            query = ("SELECT * FROM bad_sleep_month")
+            tableTitle = "Abnormal"
+            color = "red"
+        else:
+            query = ("SELECT * FROM random_sleep_month")
+            tableTitle = "Random"
+            color = "yellow"
+
+        cursor.execute(query)
+        row_headers = [x[0] for x in cursor.description]  # this will extract row headers
+        rv = cursor.fetchall()
+        json_data = []
+        for result in rv:
+            json_data.append(dict(zip(row_headers, result)))
+
+        result, buf = run_sleep(json_data, tableTitle)
+        img = base64.b64encode(buf.getvalue()).decode()
+
+        cursor.close()
+        cnx.close()
+
+        return Response({
+            "Color": color,
+            "Anomalies": result
         })

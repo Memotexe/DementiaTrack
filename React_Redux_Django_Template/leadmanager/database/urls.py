@@ -9,5 +9,6 @@ urlpatterns = [
     path('api/database/dailyRa', DatabaseAPI.getDARa),
     path('api/database/move', DatabaseAPI.getLocations),
     path('api/database/sleep', DatabaseAPI.getSleep),
+    path('api/database/sleepSelect', DatabaseAPI.getSleepSelect)
 ]
 

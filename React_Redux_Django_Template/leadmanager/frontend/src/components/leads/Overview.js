@@ -13,10 +13,13 @@ export class Overview extends Component {
         analysis: "Please analyze to see results.",
         utiDetermination: null,
         utiFlag: "",
+        sleepDetermination: "Please analyze to see results.",
+        sleepFlag: ""
     }
   }
 
   clicked = async () => {
+    let sleepFlag = await this.updateSleep();
     let utiFlag = await this.updateUTI();
 
     this.sendNotification(utiFlag);
@@ -76,6 +79,35 @@ export class Overview extends Component {
     return flag;
   }
 
+  updateSleep = async () => {
+    let flag;
+
+    let repo = new Repository();
+
+    let dataTypeToRun = document.getElementById("dropdown").value;
+
+    let response = await repo.GetSleepSelect(dataTypeToRun);
+
+    flag = response.Color;
+    let det = "";
+    if(response.Color == "green"){
+        det = "Sleep Results are acceptable.";
+    } else if (response.Color == "red"){
+        det = "Sleep Results are not acceptable please check sleep page for more details.";
+    } else if (response.Color == "yellow"){
+        det = "Sleep Results are inconclusive.";
+    } else{
+        det = "error";
+    }
+
+    this.setState({
+        sleepDetermination: det,
+        sleepFlag: response.Color
+    })
+
+    return flag;
+  }
+
   render() {
       return (
           <div>
@@ -83,6 +115,8 @@ export class Overview extends Component {
               <Summary analysis={this.state.analysis} time={this.state.analysisTime} />
               <Analyzer clicked={this.clicked} />
               <UTI determination={this.state.utiDetermination} flag={this.state.utiFlag} />
+              <Sleep determination={this.state.sleepDetermination} flag={this.state.sleepFlag} />
+
           </div>
       )
   }
@@ -95,7 +129,7 @@ class Summary extends React.Component {
           <h3>Summary</h3>
           <hr style={{ backgroundColor: "#6699CC", borderWidth: "2px" }} />
           <p>{this.props.analysis}</p>
-          {this.props.time != null && 
+          {this.props.time != null &&
             <p>Time of Analysis: {this.props.time}</p>
           }
           <p>{this.props.result}</p>
@@ -137,30 +171,72 @@ class UTI extends React.Component {
         return (
             <div id="overview">
                 <div className="overviewSymptom">
-                    {this.props.flag == "" && 
+                    {this.props.flag == "" &&
                         <span className="dot" style={{ backgroundColor : "white" }} />
                     }
 
-                    {this.props.flag == "red" && 
+                    {this.props.flag == "red" &&
                         <span className="dot" style={{ backgroundColor : "rgb(249, 21, 47)" }} />
                     }
 
-                    {this.props.flag == "yellow" && 
+                    {this.props.flag == "yellow" &&
                         <span className="dot" style={{ backgroundColor : "rgb(250, 219, 1)" }} />
                     }
 
-                    {this.props.flag == "green" && 
+                    {this.props.flag == "green" &&
                         <span className="dot" style={{ backgroundColor : "rgb(39, 232, 51)" }} />
                     }
 
                     <div className="overviewSymptomTextContainer">
                         <h3>UTI</h3>
 
-                        {this.props.determination == null && 
+                        {this.props.determination == null &&
                             <p>Please analyze to see results.</p>
                         }
 
-                        {this.props.determination && 
+                        {this.props.determination &&
+                            <p>{this.props.determination}</p>
+                        }
+                    </div>
+                </div>
+            </div>
+        );
+    }
+}
+
+class Sleep extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        return (
+            <div id="overview">
+                <div className="overviewSymptom">
+                    {this.props.flag == "" &&
+                        <span className="dot" style={{ backgroundColor : "white" }} />
+                    }
+
+                    {this.props.flag == "red" &&
+                        <span className="dot" style={{ backgroundColor : "rgb(249, 21, 47)" }} />
+                    }
+
+                    {this.props.flag == "yellow" &&
+                        <span className="dot" style={{ backgroundColor : "rgb(250, 219, 1)" }} />
+                    }
+
+                    {this.props.flag == "green" &&
+                        <span className="dot" style={{ backgroundColor : "rgb(39, 232, 51)" }} />
+                    }
+
+                    <div className="overviewSymptomTextContainer">
+                        <h3>Sleep</h3>
+
+                        {this.props.determination == null &&
+                            <p>Please analyze to see results.</p>
+                        }
+
+                        {this.props.determination &&
                             <p>{this.props.determination}</p>
                         }
                     </div>
