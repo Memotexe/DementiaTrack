@@ -6,8 +6,6 @@ class Repository {
 
     let response = await api.get("database/uti?dataTypeToRun=" + dataTypeToRun);
 
-    console.log(response)
-
     if (response[0] != 200) {
       console.log("Connection Failed");
     }
@@ -20,7 +18,6 @@ class Repository {
     let tempAnomalies = [];
 
     response[1].TempAnomalies.forEach(anomaly => {
-      console.log(anomaly)
       let date = anomaly["Time"].split(" ")[0]
       let time = anomaly["Time"].split(" ")[1]
 
