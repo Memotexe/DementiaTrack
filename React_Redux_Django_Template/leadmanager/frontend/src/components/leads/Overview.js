@@ -1,54 +1,88 @@
-import { faBoxTissue } from "@fortawesome/free-solid-svg-icons";
 import React, { Component } from "react";
 import Repository from "../../../backend-connection/repository";
 import "../../../stylesheets/Overview.css";
+import DetermineUTI from "../../../backend-connection/DetermineUTI";
+import daysjs from "dayjs";
 
 export class Overview extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
-        exampleSymptomDetermination: "",
-        exampleSymptomFlag: ""
+        analysisTime: null,
+        analysis: "Please analyze to see results.",
+        utiDetermination: null,
+        utiFlag: "",
     }
   }
 
   clicked = async () => {
-    let exampleResultRaisedFlag = await this.updateExampleSymptom();
+    let utiFlag = await this.updateUTI();
 
-    if (exampleResultRaisedFlag == true) {
-        // send notification
-    }
+    this.sendNotification(utiFlag);
   };
 
-  updateExampleSymptom = async () => {
-    let isFlag = false;
+  sendNotification = (utiFlag) => {
+    /* decision logic will need to be put in here */
+
+    let resultText = "";
+
+    if (utiFlag == "red") {
+        console.log("SEND EMAIL")
+        resultText = "Severe irregularities were found.";
+    }
+    else if (utiFlag == "yellow") {
+        console.log("RANDOM BAD")
+        resultText = "Some irregularities were found.";
+    }
+    else {
+        console.log("NOTHING TO REPORT")
+        resultText = "No irregularities were found."
+    }
+
+    this.setState({
+        analysisTime: daysjs().format("YYYY-MM-DD hh:mm:ss A"),
+        analysis: resultText
+    })
+  }
+
+  updateUTI = async () => {
+    let flag;
 
     let repo = new Repository();
 
     let dataTypeToRun = document.getElementById("dropdown").value;
 
-    let result = await repo.GetUTIAnomalies(dataTypeToRun);
+    let response = await repo.GetUTIAnomalies(dataTypeToRun);
 
-    if(result.wasBad == true) {
-        isFlag = true
+    let det = new DetermineUTI();
+    let result = det.getDetermination(response.BathroomAnomalies, response.TempAnomalies, 30);
+
+    if (result.Score > 0) {
+        flag = "red";
+    }
+    else if (result.Determination == "No determination can be made.") {
+        flag = "yellow";
+    }
+    else {
+        flag = "green";
     }
 
     this.setState({
-      exampleSymptomDetermination: result.Determination,
-      exampleSymptomFlag: result.wasBad
-    });
+        utiDetermination: result.Determination,
+        utiFlag: flag
+    })
 
-    return isFlag;
+    return flag;
   }
 
   render() {
       return (
           <div>
               <h1 id="title">Overview</h1>
-              <Summary />
-              <Analyzer />
-              <ExampleSymptom determination={this.state.exampleSymptomDetermination} flag={this.state.exampleSymptomFlag} />
+              <Summary analysis={this.state.analysis} time={this.state.analysisTime} />
+              <Analyzer clicked={this.clicked} />
+              <UTI determination={this.state.utiDetermination} flag={this.state.utiFlag} />
           </div>
       )
   }
@@ -60,8 +94,8 @@ class Summary extends React.Component {
         <div id="overview">
           <h3>Summary</h3>
           <hr style={{ backgroundColor: "#6699CC", borderWidth: "2px" }} />
-          <p>Some nice text of the result could go here.</p>
-          {this.props.time != "" && 
+          <p>{this.props.analysis}</p>
+          {this.props.time != null && 
             <p>Time of Analysis: {this.props.time}</p>
           }
           <p>{this.props.result}</p>
@@ -94,40 +128,40 @@ class Analyzer extends React.Component {
     }
   }
 
-class ExampleSymptom extends React.Component {
+class UTI extends React.Component {
     constructor(props) {
         super(props);
     }
 
-    /* Default dot is white
-     * Red is rgb(249, 21, 47)
-     * Green is rgb(39, 232, 51)
-     */
     render() {
         return (
             <div id="overview">
                 <div className="overviewSymptom">
-                    {!this.props.exampleSymptomFlag && 
+                    {this.props.flag == "" && 
                         <span className="dot" style={{ backgroundColor : "white" }} />
                     }
 
-                    {this.props.exampleSymptomFlag == true && 
+                    {this.props.flag == "red" && 
                         <span className="dot" style={{ backgroundColor : "rgb(249, 21, 47)" }} />
                     }
 
-                    {this.props.exampleSymptomFlag == false && 
+                    {this.props.flag == "yellow" && 
+                        <span className="dot" style={{ backgroundColor : "rgb(250, 219, 1)" }} />
+                    }
+
+                    {this.props.flag == "green" && 
                         <span className="dot" style={{ backgroundColor : "rgb(39, 232, 51)" }} />
                     }
 
                     <div className="overviewSymptomTextContainer">
-                        <h3>Example Symptom</h3>
+                        <h3>UTI</h3>
 
-                        {!this.props.exampleSymptomDetermination && 
-                            <p>Please analyze to see results</p>
+                        {this.props.determination == null && 
+                            <p>Please analyze to see results.</p>
                         }
 
-                        {this.props.exampleSymptomDetermination && 
-                            <p>{this.props.exampleSymptomDetermination}</p>
+                        {this.props.determination && 
+                            <p>{this.props.determination}</p>
                         }
                     </div>
                 </div>
