@@ -282,7 +282,18 @@ class DatabaseAPI(generics.GenericAPIView):
         eMeds = []
         meditate = []
 
+        # print("\n\n")
+        # print("\n\n")
+        
+        # print(startDate)
+        # print("\n\n")
+        # print("\n\n")
+        startDate = []
+        i = 0
         for result in rv:
+            if i == 0:
+                startDate = result[0]
+                i += 1
             json_data.append(dict(zip(row_headers, result)))
             date.append(result[0])
             mMeds.append(result[1])
@@ -291,6 +302,13 @@ class DatabaseAPI(generics.GenericAPIView):
             read.append(result[4])
             eMeds.append(result[5])
             meditate.append(result[6])
+
+        # print("\n\n")
+        # print("\n\n")
+        # startDate = result[0]
+        # print(startDate)
+        # print("\n\n")
+        # print("\n\n")
 
         """
         print("\n\n")
@@ -313,7 +331,8 @@ class DatabaseAPI(generics.GenericAPIView):
             "Chores": chores,
             "Read": read,
             "Eve_Meds": eMeds,
-            "Meditate": meditate
+            "Meditate": meditate,
+            "StartDate": startDate
         })
 
     @api_view(('GET',))
@@ -335,8 +354,13 @@ class DatabaseAPI(generics.GenericAPIView):
         relax = []
         dishes = []
         resp = []
-        
+
+        startDate = []
+        i = 0
         for result in rv:
+            if i == 0:
+                startDate = result[0]
+                i += 1
             json_data.append(dict(zip(row_headers, result)))
             date.append(result[0])
             meal.append(result[1])
@@ -345,6 +369,13 @@ class DatabaseAPI(generics.GenericAPIView):
             relax.append(result[4])
             dishes.append(result[5])
             resp.append(result[6])
+        
+        # print("\n\n")
+        # print("\n\n")
+        # startDate = result[0]
+        # print(startDate)
+        # print("\n\n")
+        # print("\n\n")
 
         cursor.close()
         cnx.close()
@@ -361,7 +392,8 @@ class DatabaseAPI(generics.GenericAPIView):
             "Eating" : eat,
             "Relax" : relax,
             "Dishes" : dishes,
-            "Respirate" : resp
+            "Respirate" : resp,
+            "StartDate": startDate
         })
 
     @api_view(('GET',))
@@ -384,7 +416,12 @@ class DatabaseAPI(generics.GenericAPIView):
         dishes = []
         resp = []
         
+        startDate = []
+        i = 0
         for result in rv:
+            if i == 0:
+                startDate = result[0]
+                i += 1
             json_data.append(dict(zip(row_headers, result)))
             date.append(result[0])
             meal.append(result[1])
@@ -393,6 +430,13 @@ class DatabaseAPI(generics.GenericAPIView):
             relax.append(result[4])
             dishes.append(result[5])
             resp.append(result[6])
+
+        # print("\n\n")
+        # print("\n\n")
+        # startDate = result[0]
+        # print(startDate)
+        # print("\n\n")
+        # print("\n\n")
 
         cursor.close()
         cnx.close()
@@ -409,7 +453,8 @@ class DatabaseAPI(generics.GenericAPIView):
             "Eating" : eat,
             "Relax" : relax,
             "Dishes" : dishes,
-            "Respirate" : resp
+            "Respirate" : resp,
+            "StartDate": startDate
         })
 
     @api_view(('GET',))
