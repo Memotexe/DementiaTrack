@@ -43,6 +43,7 @@ class Repository {
       TempAnomalyCount: tempAnomalyCount,
       TempAnomalies: tempAnomalies,
       Images: images,
+      StartDate: response[1].StartDate,
     };
   }
 
@@ -240,6 +241,14 @@ class Repository {
       Anomalies: anomalies,
       Color: color
     };
+  }
+
+  async sendEmail(message) {
+    let api = new Api();
+
+    let response = await api.post("email", { "Message": message });
+
+    console.log(response);
   }
 }
 
