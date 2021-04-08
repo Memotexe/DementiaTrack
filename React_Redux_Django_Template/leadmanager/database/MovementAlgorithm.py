@@ -39,6 +39,34 @@ class MovementAlgorithm:
         lappingOccur = 0
         directOccur =0
         randomOccur = 0
+
+        novOccurPacing=0
+        novOccurLapping=0
+        novOccurDirect=0
+        novOccurRandom=0
+
+        decOccurPacing=0
+        decOccurLapping=0
+        decOccurDirect=0
+        decOccurRandom=0
+
+        janOccurPacing=0
+        janOccurLapping=0
+        janOccurDirect=0
+        janOccurRandom=0
+
+        febOccurPacing=0
+        febOccurLapping=0
+        febOccurDirect=0
+        febOccurRandom=0
+
+        marOccurPacing=0
+        marOccurLapping=0
+        marOccurDirect=0
+        marOccurRandom=0
+        
+                
+
         i=0#iterator
         
 
@@ -152,22 +180,27 @@ class MovementAlgorithm:
                             continue
                     if(dateParsed[j].startswith('12/')):
                             decList.append('Lapping')
+
                             j=j+1
                             continue
                     if(dateParsed[j].startswith('1/')):
                             janList.append('Lapping')
+
                             j=j+1
                             continue
                     if(dateParsed[j].startswith('2/')):
                             febList.append('Lapping')
+
                             j=j+1
                             continue
                     if(dateParsed[j].startswith('3/')):
                             marList.append('Lapping')
+
                             j=j+1
                             continue
                     if(dateParsed[j].startswith('4/')):
                             aprList.append('Lapping')
+
                             j=j+1
                             continue
                     if(dateParsed[j].startswith('5/')):
@@ -220,18 +253,22 @@ class MovementAlgorithm:
                             continue
                     if(dateParsed[k].startswith('12/')):
                             decList.append('Pacing')
+
                             k=k+1
                             continue
                     if(dateParsed[k].startswith('1/')):
                             janList.append('Pacing')
+
                             k=k+1
                             continue
                     if(dateParsed[k].startswith('2/')):
                             febList.append('Pacing')
+
                             k=k+1
                             continue
                     if(dateParsed[k].startswith('3/')):
                             marList.append('Pacing')
+
                             k=k+1
                             continue
                     if(dateParsed[k].startswith('4/')):
@@ -315,18 +352,22 @@ class MovementAlgorithm:
                                         continue
                                     if(dateParsed[l].startswith('12/')):
                                         decList.append('Random')
+                                       
                                         l=l+1
                                         continue
                                     if(dateParsed[l].startswith('1/')):
                                         janList.append('Random')
+                                    
                                         l=l+1
                                         continue
                                     if(dateParsed[l].startswith('2/')):
                                         febList.append('Random')
+                                     
                                         l=l+1
                                         continue
                                     if(dateParsed[l].startswith('3/')):
                                         marList.append('Random')
+                                
                                         l=l+1
                                         continue
                                     if(dateParsed[l].startswith('4/')):
@@ -415,6 +456,117 @@ class MovementAlgorithm:
         directOccur = str(round(((directOccur / total) * 100), 2))
         randomOccur = str(round(((randomOccur / total) * 100),2))
 
+
+
+        for i in range(len(novList)):
+            if(novList[i] is 'Direct'):
+                novOccurDirect += 1
+            elif(novList[i] is 'Pacing'):
+                novOccurPacing +=1
+            elif(novList[i] is 'Lapping'):
+                novOccurLapping +=1
+            elif(novList[i] is 'Random'):
+                novOccurRandom +=1
+
+        for i in range(len(decList)):
+            if(decList[i] is 'Direct'):
+                decOccurDirect += 1
+            elif(decList[i] is 'Pacing'):
+                decOccurPacing +=1
+            elif(decList[i] is 'Lapping'):
+                decOccurLapping +=1
+            elif(decList[i] is 'Random'):
+                decOccurRandom +=1
+
+        for i in range(len(janList)):
+            if(janList[i] is 'Direct'):
+                janOccurDirect += 1
+            elif(janList[i] is 'Pacing'):
+                janOccurPacing +=1
+            elif(janList[i] is 'Lapping'):
+                janOccurLapping +=1
+            elif(janList[i] is 'Random'):
+                janOccurRandom +=1
+
+        for i in range(len(febList)):
+            if(febList[i] is 'Direct'):
+                febOccurDirect += 1
+            elif(febList[i] is 'Pacing'):
+                febOccurPacing +=1
+            elif(febList[i] is 'Lapping'):
+                febOccurLapping +=1
+            elif(febList[i] is 'Random'):
+                febOccurRandom +=1
+        
+        for i in range(len(marList)):
+            if(marList[i] is 'Direct'):
+                marOccurDirect += 1
+            elif(marList[i] is 'Pacing'):
+                marOccurPacing +=1
+            elif(marList[i] is 'Lapping'):
+                marOccurLapping +=1
+            elif(marList[i] is 'Random'):
+                marOccurRandom +=1
+
+
+        novPacingPer = str(round((novOccurPacing / (len(novList)) * 100), 2))
+        novLappingPer = str(round((novOccurLapping / (len(novList)) * 100), 2))
+
+        novDirectPer = str(round((novOccurDirect / (len(novList))* 100), 2))
+
+        novRandomPer = str(round((novOccurRandom / (len(novList))* 100), 2))
+
+
+
+       
+        decPacingPer = str(round((decOccurPacing / (len(decList))* 100), 2))
+
+        decLappingPer = str(round((decOccurLapping / (len(decList))* 100), 2))
+
+        decDirectPer = str(round((decOccurDirect / (len(decList))* 100), 2))
+
+        decRandomPer = str(round((decOccurRandom / (len(decList))* 100), 2))
+
+
+
+
+        janPacingPer = str(round((janOccurPacing / (len(janList)) * 100), 2))
+
+        janLappingPer = str(round((janOccurLapping / (len(janList)) * 100), 2))
+
+        janDirectPer = str(round((janOccurDirect / (len(janList)) * 100), 2))
+
+        janRandomPer = str(round((janOccurRandom / (len(janList)) * 100), 2))
+
+
+
+
+        febPacingPer = str(round((febOccurPacing / (len(febList)) * 100), 2))
+
+        febLappingPer = str(round((febOccurLapping / (len(febList)) * 100), 2))
+
+        febDirectPer = str(round((febOccurDirect / (len(febList)) * 100), 2))
+
+        febRandomPer = str(round((febOccurRandom / (len(febList)) * 100), 2))
+
+
+
+
+        marPacingPer = str(round((marOccurPacing / (len(marList)) * 100), 2))
+
+        marLappingPer = str(round((marOccurLapping / (len(marList)) * 100), 2))
+
+        marDirectPer = str(round((marOccurDirect / (len(marList)) * 100), 2))
+
+        marRandomPer = str(round((marOccurRandom / (len(marList)) * 100), 2))
+
+
+
+
+        
+
         
                 
-        return pacingOccur, lappingOccur, directOccur, randomOccur, bytes_image, bytes_image2, bytes_image3, bytes_image4, bytes_image5
+        return pacingOccur, lappingOccur, directOccur, randomOccur, bytes_image, bytes_image2, bytes_image3, bytes_image4, bytes_image5, novPacingPer, novLappingPer, novDirectPer, novRandomPer, decPacingPer, decLappingPer, decDirectPer, decRandomPer, janPacingPer, janLappingPer,janDirectPer, janRandomPer, febPacingPer, febLappingPer, febDirectPer, febRandomPer, marPacingPer, marLappingPer, marDirectPer, marRandomPer
+
+        #Take the time to push it on the  api.py, then to repository.js then to Overview into a table when ran

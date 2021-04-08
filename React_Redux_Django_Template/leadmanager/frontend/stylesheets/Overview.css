@@ -16,6 +16,15 @@
     gap: 25px;
 }
 
+.MovementTable{
+    width : 100%;
+}
+
+th,tr,td{
+    border: 1px solid black;
+}
+
+
 .overviewSymptomTextContainer {
     padding-top: 10px;
     display: flex;
