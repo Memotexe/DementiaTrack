@@ -14,6 +14,7 @@ export class Overview extends Component {
         analysis: "Please analyze to see results.",
         utiDetermination: null,
         utiFlag: "",
+        utiColors: [],
         DAFlag: "",
         sleepDetermination: "Please analyze to see results.",
         sleepFlag: "",
@@ -28,25 +29,39 @@ export class Overview extends Component {
     let DAFlag = await this.updateDA();
     let moveFlag = await this.updateMovement();
 
-    this.sendNotification(utiFlag);
+    await this.sendNotification(utiFlag, sleepFlag, DAFlag, moveFlag);
   };
 
-  sendNotification = (utiFlag) => {
-    /* decision logic will need to be put in here */
+  sendNotification = async (utiFlag, sleepFlag, DAFlag, moveFlag) => {
+    let totalFlagged = 0;
 
-    let resultText = "";
+    if (utiFlag == 'red') totalFlagged++;
+    if (sleepFlag == 'red') totalFlagged++;
+    if (DAFlag == 'red') totalFlagged++;
+    if (moveFlag == 'red') totalFlagged++;
 
-    if (utiFlag == "red") {
-        console.log("SEND EMAIL")
-        resultText = "Severe irregularities were found.";
-    }
-    else if (utiFlag == "yellow") {
+    let resultText = "No irregularities were found.";
+
+    if (utiFlag == "yellow" || sleepFlag == "yellow" || DAFlag == "yellow" || moveFlag == "yellow") {
         console.log("RANDOM BAD")
         resultText = "Some irregularities were found.";
     }
-    else {
-        console.log("NOTHING TO REPORT")
-        resultText = "No irregularities were found."
+    else if (utiFlag == "red" || sleepFlag == "red" || DAFlag == "red" || moveFlag == "red") {
+        console.log("SEND EMAIL")
+        resultText = "Severe irregularities were found."
+    }
+    
+    if (totalFlagged >= 2) {
+        let message =
+            resultText +
+            "\n\nUTI\n" + this.state.utiDetermination +
+            "\n\nDaily Activities\n" + this.state.DADetermination +
+            "\n\nSleep\n" + this.state.sleepDetermination +
+            "\n\nMovement\n" + this.state.moveDetermination +
+            "\n\nPlease visit the website for more information."
+
+        let repo = new Repository();
+        await repo.sendEmail(message);
     }
 
     this.setState({
@@ -66,7 +81,7 @@ export class Overview extends Component {
     let response = await repo.GetUTIAnomalies(dataTypeToRun);
 
     let det = new DetermineUTI();
-    let result = det.getDetermination(response.BathroomAnomalies, response.TempAnomalies, 30);
+    let result = det.getDetermination(response.BathroomAnomalies, response.TempAnomalies, 30, response.StartDate);
 
     if (result.Score > 0) {
         flag = "red";
@@ -80,7 +95,8 @@ export class Overview extends Component {
 
     this.setState({
         utiDetermination: result.Determination,
-        utiFlag: flag
+        utiFlag: flag,
+        utiColors: result.Colors
     })
 
     return flag;
@@ -235,17 +251,13 @@ export class Overview extends Component {
     return flag;
   }
 
-
-
-
-
   render() {
       return (
           <div>
               <h1 id="title">Overview</h1>
               <Summary analysis={this.state.analysis} time={this.state.analysisTime} />
               <Analyzer clicked={this.clicked} />
-              <UTI determination={this.state.utiDetermination} flag={this.state.utiFlag} />
+              <UTI determination={this.state.utiDetermination} flag={this.state.utiFlag} colors={this.state.utiColors} />
               <DA determination={this.state.DADetermination} flag={this.state.DAFlag} />
               <Sleep determination={this.state.sleepDetermination} flag={this.state.sleepFlag} />
               <MOVE determination={this.state.moveDetermination} flag ={this.state.moveFlag} />
@@ -303,22 +315,23 @@ class UTI extends React.Component {
         return (
             <div id="overview">
                 <div className="overviewSymptom">
-                    {this.props.flag == "" &&
-                        <span className="dot" style={{ backgroundColor : "white" }} />
-                    }
+                    <div>
+                        {this.props.flag == "" && 
+                            <span className="dot" style={{ backgroundColor : "white" }} />
+                        }
 
-                    {this.props.flag == "red" &&
-                        <span className="dot" style={{ backgroundColor : "rgb(249, 21, 47)" }} />
-                    }
+                        {this.props.flag == "red" && 
+                            <span className="dot" style={{ backgroundColor : "rgb(249, 21, 47)" }} />
+                        }
 
-                    {this.props.flag == "yellow" &&
-                        <span className="dot" style={{ backgroundColor : "rgb(250, 219, 1)" }} />
-                    }
+                        {this.props.flag == "yellow" && 
+                            <span className="dot" style={{ backgroundColor : "rgb(250, 219, 1)" }} />
+                        }
 
-                    {this.props.flag == "green" &&
-                        <span className="dot" style={{ backgroundColor : "rgb(39, 232, 51)" }} />
-                    }
-
+                        {this.props.flag == "green" && 
+                            <span className="dot" style={{ backgroundColor : "rgb(39, 232, 51)" }} />
+                        }
+                    </div>
                     <div className="overviewSymptomTextContainer">
                         <h3>UTI</h3>
 
