@@ -237,7 +237,7 @@ export class Overview extends Component {
       return (
           <div>
               <h1 id="title">Overview</h1>
-              <Summary analysis={this.state.analysis} time={this.state.analysisTime} />
+              <Summary analysis={this.state.analysis} time={this.state.analysisTime} daColors={this.state.daColors} />
               <Analyzer clicked={this.clicked} />
               <UTI determination={this.state.utiDetermination} flag={this.state.utiFlag} />
               <DA determination={this.state.DADetermination} flag={this.state.DAFlag} colors={this.state.daColors} />
@@ -259,10 +259,61 @@ class Summary extends React.Component {
             <p>Time of Analysis: {this.props.time}</p>
           }
           <p>{this.props.result}</p>
+          <table id="t01">
+              <tr id="head">
+                  <th>UTI</th>
+                  <th>Daily Activities</th>
+                  <th>Movie Bois</th>
+                  <th>Sleepy sleeps</th>
+              </tr>
+              <tr>
+                <td>Stuff</td>
+                <td>
+                    {this.props.daColors != false &&
+                        <span className="dot" style={{ backgroundColor : this.props.daColors[0], margin: "10px" }} />
+                    }
+                </td>
+                <td>Stuff1</td>
+                <td>Stuff2</td>
+              </tr>
+              <tr>
+                <td>Stuff</td>
+                <td>
+                    {this.props.daColors != false &&
+                        <span className="dot" style={{ backgroundColor : this.props.daColors[1], margin: "10px" }} />
+                    }
+                </td>
+                <td>Stuff1</td>
+                <td>Stuff2</td>
+              </tr>
+              <tr>
+                <td>Stuff</td>
+                <td>
+                    {this.props.daColors != false &&
+                        <span className="dot" style={{ backgroundColor : this.props.daColors[2], margin: "10px" }} />
+                    }
+                </td>
+                <td>Stuff1</td>
+                <td>Stuff2</td>
+              </tr>
+              <tr>
+                <td>Stuff</td>
+                <td>
+                    {this.props.daColors != false &&
+                        <span className="dot" style={{ backgroundColor : this.props.daColors[3], margin: "10px" }} />
+                    }
+                </td>
+                <td>Stuff1</td>
+                <td>Stuff2</td>
+              </tr>
+          </table>
         </div>
       );
     }
  }
+
+ 
+
 
 class Analyzer extends React.Component {
     constructor(props) {

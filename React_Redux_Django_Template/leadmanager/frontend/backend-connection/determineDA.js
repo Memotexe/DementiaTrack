@@ -23,6 +23,7 @@ export default class DetermineDA {
         let x = anomSize / dayCount;
 
         startDate = daysjs(startDate);
+        //endDate = startDate.add(Math.round(30), 'day');
         
         if (anomSize == 0) {
             result = goodText;
