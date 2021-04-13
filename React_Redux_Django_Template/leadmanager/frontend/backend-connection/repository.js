@@ -73,7 +73,6 @@ class Repository {
     };
   }
 
-
   async GetLocationOccurences(dataTypeToRun){
       let api = new Api();
 

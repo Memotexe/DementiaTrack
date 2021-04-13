@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import ImageCarousel from "../helpers/ImageCarousel";
-import "../../../stylesheets/Sleep.css";
+import "../../../stylesheets/Symptoms.css";
 import Repository from "../../../backend-connection/repository";
 import { v4 as uuidv4 } from "uuid";
 import daysjs from "dayjs";
@@ -91,24 +91,26 @@ class SleepSummaryReport extends React.Component {
   render() {
     return (
       <div className="symptom">
-        <h2 id="GraphTitle">Sleep Graphical Report</h2>
-        <ImageCarousel
-          key={uuidv4()}
-          images={[
-            <img
-              src={`data:image/png;base64,${this.props.normal_image}`}
-              className="graphImage"
-            />,
-            <img
-              src={`data:image/png;base64,${this.props.bad_image}`}
-              className="graphImage"
-            />,
-            <img
-              src={`data:image/png;base64,${this.props.random_image}`}
-              className="graphImage"
-            />,
-          ]}
-        />
+        <h3>Sleep Graphical Report</h3>
+        {this.props.normal_image.length != "" && 
+          <ImageCarousel
+            key={uuidv4()}
+            images={[
+              <img
+                src={`data:image/png;base64,${this.props.normal_image}`}
+                className="graphImageSquare"
+              />,
+              <img
+                src={`data:image/png;base64,${this.props.bad_image}`}
+                className="graphImageSquare"
+              />,
+              <img
+                src={`data:image/png;base64,${this.props.random_image}`}
+                className="graphImageSquare"
+              />,
+            ]}
+          />
+      }
       </div>
     );
   }
