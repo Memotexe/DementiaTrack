@@ -19,10 +19,46 @@ from dateutil import parser
 from PIL import Image
 import os
 import matplotlib as mpl
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 
 mpl.rcParams['lines.markersize'] = 4
 
 class DatabaseAPI(generics.GenericAPIView):
+    @api_view(('POST',))
+    def sendEmail(request, *args, **kwargs):
+        body_unicode = request.body.decode('utf-8')
+        body_data = json.loads(body_unicode)
+
+        the_dir = os.path.dirname(__file__)
+        rel_path = "emailpassword.txt"
+
+        with open(os.path.join(the_dir, rel_path)) as f:
+            lines = f.readlines()
+
+        mail_content = body_data['Message']
+
+        sender_address = 'dementiatrack@gmail.com'
+        sender_pass = lines[0]
+        receiver_address = 'perrbm04@pfw.edu'
+
+        message = MIMEMultipart()
+        message['From'] = sender_address
+        message['To'] = receiver_address
+        message['Subject'] = 'Alert From DementiaTrack' 
+        message.attach(MIMEText(mail_content, 'plain'))
+
+        session = smtplib.SMTP('smtp.gmail.com', 587)
+        session.starttls() 
+        session.login(sender_address, sender_pass) 
+        text = message.as_string()
+        session.sendmail(sender_address, receiver_address, text)
+        session.quit()
+
+        return Response({
+            "Result": "Email Sent"
+        })
 
     @api_view(('GET',))
     def get(request, *args, **kwargs):
@@ -108,6 +144,8 @@ class DatabaseAPI(generics.GenericAPIView):
 
         dataDay = []
         dataNight = []
+
+        startDate = json_data_bathroom[0]['Date']
         
         if (dataTypeToRun == 'Normal' or dataTypeToRun == 'Random'):
             for row in json_data_bathroom:
@@ -181,7 +219,8 @@ class DatabaseAPI(generics.GenericAPIView):
             "NightAnomalies": anomaliesNight,
             "TempAnomalies": resultTemp[1],
             "TempImg": imageTemp,
-            "CombinedGraph": combinedGraph
+            "CombinedGraph": combinedGraph,
+            "StartDate": startDate
         })
 
     @api_view(('GET',))
@@ -214,7 +253,7 @@ class DatabaseAPI(generics.GenericAPIView):
         for result in rv:
             json_data.append(dict(zip(row_headers, result)))
 
-        bad_result, bad_buf = run_sleep(json_data, "Bad")
+        bad_result, bad_buf = run_sleep(json_data, "Abnormal")
         bad_img = base64.b64encode(bad_buf.getvalue()).decode()
 
         query = ("SELECT * FROM random_sleep_month")
@@ -461,4 +500,47 @@ class DatabaseAPI(generics.GenericAPIView):
                 "Image4" : image4,
                 "Image5" : image5,
 
+        })
+
+    @api_view(('GET',))
+    def getSleepSelect(request, *args, **kwargs):
+        cnx = mysql.connector.connect(user='root', password='password',
+                                      host='127.0.0.1',
+                                      database='dementia_track')
+        cursor = cnx.cursor()
+
+        # NEED TO ADD BACK DATE FILTER ##
+        dataTypeToRun = request.GET.get('dataTypeToRun')
+        tableTitle = ""
+        color = ""
+
+        if (dataTypeToRun == 'Normal'):
+            query = ("SELECT * FROM normal_sleep_month")
+            tableTitle = "Normal"
+            color = "green"
+        elif (dataTypeToRun == 'Abnormal'):
+            query = ("SELECT * FROM bad_sleep_month")
+            tableTitle = "Abnormal"
+            color = "red"
+        else:
+            query = ("SELECT * FROM random_sleep_month")
+            tableTitle = "Random"
+            color = "yellow"
+
+        cursor.execute(query)
+        row_headers = [x[0] for x in cursor.description]  # this will extract row headers
+        rv = cursor.fetchall()
+        json_data = []
+        for result in rv:
+            json_data.append(dict(zip(row_headers, result)))
+
+        result, buf = run_sleep(json_data, tableTitle)
+        img = base64.b64encode(buf.getvalue()).decode()
+
+        cursor.close()
+        cnx.close()
+
+        return Response({
+            "Color": color,
+            "Anomalies": result
         })

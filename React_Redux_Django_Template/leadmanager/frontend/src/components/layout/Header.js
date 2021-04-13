@@ -47,6 +47,11 @@ export class Header extends Component {
             <strong>{"Symptoms:"}</strong>
           </span>
           <li className="nav-item">
+            <a className="nav-link" href="#/overview">
+              Overview
+            </a>
+          </li>
+          <li className="nav-item">
             <a className="nav-link" href="#/wanderingpacing">
               Wandering/Pacing
             </a>

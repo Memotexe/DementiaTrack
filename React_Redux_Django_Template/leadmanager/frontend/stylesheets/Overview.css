@@ -1,0 +1,38 @@
+/* Any additions here will need to go into the unified sylesheet when merged with the Style branch */
+
+.dot {
+    height: 25px;
+    width: 25px;
+    background-color: rgb(39, 232, 51);
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.overviewSymptom {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 25px;
+}
+
+.overviewSymptomTextContainer {
+    padding-top: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.overviewSymptomTextContainer p {
+    text-align: left;
+}
+
+@media only screen and (max-width: 1000px) {
+    .overviewSymptomTextContainer {
+        align-items: center;
+    }
+
+    .overviewSymptomTextContainer p {
+        text-align: center;
+    }
+  }
