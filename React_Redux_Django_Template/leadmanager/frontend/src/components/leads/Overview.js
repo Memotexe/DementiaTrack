@@ -61,6 +61,9 @@ export class Overview extends Component {
     let moveFlag = await this.updateMovement();
 
     this.sendNotification(utiFlag);
+
+
+   
   };
 
   sendNotification = (utiFlag) => {
@@ -256,6 +259,9 @@ export class Overview extends Component {
         moveDetermination = "No abnormal movement to be found.";
     
     }
+
+    //Get access to the prop. set it to a variable. Check the variables content.
+      //if it is greater than said number. change props color of text?
 
     this.setState({
         moveFlag: flag,
@@ -543,7 +549,7 @@ class MOVE extends React.Component {
                     </div>
                 </div>
                 <div>
-                        <table className= "MovementTable">
+                        <table id="tableMove" className= "MovementTable">
                             <tr>
                                 <th>Month</th>
                                 <th>Pacing</th>
