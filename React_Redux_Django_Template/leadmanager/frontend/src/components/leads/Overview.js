@@ -270,7 +270,7 @@ class Summary extends React.Component {
                 <td>Stuff</td>
                 <td>
                     {this.props.daColors != false &&
-                        <span className="dot" style={{ backgroundColor : this.props.daColors[0], margin: "10px" }} />
+                        <span className="dot" style={{ backgroundColor : this.props.daColors[0], margin: "5px" }} />
                     }
                 </td>
                 <td>Stuff1</td>
@@ -280,7 +280,7 @@ class Summary extends React.Component {
                 <td>Stuff</td>
                 <td>
                     {this.props.daColors != false &&
-                        <span className="dot" style={{ backgroundColor : this.props.daColors[1], margin: "10px" }} />
+                        <span className="dot" style={{ backgroundColor : this.props.daColors[1], margin: "5px" }} />
                     }
                 </td>
                 <td>Stuff1</td>
@@ -290,7 +290,7 @@ class Summary extends React.Component {
                 <td>Stuff</td>
                 <td>
                     {this.props.daColors != false &&
-                        <span className="dot" style={{ backgroundColor : this.props.daColors[2], margin: "10px" }} />
+                        <span className="dot" style={{ backgroundColor : this.props.daColors[2], margin: "5px" }} />
                     }
                 </td>
                 <td>Stuff1</td>
@@ -300,7 +300,7 @@ class Summary extends React.Component {
                 <td>Stuff</td>
                 <td>
                     {this.props.daColors != false &&
-                        <span className="dot" style={{ backgroundColor : this.props.daColors[3], margin: "10px" }} />
+                        <span className="dot" style={{ backgroundColor : this.props.daColors[3], margin: "5px" }} />
                     }
                 </td>
                 <td>Stuff1</td>
