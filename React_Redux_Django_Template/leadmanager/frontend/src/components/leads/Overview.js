@@ -263,8 +263,8 @@ class Summary extends React.Component {
               <tr id="head">
                   <th>UTI</th>
                   <th>Daily Activities</th>
-                  <th>Movie Bois</th>
-                  <th>Sleepy sleeps</th>
+                  <th>Movement</th>
+                  <th>Sleep</th>
               </tr>
               <tr>
                 <td>Stuff</td>
@@ -277,34 +277,34 @@ class Summary extends React.Component {
                 <td>Stuff2</td>
               </tr>
               <tr>
-                <td>Stuff</td>
+                <td>Stuff3</td>
                 <td>
                     {this.props.daColors != false &&
                         <span className="dot" style={{ backgroundColor : this.props.daColors[1], margin: "5px" }} />
                     }
                 </td>
-                <td>Stuff1</td>
-                <td>Stuff2</td>
+                <td>Stuff4</td>
+                <td>Stuff5</td>
               </tr>
               <tr>
-                <td>Stuff</td>
+                <td>Stuff6</td>
                 <td>
                     {this.props.daColors != false &&
                         <span className="dot" style={{ backgroundColor : this.props.daColors[2], margin: "5px" }} />
                     }
                 </td>
-                <td>Stuff1</td>
-                <td>Stuff2</td>
+                <td>Stuff7</td>
+                <td>Stuff8</td>
               </tr>
               <tr>
-                <td>Stuff</td>
+                <td>Stuff9</td>
                 <td>
                     {this.props.daColors != false &&
                         <span className="dot" style={{ backgroundColor : this.props.daColors[3], margin: "5px" }} />
                     }
                 </td>
-                <td>Stuff1</td>
-                <td>Stuff2</td>
+                <td>Stuff10</td>
+                <td>Stuff11</td>
               </tr>
           </table>
         </div>
