@@ -5,9 +5,6 @@ const hiTrigger = 0.85;
 const loTrigger = 0.15;
 const daysForStoplight = 4;
 
-// SCORES
-// const anomaliesScore = 0.25;
-
 // TEXT
 const goodText = "No irregularities to report.";
 const badText = "We detected several days of anomalous Daily Activities.";
@@ -19,15 +16,14 @@ export default class DetermineDA {
         let color = "";
         let score = 0;
         let anomSize = anomalies.length;
-        let colorResult = [];
+        
         let x = anomSize / dayCount;
 
         startDate = daysjs(startDate);
-        //endDate = startDate.add(Math.round(30), 'day');
         
         if (anomSize == 0) {
             result = goodText;
-            color = "green"
+            color = "rgb(39, 232, 51)"
         }
         
         if (result == "") {
@@ -36,13 +32,8 @@ export default class DetermineDA {
             color = "red";
         }
 
-        if (color == "green") {
-            // Return all greens
-            for (let i = 0; i < daysForStoplight; i++) {
-                colorResult.push('green');
-            }
-        }
-        else {
+        
+        if (color != "rgb(39, 232, 51)") {
             let result = [];
             let dateRanges = [];
 
@@ -52,7 +43,7 @@ export default class DetermineDA {
             }
 
             for (let i = 0; i < daysForStoplight; i++) {
-                let color = "green";
+                let color = "rgb(39, 232, 51)";
                 let date1 = dateRanges[i];
                 let date2 = dateRanges[i + 1];
 
@@ -66,13 +57,11 @@ export default class DetermineDA {
                         color = "red";
                     }
                     
-                } 
-                console.log("HERE IS COLORS");
-                console.log(colorResult);
+                }
                 colorResult.push(color);
             }    
         }
 
-        return { "Determination": result, "Colors": colorResult };
+        return { "Determination": result, "Colors": color };
     }
 }
