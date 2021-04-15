@@ -43,6 +43,7 @@ class Repository {
       TempAnomalyCount: tempAnomalyCount,
       TempAnomalies: tempAnomalies,
       Images: images,
+      StartDate: response[1].StartDate,
     };
   }
 
@@ -71,7 +72,6 @@ class Repository {
       Random_Image: random_image
     };
   }
-
 
   async GetLocationOccurences(dataTypeToRun){
       let api = new Api();
@@ -246,6 +246,14 @@ class Repository {
       Anomalies: anomalies,
       Color: color
     };
+  }
+
+  async sendEmail(message) {
+    let api = new Api();
+
+    let response = await api.post("email", { "Message": message });
+
+    console.log(response);
   }
 }
 

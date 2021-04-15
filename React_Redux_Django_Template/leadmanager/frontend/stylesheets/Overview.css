@@ -40,8 +40,16 @@ tr:nth-child(even) {
     align-items: flex-start;
 }
 
+.overviewSymptomTextContainer p {
+    text-align: left;
+}
+
 @media only screen and (max-width: 1000px) {
     .overviewSymptomTextContainer {
         align-items: center;
+    }
+
+    .overviewSymptomTextContainer p {
+        text-align: center;
     }
   }

@@ -19,10 +19,46 @@ from dateutil import parser
 from PIL import Image
 import os
 import matplotlib as mpl
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 
 mpl.rcParams['lines.markersize'] = 4
 
 class DatabaseAPI(generics.GenericAPIView):
+    @api_view(('POST',))
+    def sendEmail(request, *args, **kwargs):
+        body_unicode = request.body.decode('utf-8')
+        body_data = json.loads(body_unicode)
+
+        the_dir = os.path.dirname(__file__)
+        rel_path = "emailpassword.txt"
+
+        with open(os.path.join(the_dir, rel_path)) as f:
+            lines = f.readlines()
+
+        mail_content = body_data['Message']
+
+        sender_address = 'dementiatrack@gmail.com'
+        sender_pass = lines[0]
+        receiver_address = 'perrbm04@pfw.edu'
+
+        message = MIMEMultipart()
+        message['From'] = sender_address
+        message['To'] = receiver_address
+        message['Subject'] = 'Alert From DementiaTrack' 
+        message.attach(MIMEText(mail_content, 'plain'))
+
+        session = smtplib.SMTP('smtp.gmail.com', 587)
+        session.starttls() 
+        session.login(sender_address, sender_pass) 
+        text = message.as_string()
+        session.sendmail(sender_address, receiver_address, text)
+        session.quit()
+
+        return Response({
+            "Result": "Email Sent"
+        })
 
     @api_view(('GET',))
     def get(request, *args, **kwargs):
@@ -108,6 +144,8 @@ class DatabaseAPI(generics.GenericAPIView):
 
         dataDay = []
         dataNight = []
+
+        startDate = json_data_bathroom[0]['Date']
         
         if (dataTypeToRun == 'Normal' or dataTypeToRun == 'Random'):
             for row in json_data_bathroom:
@@ -181,7 +219,8 @@ class DatabaseAPI(generics.GenericAPIView):
             "NightAnomalies": anomaliesNight,
             "TempAnomalies": resultTemp[1],
             "TempImg": imageTemp,
-            "CombinedGraph": combinedGraph
+            "CombinedGraph": combinedGraph,
+            "StartDate": startDate
         })
 
     @api_view(('GET',))

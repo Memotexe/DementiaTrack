@@ -9,7 +9,7 @@ from adtk.detector import InterQuartileRangeAD
 from adtk.visualization import plot
 from datetime import datetime
 
-fsize = (17, 6)
+fsize = (20, 6)
 
 def BathroomTripAnomalies(data, timeOfDay):
     cleanedData = []
@@ -35,24 +35,43 @@ def BathroomTripAnomalies(data, timeOfDay):
         formattedData.append(n[timeOfDay])
 
     anomalyData = lof_predict['Anomaly']
+    graphAnomalies = []
+
+    i = 0
+    while i < len(anomalyData):
+        if (anomalyData[i] == 1):
+            graphAnomalies.append(formattedData[i])
+        else:
+            graphAnomalies.append(0)
+
+        i += 1
 
     yRange = []
 
     increment = 2
+    maxY = max(formattedData)
 
     if timeOfDay == "Night":
         increment = 1
+        maxY = 10
 
     i = 0
-    while i <= max(formattedData):
+    while i <= maxY:
         yRange.append(i)
         i += increment
+
+    x = []
+
+    i = 0
+    while i < len(formattedData):
+        x.append(i)
+        i += 1
 
     plt.clf()
 
     plt.figure(figsize=fsize)
-    plt.plot(formattedData)
-    plt.plot(anomalyData)
+    plt.bar(x, formattedData)
+    plt.bar(x, graphAnomalies, color="red")
     plt.legend([timeOfDay + " Trips", 'Anomalies'], loc="upper left")
     plt.gca().yaxis.grid(True)
     plt.gca().xaxis.grid(False)
@@ -90,15 +109,26 @@ def TemperatureAnomalies(data):
 
     buf = io.BytesIO()
 
+    anomalyDatesGraph = []
+    anomalyTempGraph = []
+
+    for point in anomalyDateList:
+        anomalyDatesGraph.append(point["Time"])
+        anomalyTempGraph.append(point["Temperature"])
+
+
     plt.clf()
+
     plt.figure(figsize=fsize)
-    ax = plt.axes()
-    ax.yaxis.grid(True)
-    ax.set_title('Body Temperature')
-    ax.set_xlabel('Date')
-    ax.set_ylabel('Temperature')
-    p = plot(s, anomaly=anomalies, ts_linewidth=1, ts_markersize=3, anomaly_markersize=5, anomaly_color='red', anomaly_tag="marker", axes=[ax])
-    p[0].get_figure().savefig(buf, format='png')
+    plt.plot(s, label="Temperature")
+    plt.scatter(anomalyDatesGraph, anomalyTempGraph, color="red", s=100)
+    plt.legend(['Temperature', 'Anomalies'], loc="best")
+    plt.ylabel('Temperature')
+    plt.xlabel('Date')
+    plt.title("Body Temperature")
+    plt.yticks([96, 97, 98, 99, 100, 101, 102, 103])
+    plt.gca().xaxis.grid(False)
+    plt.savefig(buf, format="png")
 
     return buf, anomalyDateList
 
@@ -177,6 +207,7 @@ def GetCombinedGraph(tempData, bathroomDataDay, bathroomDataNight):
     plt.ylabel('Temperature')
     plt.title("All Data")
     plt.xticks([])
+    plt.yticks([96, 97, 98, 99, 100, 101, 102, 103])
 
     plt.subplot(2, 1, 2)
     plt.plot(unique_dates, bathroom_data_day_over_temp_scale, label="Day Trips", color="green")
