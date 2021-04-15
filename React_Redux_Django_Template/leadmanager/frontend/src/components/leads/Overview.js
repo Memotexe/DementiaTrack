@@ -259,6 +259,7 @@ export class Overview extends Component {
               <DA determination={this.state.DADetermination} flag={this.state.DAFlag} colors={this.state.daColors} />
               <Sleep determination={this.state.sleepDetermination} flag={this.state.sleepFlag} />
               <MOVE determination={this.state.moveDetermination} flag ={this.state.moveFlag} />
+              <Table />
           </div>
       )
   }
@@ -275,54 +276,7 @@ class Summary extends React.Component {
             <p>Time of Analysis: {this.props.time}</p>
           }
           <p>{this.props.result}</p>
-          <table id="t01">
-              <tr id="head">
-                  <th>UTI</th>
-                  <th>Daily Activities</th>
-                  <th>Movement</th>
-                  <th>Sleep</th>
-              </tr>
-              <tr>
-                <td>Stuff</td>
-                <td>
-                    {this.props.daColors != false &&
-                        <span className="dot" style={{ backgroundColor : this.props.daColors[0], margin: "5px" }} />
-                    }
-                </td>
-                <td>Stuff1</td>
-                <td>Stuff2</td>
-              </tr>
-              <tr>
-                <td>Stuff3</td>
-                <td>
-                    {this.props.daColors != false &&
-                        <span className="dot" style={{ backgroundColor : this.props.daColors[1], margin: "5px" }} />
-                    }
-                </td>
-                <td>Stuff4</td>
-                <td>Stuff5</td>
-              </tr>
-              <tr>
-                <td>Stuff6</td>
-                <td>
-                    {this.props.daColors != false &&
-                        <span className="dot" style={{ backgroundColor : this.props.daColors[2], margin: "5px" }} />
-                    }
-                </td>
-                <td>Stuff7</td>
-                <td>Stuff8</td>
-              </tr>
-              <tr>
-                <td>Stuff9</td>
-                <td>
-                    {this.props.daColors != false &&
-                        <span className="dot" style={{ backgroundColor : this.props.daColors[3], margin: "5px" }} />
-                    }
-                </td>
-                <td>Stuff10</td>
-                <td>Stuff11</td>
-              </tr>
-          </table>
+        
         </div>
       );
     }
@@ -516,6 +470,67 @@ class MOVE extends React.Component {
     }
 }
 
+// class Table extends React.Component {
+//     constructor(props) {
+//         super(props);
+//     }
 
+//     render() {
+//         return (
+//             <div id="overview">
+//                 <div className="overviewSymptom">
+//                 <table id="t01">
+//                     <tr id="head">
+//                         <th>UTI</th>
+//                         <th>Daily Activities</th>
+//                         <th>Movement</th>
+//                         <th>Sleep</th>
+//                     </tr>
+//                     <tr>
+//                         <td>Stuff</td>
+//                         <td>
+//                             {this.props.daColors != false &&
+//                                 <span className="dot" style={{ backgroundColor : this.props.daColors[0], margin: "5px" }} />
+//                             }
+//                         </td>
+//                         <td>Stuff1</td>
+//                         <td>Stuff2</td>
+//                     </tr>
+//                     <tr>
+//                         <td>Stuff3</td>
+//                         <td>
+//                             {this.props.daColors != false &&
+//                                 <span className="dot" style={{ backgroundColor : this.props.daColors[1], margin: "5px" }} />
+//                             }
+//                         </td>
+//                         <td>Stuff4</td>
+//                         <td>Stuff5</td>
+//                     </tr>
+//                     <tr>
+//                         <td>Stuff6</td>
+//                         <td>
+//                             {this.props.daColors != false &&
+//                                 <span className="dot" style={{ backgroundColor : this.props.daColors[2], margin: "5px" }} />
+//                             }
+//                         </td>
+//                         <td>Stuff7</td>
+//                         <td>Stuff8</td>
+//                     </tr>
+//                     <tr>
+//                         <td>Stuff9</td>
+//                         <td>
+//                             {this.props.daColors != false &&
+//                                 <span className="dot" style={{ backgroundColor : this.props.daColors[3], margin: "5px" }} />
+//                             }
+//                         </td>
+//                         <td>Stuff10</td>
+//                         <td>Stuff11</td>
+//                     </tr>
+//                 </table>
+//                 </div>
+//             </div>
+//         );
+//     }
+// }
 
 export default Overview;
