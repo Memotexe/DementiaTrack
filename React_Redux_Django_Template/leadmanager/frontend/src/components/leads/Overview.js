@@ -110,7 +110,7 @@ export class Overview extends Component {
 
     let dataTypeToRun = document.getElementById("dropdown").value;    
   
-    if (document.getElementById("dropdown").value == "Normal") {
+    if (dataTypeToRun == "Normal") {
       let response = await repo.GetDAAr();
 
       let det = new DetermineDA();
@@ -132,7 +132,7 @@ export class Overview extends Component {
           daColors: result.Colors
       })
     } 
-    else if (document.getElementById("dropdown").value == "Abnormal") {
+    else if (dataTypeToRun == "Abnormal") {
       let response = await repo.GetDAMi();
 
       let det = new DetermineDA();
@@ -154,7 +154,7 @@ export class Overview extends Component {
           daColors: result.Colors
       })
     } 
-    else if (document.getElementById("dropdown").value == "Random") {
+    else if (dataTypeToRun == "Random") {
       let response = await repo.GetDARa();
 
       let det = new DetermineDA();
