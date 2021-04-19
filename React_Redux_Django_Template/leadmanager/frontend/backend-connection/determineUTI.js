@@ -24,19 +24,26 @@ export default class DetermineUTI {
         let score = 0;
         startDate = daysjs(startDate);
 
+        let daysWithTempAnomalies = this.getDaysWithTempAnomalies(tempData);
+
         if (bathroomData.length / dayCount >= bathroomTriggerPercentage) {
             score += bathroomTripAnomaliesScore;
-            result = "We detected " + bathroomData.length + " bathroom trip anomalies";
+            result = "We detected " + bathroomData.length + " bathroom trip";
             overallColor = "red";
-        }   
 
-        let daysWithTempAnomalies = this.getDaysWithTempAnomalies(tempData);
+            if (daysWithTempAnomalies.length > 0) {
+                result += " and " + daysWithTempAnomalies.length + " body temperature"
+            } 
+
+            result += " anomalies."
+        }   
 
         let overlappingAnomalyDays = this.checkIfOverlappingDays(bathroomData, daysWithTempAnomalies); 
 
         if (overlappingAnomalyDays != "") {
+            console.log(overlappingAnomalyDays)
             score += overlappingBathroomAndTempAnomalyScore;
-            result = "We detected " + bathroomData.length + " total bathroom trip anomalies and overlapping body temperature anomalies on " + daysjs(overlappingAnomalyDays).format("MM/DD/YYYY") + ".";
+            result = "We detected " + bathroomData.length + " total bathroom trip anomalies and overlapping body temperature anomalies.";
             overallColor = "red";
         }
 
@@ -117,9 +124,8 @@ export default class DetermineUTI {
         let days = []
 
         tempData.forEach(element => {
-            if (!days.includes(element.Time)) {
+            if (!days.includes(element.Date)) {
                 let formattedDate = daysjs(element.Date).format("MM/DD/YYYY")
-
                 days.push(formattedDate);
             }
         });

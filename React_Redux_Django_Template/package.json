@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "webpack --mode development --watch ./leadmanager/frontend/src/index.js -o ./leadmanager/frontend/static/frontend/",
-    "test": "jest --silent"
+    "test": "jest --silent --testPathPattern=./React_Redux_Django_Template/leadmanager/frontend/tests",
+    "cypress": "npx cypress run"
   },
   "keywords": [],
   "author": "",
@@ -39,7 +40,9 @@
     "axios": "^0.21.1",
     "babel-jest": "^26.6.3",
     "buffer": "^6.0.3",
+    "cypress": "^6.8.0",
     "dayjs": "^1.10.4",
+    "eslint-plugin-cypress": "^2.11.2",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^26.6.3",
     "mysql": "^2.18.1",

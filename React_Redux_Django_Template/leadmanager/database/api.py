@@ -47,7 +47,7 @@ class DatabaseAPI(generics.GenericAPIView):
         message['From'] = sender_address
         message['To'] = receiver_address
         message['Subject'] = 'Alert From DementiaTrack' 
-        message.attach(MIMEText(mail_content, 'plain'))
+        message.attach(MIMEText(mail_content, 'html'))
 
         session = smtplib.SMTP('smtp.gmail.com', 587)
         session.starttls() 

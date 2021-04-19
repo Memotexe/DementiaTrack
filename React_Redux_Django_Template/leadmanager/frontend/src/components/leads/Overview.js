@@ -36,41 +36,45 @@ export class Overview extends Component {
   sendNotification = async (utiFlag, sleepFlag, DAFlag, moveFlag) => {
     let totalFlagged = 0;
 
-    if (utiFlag == 'red') totalFlagged++;
-    if (sleepFlag == 'red') totalFlagged++;
-    if (DAFlag == 'red') totalFlagged++;
-    if (moveFlag == 'red') totalFlagged++;
+    if (utiFlag == 'red' || utiFlag == 'yellow') totalFlagged++;
+    if (sleepFlag == 'red' || sleepFlag == 'yellow') totalFlagged++;
+    if (DAFlag == 'red' || DAFlag == 'yellow') totalFlagged++;
+    if (moveFlag == 'red' || moveFlag == 'yellow') totalFlagged++;
 
     let resultText = "No irregularities were found.";
+    let heading = "";
 
     if (utiFlag == "yellow" || sleepFlag == "yellow" || DAFlag == "yellow" || moveFlag == "yellow") {
-        console.log("RANDOM BAD")
         resultText = "Some irregularities were found.";
+        heading = "<b>Notice: </b>"
     }
     else if (utiFlag == "red" || sleepFlag == "red" || DAFlag == "red" || moveFlag == "red") {
-        console.log("SEND EMAIL")
         resultText = "Severe irregularities were found."
+        heading = "<b>Warning: </b>"
     }
+
+    this.setState({
+        analysisTime: "Last five months",
+        analysis: resultText
+    })
     
     if (totalFlagged >= 2) {
         let message =
-            resultText +
-            "\n\nUTI\n" + this.state.utiDetermination +
-            "\n\nDaily Activities\n" + this.state.DADetermination +
-            "\n\nSleep\n" + this.state.sleepDetermination +
-            "\n\nMovement\n" + this.state.moveDetermination +
-            "\n\nPlease visit the website for more information."
+            "<h1 style='text-align: center'>Alert From DementiaTrack</h1>" +
+            "<p style='text-align: center'>" + heading + 
+            resultText + "</p>" + 
+            "<p style='text-align: center'>Time Range: " + this.state.analysisTime + "</p><br /><br />" + 
+            "<div style='background-color: lightgray;border-radius:5px;padding:10px'>" +
+            "<h3>UTI</h3><p>" + this.state.utiDetermination + "</p><br />" +
+            "<h3>Daily Activities</h3><p>" + this.state.DADetermination + "</p><br />" +
+            "<h3>Sleep</h3><p>" + this.state.sleepDetermination + "</p><br />" +
+            "<h3>Movement</h3><p>" + this.state.moveDetermination + "</p></div>" +
+            "<p style='text-align: center'><i>Please visit the website for more information.</i></p>"
 
         let repo = new Repository();
         await repo.sendEmail(message);
     }
-
-    this.setState({
-        analysisTime: daysjs().format("YYYY-MM-DD hh:mm:ss A"),
-        analysis: resultText
-    })
   }
-
 
   updateUTI = async () => {
     let flag;
@@ -266,7 +270,7 @@ class Summary extends React.Component {
           <hr style={{ backgroundColor: "#6699CC", borderWidth: "2px" }} />
           <p>{this.props.analysis}</p>
           {this.props.time != null &&
-            <p>Time of Analysis: {this.props.time}</p>
+            <p>Time Range: {this.props.time}</p>
           }
           <p>{this.props.result}</p>
         
