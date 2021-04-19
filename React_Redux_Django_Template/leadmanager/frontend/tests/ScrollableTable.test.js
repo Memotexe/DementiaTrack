@@ -11,8 +11,8 @@ describe("Given the Scrollable Table", () => {
       <ScrollableTable
         headings={["Date", "Time"]}
         data={[
-          { date: "1/11/19", time: "1:30 AM" },
-          { date: "1/12/19", time: "5:30 PM" },
+          { Date: "1/11/19", Time: "1:30 AM" },
+          { Date: "1/12/19", Time: "5:30 PM" },
         ]}
       />
     );
