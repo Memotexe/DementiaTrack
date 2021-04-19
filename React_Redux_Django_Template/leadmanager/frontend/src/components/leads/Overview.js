@@ -16,6 +16,7 @@ export class Overview extends Component {
         utiFlag: "",
         utiColors: [],
         DAFlag: "",
+        daColors: [],
         sleepDetermination: "Please analyze to see results.",
         sleepFlag: "",
         moveDetermination: null,
@@ -107,22 +108,18 @@ export class Overview extends Component {
 
     let repo = new Repository();
 
-    let dataTypeToRun = document.getElementById("dropdown").value;
-
-    //console.log(document.getElementById("dropdown").value);
-
+    let dataTypeToRun = document.getElementById("dropdown").value;    
   
-    if (document.getElementById("dropdown").value == "Normal") {
+    if (dataTypeToRun == "Normal") {
       let response = await repo.GetDAAr();
+
       let det = new DetermineDA();
-      let result = det.getDetermination(response.Anomalies, 99);
+      let result = det.getDetermination(response.Anomalies, 99, response.StartDate);
 
-      //console.log(result);
-
-      if (result.Determination == "No determination can be made.") {
+      if (result.Determination == "The values for Daily Activities are too random.") {
          flag = "yellow";
       }
-      else if (result.Determination == "We detected several days of irregular behavior.") {
+      else if (result.Determination == "We detected several days of anomalous Daily Activities.") {
           flag = "red";
       }
       else {
@@ -131,20 +128,20 @@ export class Overview extends Component {
 
       this.setState({
           DADetermination: result.Determination,
-          DAFlag: flag
+          DAFlag: flag,
+          daColors: result.Colors
       })
     } 
-    else if (document.getElementById("dropdown").value == "Abnormal") {
+    else if (dataTypeToRun == "Abnormal") {
       let response = await repo.GetDAMi();
+
       let det = new DetermineDA();
-      let result = det.getDetermination(response.Anomalies, 83);
+      let result = det.getDetermination(response.Anomalies, 83, response.StartDate);
 
-      //console.log(result);
-
-      if (result.Determination == "No determination can be made.") {
+      if (result.Determination == "The values for Daily Activities are too random.") {
           flag = "yellow";
       }
-      else if (result.Determination == "We detected several days of irregular behavior.") {
+      else if (result.Determination == "We detected several days of anomalous Daily Activities.") {
           flag = "red";
       }
       else {
@@ -153,20 +150,20 @@ export class Overview extends Component {
 
       this.setState({
           DADetermination: result.Determination,
-          DAFlag: flag
+          DAFlag: flag,
+          daColors: result.Colors
       })
     } 
-    else if (document.getElementById("dropdown").value == "Random") {
+    else if (dataTypeToRun == "Random") {
       let response = await repo.GetDARa();
+
       let det = new DetermineDA();
-      let result = det.getDetermination(response.Anomalies, 99);
+      let result = det.getDetermination(response.Anomalies, 99, response.StartDate);
 
-      //console.log(result);
-
-      if (result.Determination == "No determination can be made.") {
+      if (result.Determination == "The values for Daily Activities are too random.") {
           flag = "yellow";
       }
-      else if (result.Determination == "We detected several days of irregular behavior.") {
+      else if (result.Determination == "We detected several days of anomalous Daily Activities.") {
           flag = "red";
       }
       else {
@@ -175,7 +172,8 @@ export class Overview extends Component {
 
       this.setState({
           DADetermination: result.Determination,
-          DAFlag: flag
+          DAFlag: flag,
+          daColors: result.Colors
       })
     } 
 }
@@ -223,12 +221,6 @@ export class Overview extends Component {
     let Random = parseFloat(responseMove.Random);
 
     let pacingAndlapping = pacing + lapping;
-    console.log(pacing);
-    console.log(lapping);
-    console.log(direct);
-    console.log(Random);
-    console.log(pacingAndlapping);
-
 
     if(pacingAndlapping >= 50){
         flag = "red";
@@ -255,10 +247,10 @@ export class Overview extends Component {
       return (
           <div>
               <h1 id="title">Overview</h1>
-              <Summary analysis={this.state.analysis} time={this.state.analysisTime} />
+              <Summary analysis={this.state.analysis} time={this.state.analysisTime} daColors={this.state.daColors} />
               <Analyzer clicked={this.clicked} />
               <UTI determination={this.state.utiDetermination} flag={this.state.utiFlag} colors={this.state.utiColors} />
-              <DA determination={this.state.DADetermination} flag={this.state.DAFlag} />
+              <DA determination={this.state.DADetermination} flag={this.state.DAFlag} colors={this.state.daColors} />
               <Sleep determination={this.state.sleepDetermination} flag={this.state.sleepFlag} />
               <MOVE determination={this.state.moveDetermination} flag ={this.state.moveFlag} />
           </div>
@@ -277,10 +269,14 @@ class Summary extends React.Component {
             <p>Time of Analysis: {this.props.time}</p>
           }
           <p>{this.props.result}</p>
+        
         </div>
       );
     }
  }
+
+ 
+
 
 class Analyzer extends React.Component {
     constructor(props) {
@@ -400,22 +396,15 @@ class DA extends React.Component {
       return (
           <div id="overview">
               <div className="overviewSymptom">
-                  {this.props.flag == "" && 
-                      <span className="dot" style={{ backgroundColor : "white" }} />
-                  }
+                  <div>
+                        {this.props.flag == "" &&
+                            <span className="dot" style={{ backgroundColor : "white" }} />
+                        }
 
-                  {this.props.flag == "red" && 
-                      <span className="dot" style={{ backgroundColor : "rgb(249, 21, 47)" }} />
-                  }
-
-                  {this.props.flag == "yellow" && 
-                      <span className="dot" style={{ backgroundColor : "rgb(250, 219, 1)" }} />
-                  }
-
-                  {this.props.flag == "green" && 
-                      <span className="dot" style={{ backgroundColor : "rgb(39, 232, 51)" }} />
-                  }
-
+                        {this.props.flag != "" &&
+                            <span className="dot" style={{ backgroundColor: this.props.colors, margin: "10px" }} />
+                        }
+                  </div>
                   <div className="overviewSymptomTextContainer">
                       <h3>Daily Activity</h3>
 
@@ -474,7 +463,5 @@ class MOVE extends React.Component {
         );
     }
 }
-
-
 
 export default Overview;

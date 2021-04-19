@@ -6,8 +6,6 @@ import seaborn as sns
 import numpy as np
 import re, os, io, operator, sys, csv
 from .UTI_algorithms import BathroomTripAnomalies
-#Check this!
-
 
 class MovementAlgorithm:
             
@@ -39,10 +37,10 @@ class MovementAlgorithm:
         lappingOccur = 0
         directOccur =0
         randomOccur = 0
-        i=0#iterator
+        i=0
         
 
-        #direct 
+        # Direct 
         while(i<(len(locationParsed))):
             try:
                 stringA =locationParsed[i]
@@ -118,7 +116,7 @@ class MovementAlgorithm:
             except:
                 break
 
-        #Lapping Occurence Algo
+        # Lapping Occurence Algo
         j=0
         while(j<(len(locationParsed))):
             try:
@@ -203,7 +201,7 @@ class MovementAlgorithm:
 
 
 
-       #Pacing 
+       # Pacing 
         k=0
         while(k<(len(locationParsed))):
             try:
@@ -273,7 +271,7 @@ class MovementAlgorithm:
 
 
 
-        #Random Occurence Algo
+        # Random Occurence Algo
         l=0
         while(l<(len(locationParsed))):
             try:

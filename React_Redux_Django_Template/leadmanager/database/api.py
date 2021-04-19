@@ -77,20 +77,14 @@ class DatabaseAPI(generics.GenericAPIView):
                  "WHERE Date BETWEEN '" + dateStart + "' AND '" + dateEnd + "'")
 
         cursor.execute(query)
-        row_headers = [x[0] for x in cursor.description]  # this will extract row headers
+        row_headers = [x[0] for x in cursor.description]
         rv = cursor.fetchall()
         json_data = []
         for result in rv:
             json_data.append(dict(zip(row_headers, result)))
 
-        # data = []
-        # for (entry) in cursor:
-        #     data.append(entry)
-
         cursor.close()
         cnx.close()
-        # original stuff in this
-        # value = request.GET.get('q', 'default value if not found')
 
         return Response({
             "Test": json.dumps(json_data)
@@ -230,8 +224,6 @@ class DatabaseAPI(generics.GenericAPIView):
                                       database='dementia_track')
         cursor = cnx.cursor()
 
-        # NEED TO ADD BACK DATE FILTER ##
-
         query = ("SELECT * FROM normal_sleep_month")
 
         cursor.execute(query)
@@ -271,27 +263,6 @@ class DatabaseAPI(generics.GenericAPIView):
         cursor.close()
         cnx.close()
 
-        # data, start, end = import_dummy_data(json_data)
-        #
-        # sleep = SleepPy(
-        #     "dummy/test_report.csv", "/Sleep", sampling_frequency=20.0
-        # )
-        # sleep.raw_days = [data, data]
-        # sleep.raw_days_to_plot = [
-        #     data.resample("60s").median(),
-        #     data.resample("60s").median(),
-        # ]
-        #
-        # # PREDICTIONS
-        # sleep.calculate_major_rest_periods()
-        # sleep.calculate_sleep_predictions()
-        # sleep.calculate_endpoints()
-        #
-        # # RUN VISUALIZATION
-        #
-        # result, buf = sleep.visualize()
-        # img = base64.b64encode(buf.getvalue()).decode()
-
         return Response({
             "Normal_Image": normal_img,
             "Bad_Image": bad_img,
@@ -320,8 +291,13 @@ class DatabaseAPI(generics.GenericAPIView):
         read = []
         eMeds = []
         meditate = []
+        startDate = []
+        i = 0
 
         for result in rv:
+            if i == 0:
+                startDate = result[0]
+                i += 1
             json_data.append(dict(zip(row_headers, result)))
             date.append(result[0])
             mMeds.append(result[1])
@@ -330,12 +306,6 @@ class DatabaseAPI(generics.GenericAPIView):
             read.append(result[4])
             eMeds.append(result[5])
             meditate.append(result[6])
-
-        """
-        print("\n\n")
-        print(meditate)
-        print("\n\n")
-        """
 
         cursor.close()
         cnx.close()
@@ -352,7 +322,8 @@ class DatabaseAPI(generics.GenericAPIView):
             "Chores": chores,
             "Read": read,
             "Eve_Meds": eMeds,
-            "Meditate": meditate
+            "Meditate": meditate,
+            "StartDate": startDate
         })
 
     @api_view(('GET',))
@@ -374,8 +345,13 @@ class DatabaseAPI(generics.GenericAPIView):
         relax = []
         dishes = []
         resp = []
-        
+
+        startDate = []
+        i = 0
         for result in rv:
+            if i == 0:
+                startDate = result[0]
+                i += 1
             json_data.append(dict(zip(row_headers, result)))
             date.append(result[0])
             meal.append(result[1])
@@ -400,7 +376,8 @@ class DatabaseAPI(generics.GenericAPIView):
             "Eating" : eat,
             "Relax" : relax,
             "Dishes" : dishes,
-            "Respirate" : resp
+            "Respirate" : resp,
+            "StartDate": startDate
         })
 
     @api_view(('GET',))
@@ -423,7 +400,12 @@ class DatabaseAPI(generics.GenericAPIView):
         dishes = []
         resp = []
         
+        startDate = []
+        i = 0
         for result in rv:
+            if i == 0:
+                startDate = result[0]
+                i += 1
             json_data.append(dict(zip(row_headers, result)))
             date.append(result[0])
             meal.append(result[1])
@@ -448,7 +430,8 @@ class DatabaseAPI(generics.GenericAPIView):
             "Eating" : eat,
             "Relax" : relax,
             "Dishes" : dishes,
-            "Respirate" : resp
+            "Respirate" : resp,
+            "StartDate": startDate
         })
 
     @api_view(('GET',))
@@ -456,8 +439,6 @@ class DatabaseAPI(generics.GenericAPIView):
         cnx1 = mysql.connector.connect(user = 'root', password='password', host='127.0.0.1', database='dementia_track')
 
         cursor1 = cnx1.cursor()
-
-        #Need To Set Date to Format of 01/1/20XX
 
         dataTypeToRun = request.GET.get('dataTypeToRun')
 
@@ -508,8 +489,7 @@ class DatabaseAPI(generics.GenericAPIView):
                                       host='127.0.0.1',
                                       database='dementia_track')
         cursor = cnx.cursor()
-
-        # NEED TO ADD BACK DATE FILTER ##
+        
         dataTypeToRun = request.GET.get('dataTypeToRun')
         tableTitle = ""
         color = ""
