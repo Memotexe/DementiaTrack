@@ -1,0 +1,73 @@
+/* Any additions here will need to go into the unified sylesheet when merged with the Style branch */
+
+.dot {
+    height: 25px;
+    width: 25px;
+    background-color: rgb(39, 232, 51);
+    border-radius: 50%;
+    display: inline-block;
+}
+
+#t01 {
+    width: 50%;
+    background-color: white;
+    margin-left: auto;
+    margin-right: auto;
+}
+th {
+    font-weight: bold;
+}
+td, th {
+    border: 1px solid black;
+}
+tr:nth-child(even) {
+    background-color: lightgrey;
+}
+
+.overviewSymptom {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.MovementTable{
+    width : 100%;
+}
+
+th,tr,td{
+    border: 1px solid black;
+}
+
+
+.SleepTable{
+    width : 100%;
+}
+
+th,tr,td{
+    border: 1px solid black;
+}
+
+
+.overviewSymptomTextContainer {
+    padding-top: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.overviewSymptomTextContainer p {
+    text-align: left;
+}
+
+@media only screen and (max-width: 1000px) {
+    .overviewSymptomTextContainer {
+        align-items: center;
+    }
+
+
+    .overviewSymptomTextContainer p {
+        text-align: center;
+    }
+  }
+

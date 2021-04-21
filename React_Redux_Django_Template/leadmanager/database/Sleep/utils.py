@@ -335,8 +335,6 @@ def make_dummy_data(freq="50L"):
     input_df[start_sleep:end_sleep] = 0.001
     input_df["T"] = 27.0
     input_df["LUX"] = np.random.uniform(0, 80, [len(time)])
-    # print(input_df[start_sleep:end_sleep])
-    # input_df.to_csv(r'C:\Users\tdavi\Desktop\export_dataframe.csv', index=False, header=True)
 
     return input_df, start_sleep, end_sleep
 
@@ -379,26 +377,8 @@ def import_dummy_data(json_data, freq="50L"):
 
     # DUMMY DATE
     time = pd.date_range(start, end, freq=freq)
-    # data = np.random.uniform(-100, 100, [len(time), 5])
 
-    # df = pd.DataFrame(pd.read_json(json_data))
     df = pd.DataFrame(json_data, columns=["X", "Y", "Z", "T", "LUX"], index=time)
-    # df.read_csv(r'C:\Users\tdavi\Desktop\export_dataframe.csv')
-    # df = pd.DataFrame(pd.read_csv(r'C:\Users\tdavi\Desktop\export_dataframe3.csv'))
-
-    # DATA FRAME
-    # input_df = pd.DataFrame(data)
-    # input_df.columns = ["X", "Y", "Z", "T", "LUX"]
-    # input_df.index = time
-    # df.columns = ["X", "Y", "Z", "T", "LUX"]
-    # df.index = time
-
-    # INSERT SLEEP PERIOD + TEMPERATURE VALUES
-    # input_df[start_sleep:end_sleep] = 0.001
-    # input_df["T"] = 27.0
-    # input_df["LUX"] = np.random.uniform(0, 80, [len(time)])
-    # print(input_df[start_sleep:end_sleep])
-    # input_df.to_csv(r'C:\Users\tdavi\Desktop\export_dataframe.csv', index=False, header=True)
 
     return df, start_sleep, end_sleep
 

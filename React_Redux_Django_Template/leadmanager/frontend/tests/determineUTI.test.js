@@ -1,5 +1,4 @@
 import DetermineUTI from "../backend-connection/determineUTI";
-import "@testing-library/jest-dom";
 
 describe("Given the UTI Determination class", () => {
   let det;
@@ -24,7 +23,7 @@ describe("Given the UTI Determination class", () => {
       ]
       let result = det.getDetermination(bathroomData, [], 30)
 
-      expect(result.Determination).toBe("We detected several days of irregular behavior.")
+      expect(result.Determination).toBe("We detected 3 bathroom trip anomalies.")
       expect(result.Score).toBe(.25)
     });
 
@@ -36,12 +35,12 @@ describe("Given the UTI Determination class", () => {
       ]
 
       let tempData = [
-        {'Time': "2010-11-21 17:00:00", 'Temp': 100.4},
+        {'Date': "2010-11-21", 'Temp': 100.4},
       ]
 
       let result = det.getDetermination(bathroomData, tempData, 30)
 
-      expect(result.Determination).toBe("We detected a period of irregular behavior and body temperature.")
+      expect(result.Determination).toBe("We detected 3 total bathroom trip anomalies and overlapping body temperature anomalies.")
       expect(result.Score).toBe(.4)
     });
 
@@ -53,12 +52,12 @@ describe("Given the UTI Determination class", () => {
       ]
 
       let tempData = [
-        {'Time': "2010-11-21 17:00:00", 'Temp': 101.4},
+        {'Date': "2010-11-21", 'Temp': 101.4},
       ]
 
       let result = det.getDetermination(bathroomData, tempData, 30)
 
-      expect(result.Determination).toBe("We detected a period of irregular behavior and body temperature.")
+      expect(result.Determination).toBe("We detected 3 total bathroom trip anomalies and overlapping body temperature anomalies.")
       expect(result.Score).toBe(.5)
     });
 
@@ -74,7 +73,7 @@ describe("Given the UTI Determination class", () => {
 
     it("When given only one bad temperature trip day in the data report indeterminate", () => {
       let tempData = [
-        {'Time': "2010-11-21 17:00:00", 'Temp': 100.4},
+        {'Date': "2010-11-21", 'Temp': 100.4},
       ]
 
       let result = det.getDetermination([], tempData, 30)
@@ -85,11 +84,11 @@ describe("Given the UTI Determination class", () => {
 
     it("When a temperature over the max trigger limit, report score .10", () => {
       let tempData = [
-        {'Time': "2010-11-21 17:00:00", 'Temp': 101.4},
+        {'Date': "2010-11-21", 'Temp': 101.4},
       ]
       let result = det.getDetermination([], tempData, 30)
 
-      expect(result.Determination).toBe("We detected a concerning maximum body temperature.")
+      expect(result.Determination).toBe("We detected a body temperature over 101.1F")
       expect(result.Score).toBe(.10)
     });
   });
@@ -97,7 +96,7 @@ describe("Given the UTI Determination class", () => {
   describe("When calling helper functions", () => {
     it("Then getDaysWithTempAnomalies returns correct dates", () => {
       let tempData = [
-        {'Time': "2010-11-21 17:00:00", 'Temp': 100.4},
+        {'Date': "2010-11-21", 'Temp': 100.4},
       ]
   
       let expectedResult = ['11/21/2010'];
@@ -108,15 +107,17 @@ describe("Given the UTI Determination class", () => {
     })
 
     it("Then checkIfOverlappingDays returns true if overlapping", () => {
-      let tempData = ['11/21/2010'];
+      let tempData = [{"Date": '2010-11-21'}];
+
+      let daysWithTempAnomalies = det.getDaysWithTempAnomalies(tempData);
 
       let bathroomData = [
         {'Date': '11/21/2010', Time: "Day", "Count": 22},
       ]
   
-      let result = det.checkIfOverlappingDays(bathroomData, tempData)
+      let result = det.checkIfOverlappingDays(bathroomData, daysWithTempAnomalies)
 
-      expect(result).toBe(true);
+      expect(result).toBe("11/21/2010");
     })
 
     it("Then checkIfOverlappingDays returns false if not overlapping", () => {
@@ -128,13 +129,13 @@ describe("Given the UTI Determination class", () => {
   
       let result = det.checkIfOverlappingDays(bathroomData, tempData)
 
-      expect(result).toBe(false);
+      expect(result).toBe("");
     })
 
     it("Then getMaxTempCalled returns max temp", () => {
       let tempData = [
-        {'Time': "2010-11-21 17:00:00", 'Temp': 100.4},
-        {'Time': "2010-11-21 17:00:00", 'Temp': 101.4},
+        {'Date': "2010-11-21", 'Temp': 100.4},
+        {'Date': "2010-11-21", 'Temp': 101.4},
       ]
   
       let result = det.getMaxTemp(tempData)

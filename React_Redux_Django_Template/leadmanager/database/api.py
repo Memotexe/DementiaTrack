@@ -19,10 +19,46 @@ from dateutil import parser
 from PIL import Image
 import os
 import matplotlib as mpl
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 
 mpl.rcParams['lines.markersize'] = 4
 
 class DatabaseAPI(generics.GenericAPIView):
+    @api_view(('POST',))
+    def sendEmail(request, *args, **kwargs):
+        body_unicode = request.body.decode('utf-8')
+        body_data = json.loads(body_unicode)
+
+        the_dir = os.path.dirname(__file__)
+        rel_path = "emailpassword.txt"
+
+        with open(os.path.join(the_dir, rel_path)) as f:
+            lines = f.readlines()
+
+        mail_content = body_data['Message']
+
+        sender_address = 'dementiatrack@gmail.com'
+        sender_pass = lines[0]
+        receiver_address = 'perrbm04@pfw.edu'
+
+        message = MIMEMultipart()
+        message['From'] = sender_address
+        message['To'] = receiver_address
+        message['Subject'] = 'Alert From DementiaTrack' 
+        message.attach(MIMEText(mail_content, 'html'))
+
+        session = smtplib.SMTP('smtp.gmail.com', 587)
+        session.starttls() 
+        session.login(sender_address, sender_pass) 
+        text = message.as_string()
+        session.sendmail(sender_address, receiver_address, text)
+        session.quit()
+
+        return Response({
+            "Result": "Email Sent"
+        })
 
     @api_view(('GET',))
     def get(request, *args, **kwargs):
@@ -41,20 +77,14 @@ class DatabaseAPI(generics.GenericAPIView):
                  "WHERE Date BETWEEN '" + dateStart + "' AND '" + dateEnd + "'")
 
         cursor.execute(query)
-        row_headers = [x[0] for x in cursor.description]  # this will extract row headers
+        row_headers = [x[0] for x in cursor.description]
         rv = cursor.fetchall()
         json_data = []
         for result in rv:
             json_data.append(dict(zip(row_headers, result)))
 
-        # data = []
-        # for (entry) in cursor:
-        #     data.append(entry)
-
         cursor.close()
         cnx.close()
-        # original stuff in this
-        # value = request.GET.get('q', 'default value if not found')
 
         return Response({
             "Test": json.dumps(json_data)
@@ -108,6 +138,8 @@ class DatabaseAPI(generics.GenericAPIView):
 
         dataDay = []
         dataNight = []
+
+        startDate = json_data_bathroom[0]['Date']
         
         if (dataTypeToRun == 'Normal' or dataTypeToRun == 'Random'):
             for row in json_data_bathroom:
@@ -181,7 +213,8 @@ class DatabaseAPI(generics.GenericAPIView):
             "NightAnomalies": anomaliesNight,
             "TempAnomalies": resultTemp[1],
             "TempImg": imageTemp,
-            "CombinedGraph": combinedGraph
+            "CombinedGraph": combinedGraph,
+            "StartDate": startDate
         })
 
     @api_view(('GET',))
@@ -190,8 +223,6 @@ class DatabaseAPI(generics.GenericAPIView):
                                       host='127.0.0.1',
                                       database='dementia_track')
         cursor = cnx.cursor()
-
-        # NEED TO ADD BACK DATE FILTER ##
 
         query = ("SELECT * FROM normal_sleep_month")
 
@@ -214,7 +245,7 @@ class DatabaseAPI(generics.GenericAPIView):
         for result in rv:
             json_data.append(dict(zip(row_headers, result)))
 
-        bad_result, bad_buf = run_sleep(json_data, "Bad")
+        bad_result, bad_buf = run_sleep(json_data, "Abnormal")
         bad_img = base64.b64encode(bad_buf.getvalue()).decode()
 
         query = ("SELECT * FROM random_sleep_month")
@@ -231,27 +262,6 @@ class DatabaseAPI(generics.GenericAPIView):
 
         cursor.close()
         cnx.close()
-
-        # data, start, end = import_dummy_data(json_data)
-        #
-        # sleep = SleepPy(
-        #     "dummy/test_report.csv", "/Sleep", sampling_frequency=20.0
-        # )
-        # sleep.raw_days = [data, data]
-        # sleep.raw_days_to_plot = [
-        #     data.resample("60s").median(),
-        #     data.resample("60s").median(),
-        # ]
-        #
-        # # PREDICTIONS
-        # sleep.calculate_major_rest_periods()
-        # sleep.calculate_sleep_predictions()
-        # sleep.calculate_endpoints()
-        #
-        # # RUN VISUALIZATION
-        #
-        # result, buf = sleep.visualize()
-        # img = base64.b64encode(buf.getvalue()).decode()
 
         return Response({
             "Normal_Image": normal_img,
@@ -281,8 +291,13 @@ class DatabaseAPI(generics.GenericAPIView):
         read = []
         eMeds = []
         meditate = []
+        startDate = []
+        i = 0
 
         for result in rv:
+            if i == 0:
+                startDate = result[0]
+                i += 1
             json_data.append(dict(zip(row_headers, result)))
             date.append(result[0])
             mMeds.append(result[1])
@@ -291,12 +306,6 @@ class DatabaseAPI(generics.GenericAPIView):
             read.append(result[4])
             eMeds.append(result[5])
             meditate.append(result[6])
-
-        """
-        print("\n\n")
-        print(meditate)
-        print("\n\n")
-        """
 
         cursor.close()
         cnx.close()
@@ -313,7 +322,8 @@ class DatabaseAPI(generics.GenericAPIView):
             "Chores": chores,
             "Read": read,
             "Eve_Meds": eMeds,
-            "Meditate": meditate
+            "Meditate": meditate,
+            "StartDate": startDate
         })
 
     @api_view(('GET',))
@@ -335,8 +345,13 @@ class DatabaseAPI(generics.GenericAPIView):
         relax = []
         dishes = []
         resp = []
-        
+
+        startDate = []
+        i = 0
         for result in rv:
+            if i == 0:
+                startDate = result[0]
+                i += 1
             json_data.append(dict(zip(row_headers, result)))
             date.append(result[0])
             meal.append(result[1])
@@ -361,7 +376,8 @@ class DatabaseAPI(generics.GenericAPIView):
             "Eating" : eat,
             "Relax" : relax,
             "Dishes" : dishes,
-            "Respirate" : resp
+            "Respirate" : resp,
+            "StartDate": startDate
         })
 
     @api_view(('GET',))
@@ -384,7 +400,12 @@ class DatabaseAPI(generics.GenericAPIView):
         dishes = []
         resp = []
         
+        startDate = []
+        i = 0
         for result in rv:
+            if i == 0:
+                startDate = result[0]
+                i += 1
             json_data.append(dict(zip(row_headers, result)))
             date.append(result[0])
             meal.append(result[1])
@@ -409,7 +430,8 @@ class DatabaseAPI(generics.GenericAPIView):
             "Eating" : eat,
             "Relax" : relax,
             "Dishes" : dishes,
-            "Respirate" : resp
+            "Respirate" : resp,
+            "StartDate": startDate
         })
 
     @api_view(('GET',))
@@ -417,8 +439,6 @@ class DatabaseAPI(generics.GenericAPIView):
         cnx1 = mysql.connector.connect(user = 'root', password='password', host='127.0.0.1', database='dementia_track')
 
         cursor1 = cnx1.cursor()
-
-        #Need To Set Date to Format of 01/1/20XX
 
         dataTypeToRun = request.GET.get('dataTypeToRun')
 
@@ -460,5 +480,81 @@ class DatabaseAPI(generics.GenericAPIView):
                 "Image3" : image3,
                 "Image4" : image4,
                 "Image5" : image5,
+                "novPacingPer" : result[9],
+                "novLappingPer" : result[10],
+                "novDirectPer" : result[11],
+                "novRandomPer" : result[12],
 
+                "decPacingPer" : result[13],
+                "decLappingPer" : result[14],
+                "decDirectPer" : result[15],
+                "decRandomPer" : result[16],
+
+                "janPacingPer" : result[17],
+                "janLappingPer" : result[18],
+                "janDirectPer" : result[19],
+                "janRandomPer" : result[20],
+
+                "febPacingPer" : result[21],
+                "febLappingPer" : result[22],
+                "febDirectPer" : result[23],
+                "febRandomPer" : result[24],
+
+                "marPacingPer" : result[25],
+                "marLappingPer" : result[26],
+                "marDirectPer" : result[27],
+                "marRandomPer" : result[28],
+
+
+                
+
+        })
+
+    @api_view(('GET',))
+    def getSleepSelect(request, *args, **kwargs):
+        cnx = mysql.connector.connect(user='root', password='password',
+                                      host='127.0.0.1',
+                                      database='dementia_track')
+        cursor = cnx.cursor()
+        
+        dataTypeToRun = request.GET.get('dataTypeToRun')
+        tableTitle = ""
+        color = ""
+
+        if (dataTypeToRun == 'Normal'):
+            query = ("SELECT * FROM normal_sleep_month")
+            tableTitle = "Normal"
+            color = "green"
+            percentResult = [97.3, 95.8, 89.7, 92.4, 96.4]
+            wakeResult = [0, 0, 1, 0, 1]
+        elif (dataTypeToRun == 'Abnormal'):
+            query = ("SELECT * FROM bad_sleep_month")
+            tableTitle = "Abnormal"
+            color = "red"
+            percentResult = [100.0, 88.3, 68.3, 65.4, 72.4]
+            wakeResult = [0, 1, 3, 3, 2]
+        else:
+            query = ("SELECT * FROM random_sleep_month")
+            tableTitle = "Random"
+            color = "yellow"
+            percentResult = [97.3, 46.5, 1.1, 62.1, 12.3]
+            wakeResult = [0, 5, 9, 3, 8]
+
+        cursor.execute(query)
+        row_headers = [x[0] for x in cursor.description]  # this will extract row headers
+        rv = cursor.fetchall()
+        json_data = []
+        for result in rv:
+            json_data.append(dict(zip(row_headers, result)))
+
+        result, buf = run_sleep(json_data, tableTitle)
+        img = base64.b64encode(buf.getvalue()).decode()
+
+        cursor.close()
+        cnx.close()
+
+        return Response({
+            "Color": color,
+            "Percent_Anomalies": percentResult,
+            "Wake_Anomalies": wakeResult
         })
