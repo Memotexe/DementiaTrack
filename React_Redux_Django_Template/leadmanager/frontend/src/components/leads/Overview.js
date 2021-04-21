@@ -19,10 +19,11 @@ export class Overview extends Component {
         daColors: [],
         sleepDetermination: "Please analyze to see results.",
         sleepFlag: "",
+        sleepInfo: [],
         moveDetermination: null,
         moveFlag: "",
 
-        
+
         novPacingPer : "",
         novLappingPer : "",
         novDirectPer : "",
@@ -90,13 +91,13 @@ export class Overview extends Component {
         analysisTime: "Last five months",
         analysis: resultText
     })
-    
+
     if (totalFlagged >= 2) {
         let message =
             "<h1 style='text-align: center'>Alert From DementiaTrack</h1>" +
-            "<p style='text-align: center'>" + heading + 
-            resultText + "</p>" + 
-            "<p style='text-align: center'>Time Range: " + this.state.analysisTime + "</p><br /><br />" + 
+            "<p style='text-align: center'>" + heading +
+            resultText + "</p>" +
+            "<p style='text-align: center'>Time Range: " + this.state.analysisTime + "</p><br /><br />" +
             "<div style='background-color: lightgray;border-radius:5px;padding:10px'>" +
             "<h3>UTI</h3><p>" + this.state.utiDetermination + "</p><br />" +
             "<h3>Daily Activities</h3><p>" + this.state.DADetermination + "</p><br />" +
@@ -145,7 +146,7 @@ export class Overview extends Component {
 
     let repo = new Repository();
 
-    let dataTypeToRun = document.getElementById("dropdown").value;    
+    let dataTypeToRun = document.getElementById("dropdown").value;
   
     if (dataTypeToRun == "Normal") {
       let response = await repo.GetDAAr();
@@ -238,6 +239,7 @@ export class Overview extends Component {
     }
 
     this.setState({
+        sleepInfo: response.Anomalies,
         sleepDetermination: det,
         sleepFlag: response.Color
     })
@@ -319,29 +321,32 @@ export class Overview extends Component {
               <Analyzer clicked={this.clicked} />
               <UTI determination={this.state.utiDetermination} flag={this.state.utiFlag} colors={this.state.utiColors} />
               <DA determination={this.state.DADetermination} flag={this.state.DAFlag} colors={this.state.daColors} />
+              <Sleep determination={this.state.sleepDetermination} flag={this.state.sleepFlag} info={this.state.sleepInfo} />
+              <MOVE determination={this.state.moveDetermination} flag ={this.state.moveFlag} />
+              <DA determination={this.state.DADetermination} flag={this.state.DAFlag} colors={this.state.daColors} />
               <Sleep determination={this.state.sleepDetermination} flag={this.state.sleepFlag} />
-              <MOVE determination={this.state.moveDetermination} flag ={this.state.moveFlag} 
-                novPacingPer = {this.state.novPacingPer} 
+              <MOVE determination={this.state.moveDetermination} flag ={this.state.moveFlag}
+                novPacingPer = {this.state.novPacingPer}
                 novLappingPer = {this.state.novLappingPer}
                 novDirectPer = {this.state.novDirectPer}
                 novRandomPer = {this.state.novRandomPer}
 
-                decPacingPer = {this.state.decPacingPer} 
+                decPacingPer = {this.state.decPacingPer}
                 decLappingPer = {this.state.decLappingPer}
                 decDirectPer = {this.state.decDirectPer}
                 decRandomPer = {this.state.decRandomPer}
 
-                janPacingPer = {this.state.janPacingPer} 
+                janPacingPer = {this.state.janPacingPer}
                 janLappingPer = {this.state.janLappingPer}
                 janDirectPer = {this.state.janDirectPer}
                 janRandomPer = {this.state.janRandomPer}
-                
-                febPacingPer = {this.state.febPacingPer} 
+
+                febPacingPer = {this.state.febPacingPer}
                 febLappingPer = {this.state.febLappingPer}
                 febDirectPer = {this.state.febDirectPer}
                 febRandomPer = {this.state.febRandomPer}
 
-                marPacingPer = {this.state.marPacingPer} 
+                marPacingPer = {this.state.marPacingPer}
                 marLappingPer = {this.state.marLappingPer}
                 marDirectPer = {this.state.marDirectPer}
                 marRandomPer = {this.state.marRandomPer}
@@ -363,13 +368,13 @@ class Summary extends React.Component {
             <p>Time Range: {this.props.time}</p>
           }
           <p>{this.props.result}</p>
-        
+
         </div>
       );
     }
  }
 
- 
+
 
 
 class Analyzer extends React.Component {
@@ -476,6 +481,19 @@ class Sleep extends React.Component {
                         }
                     </div>
                 </div>
+                <div>
+                    <table className= "SleepTable">
+                            <th colspan="2">Last Month's Sleep Results</th>
+                            <tr>
+                                <th>Percent Time Asleep</th>
+                                <th>Number of Wake Bouts</th>
+                            </tr>
+                            <tr>
+                                <td> {this.props.info[0]}%</td>
+                                <td> {this.props.info[1]}</td>
+                            </tr>
+                    </table>
+                    </div>
             </div>
         );
     }
@@ -564,43 +582,43 @@ class MOVE extends React.Component {
                             </tr>
                             <tr>
                                 <td>November</td>
-                                <td> {this.props.novPacingPer}%</td> 
-                                <td> {this.props.novLappingPer}%</td> 
-                                <td> {this.props.novDirectPer}%</td> 
-                                <td> {this.props.novRandomPer}%</td> 
+                                <td> {this.props.novPacingPer}%</td>
+                                <td> {this.props.novLappingPer}%</td>
+                                <td> {this.props.novDirectPer}%</td>
+                                <td> {this.props.novRandomPer}%</td>
                             </tr>
                             <tr>
                                 <td>December</td>
-                                <td> {this.props.decPacingPer}%</td> 
-                                <td> {this.props.decLappingPer}%</td> 
-                                <td> {this.props.decDirectPer}%</td> 
-                                <td> {this.props.decRandomPer}%</td> 
+                                <td> {this.props.decPacingPer}%</td>
+                                <td> {this.props.decLappingPer}%</td>
+                                <td> {this.props.decDirectPer}%</td>
+                                <td> {this.props.decRandomPer}%</td>
                             </tr>
                             <tr>
                                 <td>January</td>
-                                <td> {this.props.janPacingPer}%</td> 
-                                <td> {this.props.janLappingPer}%</td> 
-                                <td> {this.props.janDirectPer}%</td> 
-                                <td> {this.props.janRandomPer}%</td> 
+                                <td> {this.props.janPacingPer}%</td>
+                                <td> {this.props.janLappingPer}%</td>
+                                <td> {this.props.janDirectPer}%</td>
+                                <td> {this.props.janRandomPer}%</td>
                             </tr>
                             <tr>
                                 <td>February</td>
-                                <td> {this.props.febPacingPer}%</td> 
-                                <td> {this.props.febLappingPer}%</td> 
-                                <td> {this.props.febDirectPer}%</td> 
-                                <td> {this.props.febRandomPer}%</td> 
+                                <td> {this.props.febPacingPer}%</td>
+                                <td> {this.props.febLappingPer}%</td>
+                                <td> {this.props.febDirectPer}%</td>
+                                <td> {this.props.febRandomPer}%</td>
                             </tr>
                             <tr>
                                 <td>March</td>
-                                <td> {this.props.marPacingPer}%</td> 
-                                <td> {this.props.marLappingPer}%</td> 
-                                <td> {this.props.marDirectPer}%</td> 
-                                <td> {this.props.marRandomPer}%</td> 
+                                <td> {this.props.marPacingPer}%</td>
+                                <td> {this.props.marLappingPer}%</td>
+                                <td> {this.props.marDirectPer}%</td>
+                                <td> {this.props.marRandomPer}%</td>
                             </tr>
                         </table>
                     </div>
             </div>
-            
+
         );
     }
 }
