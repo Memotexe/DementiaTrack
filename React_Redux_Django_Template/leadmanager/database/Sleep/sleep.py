@@ -358,78 +358,79 @@ class SleepPy(object):
             df.columns = ["wake predictions"]
             df[["wake predictions"]] -= 0.25
             df["rest periods"] = rps.values - 0.75
+        othergraph = False;
+        if(othergraph):
+            # ENDPOINTS FOR TABLE
+            t_labels = (
+                "Total Sleep Time(minutes)",
+                "Percent Time Asleep",
+                "Wake After Sleep Onset(minutes)",
+                "Sleep Onset Latency(minutes)",
+                "Number of Wake Bouts",
+            )
+            t_vals = [self.endpoints[day + 1]]
 
-            # # ENDPOINTS FOR TABLE
-            # t_labels = (
-            #     "Total Sleep Time(minutes)",
-            #     "Percent Time Asleep",
-            #     "Wake After Sleep Onset(minutes)",
-            #     "Sleep Onset Latency(minutes)",
-            #     "Number of Wake Bouts",
-            # )
-            # t_vals = [self.endpoints[day + 1]]
+            # PLOTTING
+            fig, (axt, ax0, ax1, ax2, ax3, ax4, ax5) = plt.subplots(
+                7, 1, figsize=(25, 10)
+            )
+            plt.suptitle(
+                "Visual Report for Source: {}\nDay: {}\nDate: {}".format(
+                    self.src_name, day + 1, idx[0].date()
+                ),
+                fontsize=25,
+            )
+            hours = mdates.HourLocator(interval=1)
+            h_fmt = mdates.DateFormatter("%H:%M")
+            all_axes = (ax0, ax1, ax2, ax3, ax4, ax5)
 
-        #     # PLOTTING
-        #     fig, (axt, ax0, ax1, ax2, ax3, ax4, ax5) = plt.subplots(
-        #         7, 1, figsize=(25, 10)
-        #     )
-        #     plt.suptitle(
-        #         "Visual Report for Source: {}\nDay: {}\nDate: {}".format(
-        #             self.src_name, day + 1, idx[0].date()
-        #         ),
-        #         fontsize=25,
-        #     )
-        #     hours = mdates.HourLocator(interval=1)
-        #     h_fmt = mdates.DateFormatter("%H:%M")
-        #     all_axes = (ax0, ax1, ax2, ax3, ax4, ax5)
-        #
-        #     # PLOT TABLE
-        #     tbl = axt.table(
-        #         cellText=t_vals,
-        #         colLabels=t_labels,
-        #         cellLoc="center",
-        #         rowLoc="center",
-        #         loc="center",
-        #         fontsize=12,
-        #     )
-        #     tbl.auto_set_font_size(False)
-        #     tbl.set_fontsize(12)
-        #     tbl.scale(1.1, 2.4)
-        #     axt.axis("off")
-        #
-        #     # SLEEP WAKE/REST PERIODS
-        #     df.plot(ax=ax2, lw=10, x_compat=True, ylim=(0, 1)).legend(
-        #         bbox_to_anchor=(0, 0.85), fontsize=20
-        #     )
-        #
-        #     # FORMAT
-        #     # plt.draw()
-        #     count = 0
-        #     for ax in all_axes:
-        #         count += 1
-        #         ax.set_xlabel("")
-        #         ax.set_ylabel("")
-        #         ax.spines["top"].set_visible(False)
-        #         ax.spines["right"].set_visible(False)
-        #         ax.spines["bottom"].set_visible(False)
-        #         ax.spines["left"].set_visible(False)
-        #         ax.grid(False)
-        #         if count < 6:
-        #             ax.get_xaxis().set_ticks([])
-        #         ax.get_yaxis().set_ticks([])
-        #         ax.get_yaxis()
-        #     ax5.xaxis.set_major_locator(hours)
-        #     ax5.xaxis.set_major_formatter(h_fmt)
-        #     plt.subplots_adjust(wspace=0, hspace=0)
-        #     fig.autofmt_xdate()
-        #     for tick in ax5.xaxis.get_major_ticks():
-        #         tick.label1.set_fontsize(16)
-        #     # plt.savefig(buf, format='png')
-        #     # print(plt)
-        #     # plt.savefig("demo_visual_{}.png".format(fig.number))
-        #     # figs.append(plt)
-        # plt.close("all")
-        #
+            # PLOT TABLE
+            tbl = axt.table(
+                cellText=t_vals,
+                colLabels=t_labels,
+                cellLoc="center",
+                rowLoc="center",
+                loc="center",
+                fontsize=12,
+            )
+            tbl.auto_set_font_size(False)
+            tbl.set_fontsize(12)
+            tbl.scale(1.1, 2.4)
+            axt.axis("off")
+
+            # SLEEP WAKE/REST PERIODS
+            df.plot(ax=ax2, lw=10, x_compat=True, ylim=(0, 1)).legend(
+                bbox_to_anchor=(0, 0.85), fontsize=20
+            )
+
+            # FORMAT
+            # plt.draw()
+            count = 0
+            for ax in all_axes:
+                count += 1
+                ax.set_xlabel("")
+                ax.set_ylabel("")
+                ax.spines["top"].set_visible(False)
+                ax.spines["right"].set_visible(False)
+                ax.spines["bottom"].set_visible(False)
+                ax.spines["left"].set_visible(False)
+                ax.grid(False)
+                if count < 6:
+                    ax.get_xaxis().set_ticks([])
+                ax.get_yaxis().set_ticks([])
+                ax.get_yaxis()
+            ax5.xaxis.set_major_locator(hours)
+            ax5.xaxis.set_major_formatter(h_fmt)
+            plt.subplots_adjust(wspace=0, hspace=0)
+            fig.autofmt_xdate()
+            for tick in ax5.xaxis.get_major_ticks():
+                tick.label1.set_fontsize(16)
+            # plt.savefig(buf, format='png')
+            # print(plt)
+            # plt.savefig("demo_visual_{}.png".format(fig.number))
+            # figs.append(plt)
+            plt.close("all")
+
         # SUMMARY REPORT
         fig, (ax0, ax1, ax2, ax3, ax4) = plt.subplots(5, 1, figsize=(12, 12))
         plt.suptitle("Summary Report for Source: {}".format(self.src_name), fontsize=16)
