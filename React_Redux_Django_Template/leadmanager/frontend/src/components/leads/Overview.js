@@ -93,17 +93,79 @@ export class Overview extends Component {
     })
 
     if (totalFlagged >= 2) {
-        let message =
-            "<h1 style='text-align: center'>Alert From DementiaTrack</h1>" +
-            "<p style='text-align: center'>" + heading +
-            resultText + "</p>" +
-            "<p style='text-align: center'>Time Range: " + this.state.analysisTime + "</p><br /><br />" +
-            "<div style='background-color: lightgray;border-radius:5px;padding:10px'>" +
-            "<h3>UTI</h3><p>" + this.state.utiDetermination + "</p><br />" +
-            "<h3>Daily Activities</h3><p>" + this.state.DADetermination + "</p><br />" +
-            "<h3>Sleep</h3><p>" + this.state.sleepDetermination + "</p><br />" +
-            "<h3>Movement</h3><p>" + this.state.moveDetermination + "</p></div>" +
-            "<p style='text-align: center'><i>Please visit the website for more information.</i></p>"
+        let message = `
+        <h1 style='text-align: center'>Alert From DementiaTrack</h1>
+        <p style='text-align: center'> ${heading} ${resultText}
+        </p>
+        <p style='text-align: center'>Time Range: ${this.state.analysisTime}</p>
+        <br /><br />
+        <div style='background-color: lightgray;border-radius:5px;padding:10px'>
+            <h3>UTI</h3>
+            <p> ${this.state.utiDetermination}</p><br />
+            <h3>Daily Activities</h3>
+            <p> ${this.state.DADetermination} </p><br />
+            <h3>Sleep</h3>
+            <table border='1'>
+                <tr style='text-align: center'>
+                    <th colspan='2'>Recent Sleep Results</th>
+                </tr>
+                <tr>
+                    <th>Percent Time Asleep</th>
+                    <th>Number of Wake Bouts</th>
+                </tr>
+                <tr>
+                    <td style='text-align: center'> ${this.state.sleepInfo[0]} </td>
+                    <td style='text-align: center'> ${this.state.sleepInfo[1]} </td>
+                </tr>
+            </table>
+          <br /><br />
+            <h3>Movement</h3>
+            <table border='1'>
+                <tr>
+                    <th>Month</th>
+                    <th>Pacing</th>
+                    <th>Lapping</th>
+                    <th>Direct</th>
+                    <th>Random</th>
+                </tr>
+                <tr>
+                    <td>November</td>
+                    <td> ${this.state.novPacingPer} </td>
+                    <td> ${this.state.novLappingPer} </td>
+                    <td> ${this.state.novDirectPer} </td>
+                    <td> ${this.state.novRandomPer} </td>
+                </tr>
+                <tr>
+                    <td>December</td>
+                    <td> ${this.state.decPacingPer} </td>
+                    <td> ${this.state.decLappingPer} </td>
+                    <td> ${this.state.decDirectPer} </td>
+                    <td> ${this.state.decRandomPer} </td>
+                </tr>
+                <tr>
+                    <td>January</td>
+                    <td> ${this.state.janPacingPer} </td>
+                    <td> ${this.state.janLappingPer} </td>
+                    <td> ${this.state.janDirectPer} </td>
+                    <td> ${this.state.janRandomPer} </td>
+                </tr>
+                <tr>
+                    <td>February</td>
+                    <td> ${this.state.febPacingPer} </td>
+                    <td> ${this.state.febLappingPer} </td>
+                    <td> ${this.state.febDirectPer} </td>
+                    <td> ${this.state.febRandomPer} </td>
+                </tr>
+                <tr>
+                    <td>March</td>
+                    <td> ${this.state.marPacingPer} </td>
+                    <td> ${this.state.marLappingPer} </td>
+                    <td> ${this.state.marDirectPer} </td>
+                    <td> ${this.state.marRandomPer} </td>
+                </tr>
+            </table>
+        </div>
+        <p style='text-align: center'><i>Please visit the website for more information.</i></p>`
 
         let repo = new Repository();
         await repo.sendEmail(message);
