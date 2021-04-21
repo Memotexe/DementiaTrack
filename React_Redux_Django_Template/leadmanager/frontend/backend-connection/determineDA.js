@@ -58,7 +58,10 @@ export default class DetermineDA {
                     }
                     
                 }
-                colorResult.push(color);
+                result.push(color);
+                //This fixed it to where it doesnt stop other api calls from occuring and the results posting on
+                //the page. Although, whenever you try to run Random, it reads it as Abnormal and gives a red color
+                //response. Take the time to fix this today if possible.
             }    
         }
 

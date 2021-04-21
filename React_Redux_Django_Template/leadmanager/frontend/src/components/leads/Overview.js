@@ -278,7 +278,7 @@ export class Overview extends Component {
         moveFlag: flag,
         moveDetermination : moveDetermination,
 
-        novPacingPer : test,
+        novPacingPer : responseMove.novPacingPer,
         novLappingPer : responseMove.novLappingPer,
         novDirectPer : responseMove.novDirectPer,
         novRandomPer : responseMove.novRandomPer,
