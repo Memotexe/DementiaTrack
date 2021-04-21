@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import ScrollableTable from "../helpers/ScrollableTable";
 import ImageCarousel from "../helpers/ImageCarousel";
-import "../../../stylesheets/UTI.css";
+import "../../../stylesheets/Symptoms.css";
 import Repository from "../../../backend-connection/repository";
 import { v4 as uuidv4 } from "uuid";
 import daysjs from "dayjs";
@@ -131,7 +131,7 @@ class Symptoms extends React.Component {
 
   render() {
     return (
-      <div className="uti">
+      <div className="symptom">
         <div id="tableContainer">
           <div>
             <h3>Bathroom Trips</h3>
@@ -161,7 +161,7 @@ class Symptoms extends React.Component {
               {this.props.images.map((image) => (
                 <img
                   src={`data:image/png;base64,${image}`}
-                  className="graphImage"
+                  className="graphImageLong"
                 />
               ))}
           />

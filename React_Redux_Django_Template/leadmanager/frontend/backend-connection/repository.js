@@ -6,8 +6,6 @@ class Repository {
 
     let response = await api.get("database/uti?dataTypeToRun=" + dataTypeToRun);
 
-    console.log(response)
-
     if (response[0] != 200) {
       console.log("Connection Failed");
     }
@@ -20,7 +18,6 @@ class Repository {
     let tempAnomalies = [];
 
     response[1].TempAnomalies.forEach(anomaly => {
-      console.log(anomaly)
       let date = anomaly["Time"].split(" ")[0]
       let time = anomaly["Time"].split(" ")[1]
 
@@ -46,6 +43,7 @@ class Repository {
       TempAnomalyCount: tempAnomalyCount,
       TempAnomalies: tempAnomalies,
       Images: images,
+      StartDate: response[1].StartDate,
     };
   }
 
@@ -75,7 +73,6 @@ class Repository {
     };
   }
 
-
   async GetLocationOccurences(dataTypeToRun){
       let api = new Api();
 
@@ -93,7 +90,37 @@ class Repository {
           Lapping: response[1].Lapping,
           Direct: response[1].Direct,
           Random: response[1].Random,
-          Images: images
+          Images: images,
+          novPacingPer : response[1].novPacingPer,
+          novLappingPer : response[1].novLappingPer,
+          novDirectPer : response[1].novDirectPer,
+          novRandomPer : response[1].novRandomPer,
+
+          decPacingPer : response[1].decPacingPer,
+          decLappingPer : response[1].decLappingPer,
+          decDirectPer : response[1].decDirectPer,
+          decRandomPer : response[1].decRandomPer,
+
+          janPacingPer : response[1].janPacingPer,
+          janLappingPer : response[1].janLappingPer,
+          janDirectPer : response[1].janDirectPer,
+          janRandomPer : response[1].janRandomPer,
+
+          febPacingPer : response[1].febPacingPer,
+          febLappingPer : response[1].febLappingPer,
+          febDirectPer : response[1].febDirectPer,
+          febRandomPer : response[1].febRandomPer,
+
+          marPacingPer : response[1].marPacingPer,
+          marLappingPer : response[1].marLappingPer,
+          marDirectPer : response[1].marDirectPer,
+          marRandomPer : response[1].marRandomPer,
+
+
+
+
+
+
         };
   }
 
@@ -127,6 +154,7 @@ class Repository {
     let read = response[1].Read
     let eMeds = response[1].Eve_Meds
     let meditate = response[1].Meditate
+    let startDate = response[1].StartDate
 
     console.log(mMeds)
 
@@ -145,7 +173,8 @@ class Repository {
 
     return { 
       Anomalies: anomalies,
-      Images: images
+      Images: images,
+      StartDate: startDate
     };
   }
 
@@ -167,6 +196,7 @@ class Repository {
     let relax = response[1].Relax
     let dish = response[1].Dishes
     let resp = response[1].Respirate
+    let startDate = response[1].StartDate
 
     dAnomalies.forEach(anomaly => {
       anomalies.push({
@@ -184,7 +214,8 @@ class Repository {
 
     return { 
       Anomalies: anomalies,
-      Images: images
+      Images: images,
+      StartDate: startDate
     };
   }
 
@@ -206,6 +237,7 @@ class Repository {
     let relax = response[1].Relax
     let dish = response[1].Dishes
     let resp = response[1].Respirate
+    let startDate = response[1].StartDate
 
 
     dAnomalies.forEach(anomaly => {
@@ -224,8 +256,36 @@ class Repository {
 
     return {
       Anomalies: anomalies,
-      Images: images
+      Images: images,
+      StartDate: startDate
     };
+  }
+  async GetSleepSelect(dataTypeToRun) {
+    let api = new Api();
+
+    let response = await api.get("database/sleepSelect?dataTypeToRun=" + dataTypeToRun);
+
+    if (response[0] != 200) {
+      console.log("Connection Failed");
+    }
+
+    let Percent_Anomalies = response[1].Percent_Anomalies
+    let Wake_Anomalies = response[1].Wake_Anomalies
+    let color = response[1].Color
+
+    return {
+      Percent_Anomalies: Percent_Anomalies,
+      Wake_Anomalies: Wake_Anomalies,
+      Color: color
+    };
+  }
+
+  async sendEmail(message) {
+    let api = new Api();
+
+    let response = await api.post("email", { "Message": message });
+
+    console.log(response);
   }
 }
 

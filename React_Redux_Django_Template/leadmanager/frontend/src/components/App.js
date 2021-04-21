@@ -11,6 +11,7 @@ import Header from "./layout/Header";
 import Dashboard from "./leads/Dashboard";
 import Login from "./accounts/Login";
 import Register from "./accounts/Register";
+import Overview from "./leads/Overview";
 import WanderingPacing from "./leads/WanderingPacing";
 import SleepDisorders from "./leads/SleepDisorders";
 import UTI from "./leads/UTI";
@@ -51,26 +52,31 @@ class App extends Component {
                 <PrivateRoute exact path="/" component={Dashboard} />
                 <Route exact path="/register" component={Register} />
                 <Route exact path="/login" component={Login} />
-                <Route
+                <PrivateRoute
+                  exact
+                  path="/overview"
+                  component={Overview}
+                />
+                <PrivateRoute
                   exact
                   path="/wanderingpacing"
                   component={WanderingPacing}
                 />
-                <Route
+                <PrivateRoute
                   exact
                   path="/sleepdisorders"
                   component={SleepDisorders}
                 />
-                <Route exact path="/uti" component={UTI} />
-                <Route exact path="/test" component={Test} />
-                <Route
+                <PrivateRoute exact path="/uti" component={UTI} />
+                <PrivateRoute exact path="/test" component={Test} />
+                <PrivateRoute
                   exact
                   path="/dailyactivities"
                   component={DailyActivity}
                 />
-                <Route exact path="/contactus" component={ContactUs} />
-                <Route exact path="/references" component={References} />
-                <Route
+                <PrivateRoute exact path="/contactus" component={ContactUs} />
+                <PrivateRoute exact path="/references" component={References} />
+                <PrivateRoute
                   exact
                   path="/contributions"
                   component={Contributions}
