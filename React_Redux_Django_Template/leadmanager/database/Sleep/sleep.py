@@ -358,7 +358,8 @@ class SleepPy(object):
             df.columns = ["wake predictions"]
             df[["wake predictions"]] -= 0.25
             df["rest periods"] = rps.values - 0.75
-        othergraph = False;
+
+        othergraph = False
         if(othergraph):
             # ENDPOINTS FOR TABLE
             t_labels = (
@@ -425,10 +426,7 @@ class SleepPy(object):
             fig.autofmt_xdate()
             for tick in ax5.xaxis.get_major_ticks():
                 tick.label1.set_fontsize(16)
-            # plt.savefig(buf, format='png')
-            # print(plt)
-            # plt.savefig("demo_visual_{}.png".format(fig.number))
-            # figs.append(plt)
+
             plt.close("all")
 
         # SUMMARY REPORT
@@ -507,11 +505,7 @@ class SleepPy(object):
                 )
         plt.subplots_adjust(wspace=0, hspace=0.01)
         plt.xticks(fontsize=20)
-        # plt.draw()
-        # plt.savefig("{}_summary_report.pdf".format(self.src_name))
-        # plt.savefig("demo_summary.png")
         plt.savefig(buf, format='png')
-        # figs.append(plt)
         plt.close("all")
         # # return figs, results
         results = [

@@ -322,9 +322,6 @@ export class Overview extends Component {
               <UTI determination={this.state.utiDetermination} flag={this.state.utiFlag} colors={this.state.utiColors} />
               <DA determination={this.state.DADetermination} flag={this.state.DAFlag} colors={this.state.daColors} />
               <Sleep determination={this.state.sleepDetermination} flag={this.state.sleepFlag} info={this.state.sleepInfo} />
-              <MOVE determination={this.state.moveDetermination} flag ={this.state.moveFlag} />
-              <DA determination={this.state.DADetermination} flag={this.state.DAFlag} colors={this.state.daColors} />
-              <Sleep determination={this.state.sleepDetermination} flag={this.state.sleepFlag} />
               <MOVE determination={this.state.moveDetermination} flag ={this.state.moveFlag}
                 novPacingPer = {this.state.novPacingPer}
                 novLappingPer = {this.state.novLappingPer}
@@ -483,7 +480,7 @@ class Sleep extends React.Component {
                 </div>
                 <div>
                     <table className= "SleepTable">
-                            <th colspan="2">Last Month's Sleep Results</th>
+                            <th colspan="2">Recent Sleep Results</th>
                             <tr>
                                 <th>Percent Time Asleep</th>
                                 <th>Number of Wake Bouts</th>
