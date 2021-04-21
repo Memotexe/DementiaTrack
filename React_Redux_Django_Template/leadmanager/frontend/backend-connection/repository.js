@@ -43,6 +43,7 @@ class Repository {
       TempAnomalyCount: tempAnomalyCount,
       TempAnomalies: tempAnomalies,
       Images: images,
+      StartDate: response[1].StartDate,
     };
   }
 
@@ -71,7 +72,6 @@ class Repository {
       Random_Image: random_image
     };
   }
-
 
   async GetLocationOccurences(dataTypeToRun){
       let api = new Api();
@@ -154,6 +154,7 @@ class Repository {
     let read = response[1].Read
     let eMeds = response[1].Eve_Meds
     let meditate = response[1].Meditate
+    let startDate = response[1].StartDate
 
     console.log(mMeds)
 
@@ -172,7 +173,8 @@ class Repository {
 
     return { 
       Anomalies: anomalies,
-      Images: images
+      Images: images,
+      StartDate: startDate
     };
   }
 
@@ -194,6 +196,7 @@ class Repository {
     let relax = response[1].Relax
     let dish = response[1].Dishes
     let resp = response[1].Respirate
+    let startDate = response[1].StartDate
 
     dAnomalies.forEach(anomaly => {
       anomalies.push({
@@ -211,7 +214,8 @@ class Repository {
 
     return { 
       Anomalies: anomalies,
-      Images: images
+      Images: images,
+      StartDate: startDate
     };
   }
 
@@ -233,6 +237,7 @@ class Repository {
     let relax = response[1].Relax
     let dish = response[1].Dishes
     let resp = response[1].Respirate
+    let startDate = response[1].StartDate
 
 
     dAnomalies.forEach(anomaly => {
@@ -251,7 +256,8 @@ class Repository {
 
     return {
       Anomalies: anomalies,
-      Images: images
+      Images: images,
+      StartDate: startDate
     };
   }
   async GetSleepSelect(dataTypeToRun) {
@@ -270,6 +276,14 @@ class Repository {
       Anomalies: anomalies,
       Color: color
     };
+  }
+
+  async sendEmail(message) {
+    let api = new Api();
+
+    let response = await api.post("email", { "Message": message });
+
+    console.log(response);
   }
 }
 

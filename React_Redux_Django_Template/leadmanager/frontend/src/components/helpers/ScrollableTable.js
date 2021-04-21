@@ -17,7 +17,7 @@ class ScrollableTable extends React.Component {
           <tr>
             {this.props.headings.map((heading) => (
               <th key={uuidv4()} style={{ width: "350px" }}>
-                <div className="tableHeader">{heading}</div>
+                {heading}
               </th>
             ))}
           </tr>

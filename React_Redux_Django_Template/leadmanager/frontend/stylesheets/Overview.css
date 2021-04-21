@@ -8,12 +8,27 @@
     display: inline-block;
 }
 
+#t01 {
+    width: 50%;
+    background-color: white;
+    margin-left: auto;
+    margin-right: auto;
+}
+th {
+    font-weight: bold;
+}
+td, th {
+    border: 1px solid black;
+}
+tr:nth-child(even) {
+    background-color: lightgrey;
+}
+
 .overviewSymptom {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    gap: 25px;
 }
 
 .MovementTable{
@@ -32,8 +47,18 @@ th,tr,td{
     align-items: flex-start;
 }
 
+.overviewSymptomTextContainer p {
+    text-align: left;
+}
+
 @media only screen and (max-width: 1000px) {
     .overviewSymptomTextContainer {
         align-items: center;
     }
+
+
+    .overviewSymptomTextContainer p {
+        text-align: center;
+    }
   }
+

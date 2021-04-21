@@ -2,6 +2,7 @@ from django.urls import path
 from .api import DatabaseAPI
 
 urlpatterns = [
+    path('api/email', DatabaseAPI.sendEmail),
     path('api/database/test', DatabaseAPI.get),
     path('api/database/uti', DatabaseAPI.getUTI),
     path('api/database/dailyMi', DatabaseAPI.getDAMi),
