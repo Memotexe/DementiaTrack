@@ -31,6 +31,15 @@ tr:nth-child(even) {
     justify-content: flex-start;
 }
 
+.MovementTable{
+    width : 100%;
+}
+
+th,tr,td{
+    border: 1px solid black;
+}
+
+
 .overviewSymptomTextContainer {
     padding-top: 10px;
     display: flex;
@@ -47,7 +56,9 @@ tr:nth-child(even) {
         align-items: center;
     }
 
+
     .overviewSymptomTextContainer p {
         text-align: center;
     }
   }
+

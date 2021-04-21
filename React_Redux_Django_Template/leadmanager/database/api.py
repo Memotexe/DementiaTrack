@@ -480,6 +480,33 @@ class DatabaseAPI(generics.GenericAPIView):
                 "Image3" : image3,
                 "Image4" : image4,
                 "Image5" : image5,
+                "novPacingPer" : result[9],
+                "novLappingPer" : result[10],
+                "novDirectPer" : result[11],
+                "novRandomPer" : result[12],
+
+                "decPacingPer" : result[13],
+                "decLappingPer" : result[14],
+                "decDirectPer" : result[15],
+                "decRandomPer" : result[16],
+
+                "janPacingPer" : result[17],
+                "janLappingPer" : result[18],
+                "janDirectPer" : result[19],
+                "janRandomPer" : result[20],
+
+                "febPacingPer" : result[21],
+                "febLappingPer" : result[22],
+                "febDirectPer" : result[23],
+                "febRandomPer" : result[24],
+
+                "marPacingPer" : result[25],
+                "marLappingPer" : result[26],
+                "marDirectPer" : result[27],
+                "marRandomPer" : result[28],
+
+
+                
 
         })
 

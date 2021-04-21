@@ -21,6 +21,38 @@ export class Overview extends Component {
         sleepFlag: "",
         moveDetermination: null,
         moveFlag: "",
+
+        
+        novPacingPer : "",
+        novLappingPer : "",
+        novDirectPer : "",
+        novRandomPer : "",
+
+        decPacingPer : "",
+        decLappingPer : "",
+        decDirectPer : "",
+        decRandomPer : "",
+
+
+        janPacingPer : "",
+        janLappingPer : "",
+        janDirectPer : "",
+        janRandomPer :"",
+
+
+        febPacingPer :"",
+        febLappingPer : "",
+        febDirectPer : "",
+        febRandomPer : "",
+
+
+        marPacingPer : "",
+        marLappingPer : "",
+        marDirectPer : "",
+        marRandomPer : "",
+
+
+
     }
   }
 
@@ -29,6 +61,7 @@ export class Overview extends Component {
     let utiFlag = await this.updateUTI();
     let DAFlag = await this.updateDA();
     let moveFlag = await this.updateMovement();
+
 
     await this.sendNotification(utiFlag, sleepFlag, DAFlag, moveFlag);
   };
@@ -238,9 +271,40 @@ export class Overview extends Component {
     
     }
 
+    //Get access to the prop. set it to a variable. Check the variables content.
+      //if it is greater than said number. change props color of text?
+
     this.setState({
         moveFlag: flag,
-        moveDetermination : moveDetermination
+        moveDetermination : moveDetermination,
+
+        novPacingPer : test,
+        novLappingPer : responseMove.novLappingPer,
+        novDirectPer : responseMove.novDirectPer,
+        novRandomPer : responseMove.novRandomPer,
+
+        decPacingPer : responseMove.decPacingPer,
+        decLappingPer : responseMove.decLappingPer,
+        decDirectPer : responseMove.decDirectPer,
+        decRandomPer : responseMove.decRandomPer,
+
+
+        janPacingPer : responseMove.janPacingPer,
+        janLappingPer : responseMove.janLappingPer,
+        janDirectPer : responseMove.janDirectPer,
+        janRandomPer : responseMove.janRandomPer,
+
+
+        febPacingPer : responseMove.febPacingPer,
+        febLappingPer : responseMove.febLappingPer,
+        febDirectPer : responseMove.febDirectPer,
+        febRandomPer : responseMove.febRandomPer,
+
+
+        marPacingPer : responseMove.marPacingPer,
+        marLappingPer : responseMove.marLappingPer,
+        marDirectPer : responseMove.marDirectPer,
+        marRandomPer : responseMove.marRandomPer,
         
     })
 
@@ -256,7 +320,33 @@ export class Overview extends Component {
               <UTI determination={this.state.utiDetermination} flag={this.state.utiFlag} colors={this.state.utiColors} />
               <DA determination={this.state.DADetermination} flag={this.state.DAFlag} colors={this.state.daColors} />
               <Sleep determination={this.state.sleepDetermination} flag={this.state.sleepFlag} />
-              <MOVE determination={this.state.moveDetermination} flag ={this.state.moveFlag} />
+              <MOVE determination={this.state.moveDetermination} flag ={this.state.moveFlag} 
+                novPacingPer = {this.state.novPacingPer} 
+                novLappingPer = {this.state.novLappingPer}
+                novDirectPer = {this.state.novDirectPer}
+                novRandomPer = {this.state.novRandomPer}
+
+                decPacingPer = {this.state.decPacingPer} 
+                decLappingPer = {this.state.decLappingPer}
+                decDirectPer = {this.state.decDirectPer}
+                decRandomPer = {this.state.decRandomPer}
+
+                janPacingPer = {this.state.janPacingPer} 
+                janLappingPer = {this.state.janLappingPer}
+                janDirectPer = {this.state.janDirectPer}
+                janRandomPer = {this.state.janRandomPer}
+                
+                febPacingPer = {this.state.febPacingPer} 
+                febLappingPer = {this.state.febLappingPer}
+                febDirectPer = {this.state.febDirectPer}
+                febRandomPer = {this.state.febRandomPer}
+
+                marPacingPer = {this.state.marPacingPer} 
+                marLappingPer = {this.state.marLappingPer}
+                marDirectPer = {this.state.marDirectPer}
+                marRandomPer = {this.state.marRandomPer}
+
+              />
           </div>
       )
   }
@@ -463,7 +553,54 @@ class MOVE extends React.Component {
                         }
                     </div>
                 </div>
+                <div>
+                        <table id="tableMove" className= "MovementTable">
+                            <tr>
+                                <th>Month</th>
+                                <th>Pacing</th>
+                                <th>Lapping</th>
+                                <th>Direct</th>
+                                <th>Random</th>
+                            </tr>
+                            <tr>
+                                <td>November</td>
+                                <td> {this.props.novPacingPer}%</td> 
+                                <td> {this.props.novLappingPer}%</td> 
+                                <td> {this.props.novDirectPer}%</td> 
+                                <td> {this.props.novRandomPer}%</td> 
+                            </tr>
+                            <tr>
+                                <td>December</td>
+                                <td> {this.props.decPacingPer}%</td> 
+                                <td> {this.props.decLappingPer}%</td> 
+                                <td> {this.props.decDirectPer}%</td> 
+                                <td> {this.props.decRandomPer}%</td> 
+                            </tr>
+                            <tr>
+                                <td>January</td>
+                                <td> {this.props.janPacingPer}%</td> 
+                                <td> {this.props.janLappingPer}%</td> 
+                                <td> {this.props.janDirectPer}%</td> 
+                                <td> {this.props.janRandomPer}%</td> 
+                            </tr>
+                            <tr>
+                                <td>February</td>
+                                <td> {this.props.febPacingPer}%</td> 
+                                <td> {this.props.febLappingPer}%</td> 
+                                <td> {this.props.febDirectPer}%</td> 
+                                <td> {this.props.febRandomPer}%</td> 
+                            </tr>
+                            <tr>
+                                <td>March</td>
+                                <td> {this.props.marPacingPer}%</td> 
+                                <td> {this.props.marLappingPer}%</td> 
+                                <td> {this.props.marDirectPer}%</td> 
+                                <td> {this.props.marRandomPer}%</td> 
+                            </tr>
+                        </table>
+                    </div>
             </div>
+            
         );
     }
 }

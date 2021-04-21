@@ -90,7 +90,37 @@ class Repository {
           Lapping: response[1].Lapping,
           Direct: response[1].Direct,
           Random: response[1].Random,
-          Images: images
+          Images: images,
+          novPacingPer : response[1].novPacingPer,
+          novLappingPer : response[1].novLappingPer,
+          novDirectPer : response[1].novDirectPer,
+          novRandomPer : response[1].novRandomPer,
+
+          decPacingPer : response[1].decPacingPer,
+          decLappingPer : response[1].decLappingPer,
+          decDirectPer : response[1].decDirectPer,
+          decRandomPer : response[1].decRandomPer,
+
+          janPacingPer : response[1].janPacingPer,
+          janLappingPer : response[1].janLappingPer,
+          janDirectPer : response[1].janDirectPer,
+          janRandomPer : response[1].janRandomPer,
+
+          febPacingPer : response[1].febPacingPer,
+          febLappingPer : response[1].febLappingPer,
+          febDirectPer : response[1].febDirectPer,
+          febRandomPer : response[1].febRandomPer,
+
+          marPacingPer : response[1].marPacingPer,
+          marLappingPer : response[1].marLappingPer,
+          marDirectPer : response[1].marDirectPer,
+          marRandomPer : response[1].marRandomPer,
+
+
+
+
+
+
         };
   }
 
