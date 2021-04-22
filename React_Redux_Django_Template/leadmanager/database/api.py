@@ -525,14 +525,20 @@ class DatabaseAPI(generics.GenericAPIView):
             query = ("SELECT * FROM normal_sleep_month")
             tableTitle = "Normal"
             color = "green"
+            percentResult = [97.3, 95.8, 89.7, 92.4, 96.4]
+            wakeResult = [0, 0, 1, 0, 1]
         elif (dataTypeToRun == 'Abnormal'):
             query = ("SELECT * FROM bad_sleep_month")
             tableTitle = "Abnormal"
             color = "red"
+            percentResult = [100.0, 88.3, 68.3, 65.4, 72.4]
+            wakeResult = [0, 1, 3, 3, 2]
         else:
             query = ("SELECT * FROM random_sleep_month")
             tableTitle = "Random"
             color = "yellow"
+            percentResult = [97.3, 46.5, 1.1, 62.1, 12.3]
+            wakeResult = [0, 5, 9, 3, 8]
 
         cursor.execute(query)
         row_headers = [x[0] for x in cursor.description]  # this will extract row headers
@@ -549,5 +555,6 @@ class DatabaseAPI(generics.GenericAPIView):
 
         return Response({
             "Color": color,
-            "Anomalies": result
+            "Percent_Anomalies": percentResult,
+            "Wake_Anomalies": wakeResult
         })

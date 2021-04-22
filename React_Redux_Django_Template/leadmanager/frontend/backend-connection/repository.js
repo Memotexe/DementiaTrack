@@ -269,11 +269,13 @@ class Repository {
       console.log("Connection Failed");
     }
 
-    let anomalies = response[1].Anomalies
+    let Percent_Anomalies = response[1].Percent_Anomalies
+    let Wake_Anomalies = response[1].Wake_Anomalies
     let color = response[1].Color
 
     return {
-      Anomalies: anomalies,
+      Percent_Anomalies: Percent_Anomalies,
+      Wake_Anomalies: Wake_Anomalies,
       Color: color
     };
   }

@@ -19,7 +19,8 @@ export class Overview extends Component {
         daColors: [],
         sleepDetermination: "Please analyze to see results.",
         sleepFlag: "",
-        sleepInfo: [],
+        sleepPercent: [],
+        sleepWake: [],
         moveDetermination: null,
         moveFlag: "",
 
@@ -107,15 +108,34 @@ export class Overview extends Component {
             <h3>Sleep</h3>
             <table border='1'>
                 <tr style='text-align: center'>
-                    <th colspan='2'>Recent Sleep Results</th>
-                </tr>
-                <tr>
+                    <th>Month</th>
                     <th>Percent Time Asleep</th>
                     <th>Number of Wake Bouts</th>
                 </tr>
-                <tr>
-                    <td style='text-align: center'> ${this.state.sleepInfo[0]} </td>
-                    <td style='text-align: center'> ${this.state.sleepInfo[1]} </td>
+                <tr style='text-align: center'>
+                    <td>November</td>
+                    <td> ${this.state.sleepPercent[0]}%</td>
+                    <td> ${this.state.sleepWake[0]}</td>
+                </tr>
+                <tr style='text-align: center'>
+                    <td>December</td>
+                    <td> ${this.state.sleepPercent[1]}%</td>
+                    <td> ${this.state.sleepWake[1]}</td>
+                </tr>
+                <tr style='text-align: center'>
+                    <td>January</td>
+                    <td> ${this.state.sleepPercent[2]}%</td>
+                    <td> ${this.state.sleepWake[2]}</td>
+                </tr>
+                <tr style='text-align: center'>
+                    <td>February</td>
+                    <td> ${this.state.sleepPercent[3]}%</td>
+                    <td> ${this.state.sleepWake[3]}</td>
+                </tr>
+                <tr style='text-align: center'>
+                    <td>March</td>
+                    <td> ${this.state.sleepPercent[4]}%</td>
+                    <td> ${this.state.sleepWake[4]}</td>
                 </tr>
             </table>
           <br /><br />
@@ -301,7 +321,8 @@ export class Overview extends Component {
     }
 
     this.setState({
-        sleepInfo: response.Anomalies,
+        sleepPercent: response.Percent_Anomalies,
+        sleepWake: response.Wake_Anomalies,
         sleepDetermination: det,
         sleepFlag: response.Color
     })
@@ -383,7 +404,7 @@ export class Overview extends Component {
               <Analyzer clicked={this.clicked} />
               <UTI determination={this.state.utiDetermination} flag={this.state.utiFlag} colors={this.state.utiColors} />
               <DA determination={this.state.DADetermination} flag={this.state.DAFlag} colors={this.state.daColors} />
-              <Sleep determination={this.state.sleepDetermination} flag={this.state.sleepFlag} info={this.state.sleepInfo} />
+              <Sleep determination={this.state.sleepDetermination} flag={this.state.sleepFlag} percent={this.state.sleepPercent} wake={this.state.sleepWake} />
               <MOVE determination={this.state.moveDetermination} flag ={this.state.moveFlag}
                 novPacingPer = {this.state.novPacingPer}
                 novLappingPer = {this.state.novLappingPer}
@@ -542,14 +563,35 @@ class Sleep extends React.Component {
                 </div>
                 <div>
                     <table className= "SleepTable">
-                            <th colspan="2">Recent Sleep Results</th>
                             <tr>
+                                <th>Month</th>
                                 <th>Percent Time Asleep</th>
                                 <th>Number of Wake Bouts</th>
                             </tr>
                             <tr>
-                                <td> {this.props.info[0]}%</td>
-                                <td> {this.props.info[1]}</td>
+                                <td>November</td>
+                                <td> {this.props.percent[0]}%</td>
+                                <td> {this.props.wake[0]}</td>
+                            </tr>
+                            <tr>
+                                <td>December</td>
+                                <td> {this.props.percent[1]}%</td>
+                                <td> {this.props.wake[1]}</td>
+                            </tr>
+                            <tr>
+                                <td>January</td>
+                                <td> {this.props.percent[2]}%</td>
+                                <td> {this.props.wake[2]}</td>
+                            </tr>
+                            <tr>
+                                <td>February</td>
+                                <td> {this.props.percent[3]}%</td>
+                                <td> {this.props.wake[3]}</td>
+                            </tr>
+                            <tr>
+                                <td>March</td>
+                                <td> {this.props.percent[4]}%</td>
+                                <td> {this.props.wake[4]}</td>
                             </tr>
                     </table>
                     </div>
