@@ -15,18 +15,18 @@ export class UTI extends Component {
       anomalies: "",
       src: "",
       bathroomAnomalies: [
-        { "Date": " ", "Time": " ", "Count": " " },
-        { "Date": " ", "Time": " ", "Count": " " },
-        { "Date": " ", "Time": " ", "Count": " " },
-        { "Date": " ", "Time": " ", "Count": " " },
-        { "Date": " ", "Time": " ", "Count": " " },
+        { Date: " ", Time: " ", Count: " " },
+        { Date: " ", Time: " ", Count: " " },
+        { Date: " ", Time: " ", Count: " " },
+        { Date: " ", Time: " ", Count: " " },
+        { Date: " ", Time: " ", Count: " " },
       ],
       temperatureAnomalies: [
-        { "Date": " ", "Time": " ", "Temperature": " " },
-        { "Date": " ", "Time": " ", "Temperature": " " },
-        { "Date": " ", "Time": " ", "Temperature": " " },
-        { "Date": " ", "Time": " ", "Temperature": " " },
-        { "Date": " ", "Time": " ", "Temperature": " " },
+        { Date: " ", Time: " ", Temperature: " " },
+        { Date: " ", Time: " ", Temperature: " " },
+        { Date: " ", Time: " ", Temperature: " " },
+        { Date: " ", Time: " ", Temperature: " " },
+        { Date: " ", Time: " ", Temperature: " " },
       ],
       bathroomAnomalyCount: 0,
       tempAnomalyCount: 0,
@@ -55,11 +55,11 @@ export class UTI extends Component {
     let diffTemp = 5 - tempAnomalies.length;
 
     for (let i = 0; i < diffBathroom; i++) {
-      bathroomAnomalies.push({"Date": " ", "Time": " ", "Count": " "});
+      bathroomAnomalies.push({ Date: " ", Time: " ", Count: " " });
     }
 
     for (let i = 0; i < diffTemp; i++) {
-      tempAnomalies.push({ "Date": " ", "Time": " ", "Temperature": " " })
+      tempAnomalies.push({ Date: " ", Time: " ", Temperature: " " });
     }
 
     this.setState({
@@ -69,7 +69,7 @@ export class UTI extends Component {
       tempAnomalyCount: response.TempAnomalyCount,
       images: response.Images,
       lastruntime: daysjs().format("YYYY-MM-DD hh:mm:ss A"),
-      determination: result.Determination
+      determination: result.Determination,
     });
   };
 
@@ -154,18 +154,17 @@ class Symptoms extends React.Component {
             />
           </div>
         </div>
-        {this.props.images.length != 0 && 
+        {this.props.images.length != 0 && (
           <ImageCarousel
             key={uuidv4()}
-            images=
-              {this.props.images.map((image) => (
-                <img
-                  src={`data:image/png;base64,${image}`}
-                  className="graphImageLong"
-                />
-              ))}
+            images={this.props.images.map((image) => (
+              <img
+                src={`data:image/png;base64,${image}`}
+                className="graphImageLong"
+              />
+            ))}
           />
-        }
+        )}
       </div>
     );
   }
@@ -179,9 +178,7 @@ class Overview extends React.Component {
         <hr style={{ backgroundColor: "#6699CC", borderWidth: "2px" }} />
         <p>Bathroom Trip Anomalies: {this.props.bathroomAnomalyCount}</p>
         <p>Body Temperature Anomalies: {this.props.temperatureAnomalyCount}</p>
-        {this.props.time != "" && 
-          <p>Time of Analysis: {this.props.time}</p>
-        }
+        {this.props.time != "" && <p>Time of Analysis: {this.props.time}</p>}
         <p>{this.props.result}</p>
       </div>
     );

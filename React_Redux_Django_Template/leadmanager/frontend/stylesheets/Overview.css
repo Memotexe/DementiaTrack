@@ -1,73 +1,60 @@
-/* Any additions here will need to go into the unified sylesheet when merged with the Style branch */
-
 .dot {
-    height: 25px;
-    width: 25px;
-    background-color: rgb(39, 232, 51);
-    border-radius: 50%;
-    display: inline-block;
+  height: 25px;
+  width: 25px;
+  background-color: rgb(39, 232, 51);
+  border-radius: 50%;
+  display: inline-block;
 }
 
 #t01 {
-    width: 50%;
-    background-color: white;
-    margin-left: auto;
-    margin-right: auto;
+  width: 50%;
+  background-color: white;
+  margin-left: auto;
+  margin-right: auto;
 }
-th {
-    font-weight: bold;
+
+.overviewTable th {
+  font-weight: bold;
 }
-td, th {
-    border: 1px solid black;
-}
-tr:nth-child(even) {
-    background-color: lightgrey;
+
+.overviewTable th, .overviewTable td {
+  border: 1px solid #6699cc;
 }
 
 .overviewSymptom {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
 }
 
-.MovementTable{
-    width : 100%;
+.overviewTable {
+  width: 100%;
 }
 
-th,tr,td{
-    border: 1px solid black;
+.overviewTable tr:nth-child(even) {
+  background-color: white;
 }
-
-
-.SleepTable{
-    width : 100%;
-}
-
-th,tr,td{
-    border: 1px solid black;
-}
-
 
 .overviewSymptomTextContainer {
-    padding-top: 10px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+  padding-top: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  text-align: center;
 }
 
 .overviewSymptomTextContainer p {
-    text-align: left;
+  text-align: left;
 }
 
 @media only screen and (max-width: 1000px) {
-    .overviewSymptomTextContainer {
-        align-items: center;
-    }
-
-
-    .overviewSymptomTextContainer p {
-        text-align: center;
-    }
+  .overviewSymptomTextContainer {
+    align-items: center;
   }
 
+  .overviewSymptomTextContainer p {
+    text-align: center;
+  }
+}
