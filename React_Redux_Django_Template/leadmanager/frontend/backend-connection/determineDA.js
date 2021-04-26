@@ -3,7 +3,7 @@ import daysjs from "dayjs";
 // TRIGGERS
 const hiTrigger = 0.85;
 const loTrigger = 0.15;
-const daysForStoplight = 4;
+const timePeriods = 4;
 
 // TEXT
 const goodText = "No irregularities to report.";
@@ -16,8 +16,9 @@ export default class DetermineDA {
     let color = "";
     let score = 0;
     let anomSize = anomalies.length;
-
     let x = anomSize / dayCount;
+
+    let DAResult = [];
 
     startDate = daysjs(startDate);
 
@@ -37,12 +38,14 @@ export default class DetermineDA {
       let result = [];
       let dateRanges = [];
 
-      for (let i = 0; i <= dayCount; i += dayCount / daysForStoplight) {
+      for (let i = 0; i <= dayCount; i += dayCount / timePeriods) {
         let date = startDate.add(Math.round(i), "day");
         dateRanges.push(date);
+
+        DAResult.push(0);
       }
 
-      for (let i = 0; i < daysForStoplight; i++) {
+      for (let i = 0; i < timePeriods; i++) {
         let color = "rgb(39, 232, 51)";
         let date1 = dateRanges[i];
         let date2 = dateRanges[i + 1];
@@ -60,15 +63,17 @@ export default class DetermineDA {
             dataDate.isSame(date1)
           ) {
             color = "red";
+            DAResult[i] += 1;
           }
         }
         result.push(color);
-        //This fixed it to where it doesnt stop other api calls from occuring and the results posting on
-        //the page. Although, whenever you try to run Random, it reads it as Abnormal and gives a red color
-        //response. Take the time to fix this today if possible.
       }
     }
 
-    return { Determination: result, Colors: color };
+    return { 
+      Determination: result, 
+      Colors: color,
+      DAOverTime: DAResult
+    };
   }
 }

@@ -17,6 +17,7 @@ export class Overview extends Component {
       bathroomOverTime: [0, 0, 0, 0, 0],
       tempOverTime: [0, 0, 0, 0, 0],
       DAFlag: "",
+      dailyOverTime: [0, 0, 0, 0, 0],
       daColors: [],
       sleepDetermination: "Please analyze to see results.",
       sleepFlag: "",
@@ -140,7 +141,32 @@ export class Overview extends Component {
       </div>
       <div style='background-color: lightgray;border-radius:5px;padding:10px; text-align: center;margin: 20px'>
           <h3>Daily Activities</h3>
-          <p> ${this.state.DADetermination} </p>
+          <table border='1' style='margin:0 auto; border-color: #6699cc' width='500px'>
+              <tr>
+                  <th>Month</th>
+                  <th>Bathroom Trip Anomalies</th>
+              </tr>
+              <tr style='text-align: center; background-color: white'>
+                  <td>November</td>
+                  <td>${this.state.dailyOverTime[0]}</td>
+              </tr>
+              <tr style='text-align: center'>
+                  <td>December</td>
+                  <td>${this.state.dailyOverTime[1]}</td>
+              </tr>
+              <tr style='text-align: center; background-color: white'>
+                  <td>January</td>
+                  <td>${this.state.dailyOverTime[2]}</td>
+              </tr>
+              <tr style='text-align: center'>
+                  <td>February</td>
+                  <td>${this.state.dailyOverTime[3]}</td>
+              </tr>
+              <tr style='text-align: center; background-color: white'>
+                  <td>March</td>
+                  <td>${this.state.dailyOverTime[4]}</td>
+              </tr>
+          </table>
           <br />
       </div>
       <div style='background-color: lightgray;border-radius:5px;padding:10px; text-align: center;margin: 20px'>
@@ -296,6 +322,7 @@ export class Overview extends Component {
         DADetermination: result.Determination,
         DAFlag: flag,
         daColors: result.Colors,
+        dailyOverTime: result.DAOverTime,
       });
     } else if (dataTypeToRun == "Abnormal") {
       let response = await repo.GetDAMi();
@@ -470,6 +497,7 @@ export class Overview extends Component {
         <DA
           determination={this.state.DADetermination}
           flag={this.state.DAFlag}
+          dailyOverTime={this.state.dailyOverTime}
           colors={this.state.daColors}
         />
         <Sleep
@@ -784,6 +812,7 @@ class DA extends React.Component {
               />
             )}
           </div>
+
           <div className="overviewSymptomTextContainer">
             <h3>Daily Activity</h3>
 
@@ -792,6 +821,63 @@ class DA extends React.Component {
             )}
 
             {this.props.determination && <p>{this.props.determination}</p>}
+
+            <table className="overviewTable">
+              <tr>
+                <th>Month</th>
+                <th>Anomalies</th>
+              </tr>
+              <tr>
+                <td>November</td>
+                {this.props.dailyOverTime[0] == 0 ? (
+                  <td>{this.props.dailyOverTime[0]}</td>
+                ) : (
+                  <td className="redTableCell">
+                    {this.props.dailyOverTime[0]}
+                  </td>
+                )}
+              </tr>
+              <tr>
+                <td>December</td>
+                {this.props.dailyOverTime[1] == 0 ? (
+                  <td>{this.props.dailyOverTime[1]}</td>
+                ) : (
+                  <td className="redTableCell">
+                    {this.props.dailyOverTime[1]}
+                  </td>
+                )}
+              </tr>
+              <tr>
+                <td>January</td>
+                {this.props.dailyOverTime[2] == 0 ? (
+                  <td>{this.props.dailyOverTime[2]}</td>
+                ) : (
+                  <td className="redTableCell">
+                    {this.props.dailyOverTime[2]}
+                  </td>
+                )}
+              </tr>
+              <tr>
+                <td>February</td>
+                {this.props.dailyOverTime[3] == 0 ? (
+                  <td>{this.props.dailyOverTime[3]}</td>
+                ) : (
+                  <td className="redTableCell">
+                    {this.props.dailyOverTime[3]}
+                  </td>
+                )}
+              </tr>
+              <tr>
+                <td>March</td>
+                {this.props.dailyOverTime[4] == 0 ? (
+                  <td>{this.props.dailyOverTime[4]}</td>
+                ) : (
+                  <td className="redTableCell">
+                    {this.props.dailyOverTime[4]}
+                  </td>
+                )}
+              </tr>
+            </table>
           </div>
         </div>
       </div>
