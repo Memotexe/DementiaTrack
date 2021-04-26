@@ -318,6 +318,9 @@ export class Overview extends Component {
         flag = "green";
       }
 
+      // {console.log(this.props.dailyOverTime)}
+      // {console.log(result.DAOverTime)}
+
       this.setState({
         DADetermination: result.Determination,
         DAFlag: flag,
@@ -352,6 +355,7 @@ export class Overview extends Component {
         DADetermination: result.Determination,
         DAFlag: flag,
         daColors: result.Colors,
+        dailyOverTime: result.DAOverTime,
       });
     } else if (dataTypeToRun == "Random") {
       let response = await repo.GetDARa();
@@ -381,6 +385,7 @@ export class Overview extends Component {
         DADetermination: result.Determination,
         DAFlag: flag,
         daColors: result.Colors,
+        dailyOverTime: result.DAOverTime,
       });
     }
   };
@@ -821,7 +826,7 @@ class DA extends React.Component {
             )}
 
             {this.props.determination && <p>{this.props.determination}</p>}
-
+            
             <table className="overviewTable">
               <tr>
                 <th>Month</th>

@@ -53,27 +53,26 @@ export default class DetermineDA {
         for (let j = 0; j < anomalies.length; j++) {
           let dataDate = daysjs(anomalies[j].Date);
 
-          if (
-            anomSize / dayCount <= loTrigger ||
-            anomSize / dayCount >= hiTrigger
-          ) {
+          console.log(x);
+
+          if (x == 1 || x <= loTrigger || x >= hiTrigger) {
             color = "yellow";
-          } else if (
-            (dataDate.isAfter(date1) && dataDate.isBefore(date2)) ||
-            dataDate.isSame(date1)
+          } else if ((dataDate.isAfter(date1) && dataDate.isBefore(date2)) || dataDate.isSame(date1)
           ) {
             color = "red";
             DAResult[i] += 1;
           }
         }
-        result.push(color);
+        //result.push(color);
       }
     }
+
+    console.log(color);
 
     return { 
       Determination: result, 
       Colors: color,
-      DAOverTime: DAResult
+      DAOverTime: DAResult,
     };
   }
 }
