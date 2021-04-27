@@ -305,21 +305,16 @@ export class Overview extends Component {
       );
 
       if (
-        result.Determination ==
-        "The values for Daily Activities are too random."
+        result.Colors == "yellow"
       ) {
         flag = "yellow";
       } else if (
-        result.Determination ==
-        "We detected several days of anomalous Daily Activities."
+        result.Determination == "red"
       ) {
         flag = "red";
       } else {
         flag = "green";
       }
-
-      // {console.log(this.props.dailyOverTime)}
-      // {console.log(result.DAOverTime)}
 
       this.setState({
         DADetermination: result.Determination,
@@ -337,14 +332,13 @@ export class Overview extends Component {
         response.StartDate
       );
 
+      
       if (
-        result.Determination ==
-        "The values for Daily Activities are too random."
+        result.Colors == "yellow"
       ) {
         flag = "yellow";
       } else if (
-        result.Determination ==
-        "We detected several days of anomalous Daily Activities."
+        result.Determination == "red"
       ) {
         flag = "red";
       } else {
@@ -367,14 +361,13 @@ export class Overview extends Component {
         response.StartDate
       );
 
+      
       if (
-        result.Determination ==
-        "The values for Daily Activities are too random."
+        result.Colors == "yellow"
       ) {
         flag = "yellow";
       } else if (
-        result.Determination ==
-        "We detected several days of anomalous Daily Activities."
+        result.Determination == "red"
       ) {
         flag = "red";
       } else {
