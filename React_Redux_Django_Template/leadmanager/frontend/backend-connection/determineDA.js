@@ -19,6 +19,10 @@ export default class DetermineDA {
 
     let DAResult = [];
 
+    for (let i = 0; i <= dayCount; i += dayCount / timePeriods) {
+      DAResult.push(0);
+    }
+
     startDate = daysjs(startDate);
 
     if (anomSize == 0) {
@@ -40,8 +44,6 @@ export default class DetermineDA {
       for (let i = 0; i <= dayCount; i += dayCount / timePeriods) {
         let date = startDate.add(Math.round(i), "day");
         dateRanges.push(date);
-
-        DAResult.push(0);
       }
 
       for (let i = 0; i < timePeriods; i++) {

@@ -14,10 +14,10 @@ export class Overview extends Component {
       analysis: "Please analyze to see results.",
       utiDetermination: null,
       utiFlag: "",
-      bathroomOverTime: [0, 0, 0, 0, 0],
-      tempOverTime: [0, 0, 0, 0, 0],
+      bathroomOverTime: [],
+      tempOverTime: [],
       DAFlag: "",
-      dailyOverTime: [0, 0, 0, 0, 0],
+      dailyOverTime: [],
       daColors: [],
       sleepDetermination: "Please analyze to see results.",
       sleepFlag: "",
@@ -61,6 +61,35 @@ export class Overview extends Component {
 
     await this.sendNotification(utiFlag, sleepFlag, DAFlag, moveFlag);
   };
+
+  getColorUTI = (num) => {
+    if (num == 0) return '';
+    if (num > 1) return 'red';
+    if (num == 1) return 'yellow';
+  }
+
+  getColorDA = (num) => {
+    if (num == 0) return '';
+    if (num > 18) return 'yellow';
+    if (num > 0) return 'red';
+  }
+
+  getColorMove = (num, type) => {
+    if (type == 'random' && num > 60) return 'yellow';
+    if ((type == 'pacing' || type == 'lapping') && num > 50) return 'red';
+    return '';
+  }
+
+  getColorSleepPercentage = (num) => {
+    if (num < 40) return 'yellow';
+    if (num < 70) return 'red';
+    return '';
+  }
+
+  getColorSleepBouts = (num) => {
+    if (num < 3) return '';
+    return 'red';
+  }
 
   sendNotification = async (utiFlag, sleepFlag, DAFlag, moveFlag) => {
     let totalFlagged = 0;
@@ -113,28 +142,28 @@ export class Overview extends Component {
               </tr>
               <tr style='text-align: center; background-color: white'>
                   <td>November</td>
-                  <td>${this.state.bathroomOverTime[0]}</td>
-                  <td>${this.state.tempOverTime[0]}</td>
+                  <td style='background-color: ${this.getColorUTI(this.state.bathroomOverTime[0])}'>${this.state.bathroomOverTime[0]}</td>
+                  <td style='background-color: ${this.getColorUTI(this.state.tempOverTime[0])}'>${this.state.tempOverTime[0]}</td>
               </tr>
               <tr style='text-align: center'>
                   <td>December</td>
-                  <td>${this.state.bathroomOverTime[1]}</td>
-                  <td>${this.state.tempOverTime[1]}</td>
+                  <td style='background-color: ${this.getColorUTI(this.state.bathroomOverTime[1])}'>${this.state.bathroomOverTime[1]}</td>
+                  <td style='background-color: ${this.getColorUTI(this.state.tempOverTime[1])}'>${this.state.tempOverTime[1]}</td>
               </tr>
               <tr style='text-align: center; background-color: white'>
                   <td>January</td>
-                  <td>${this.state.bathroomOverTime[2]}</td>
-                  <td>${this.state.tempOverTime[2]}</td>
+                  <td style='background-color: ${this.getColorUTI(this.state.bathroomOverTime[2])}'>${this.state.bathroomOverTime[2]}</td>
+                  <td style='background-color: ${this.getColorUTI(this.state.tempOverTime[2])}'>${this.state.tempOverTime[2]}</td>
               </tr>
               <tr style='text-align: center'>
                   <td>February</td>
-                  <td>${this.state.bathroomOverTime[3]}</td>
-                  <td>${this.state.tempOverTime[3]}</td>
+                  <td style='background-color: ${this.getColorUTI(this.state.bathroomOverTime[3])}'>${this.state.bathroomOverTime[3]}</td>
+                  <td style='background-color: ${this.getColorUTI(this.state.tempOverTime[3])}'>${this.state.tempOverTime[3]}</td>
               </tr>
               <tr style='text-align: center; background-color: white'>
                   <td>March</td>
-                  <td>${this.state.bathroomOverTime[4]}</td>
-                  <td>${this.state.tempOverTime[4]}</td>
+                  <td style='background-color: ${this.getColorUTI(this.state.bathroomOverTime[4])}'>${this.state.bathroomOverTime[4]}</td>
+                  <td style='background-color: ${this.getColorUTI(this.state.tempOverTime[4])}'>${this.state.tempOverTime[4]}</td>
               </tr>
           </table>
           <br />
@@ -144,27 +173,27 @@ export class Overview extends Component {
           <table border='1' style='margin:0 auto; border-color: #6699cc' width='500px'>
               <tr>
                   <th>Month</th>
-                  <th>Bathroom Trip Anomalies</th>
+                  <th>Anomalies</th>
               </tr>
               <tr style='text-align: center; background-color: white'>
                   <td>November</td>
-                  <td>${this.state.dailyOverTime[0]}</td>
+                  <td style='background-color: ${this.getColorDA(this.state.dailyOverTime[0])}'>${this.state.dailyOverTime[0]}</td>
               </tr>
               <tr style='text-align: center'>
                   <td>December</td>
-                  <td>${this.state.dailyOverTime[1]}</td>
+                  <td style='background-color: ${this.getColorDA(this.state.dailyOverTime[1])}'>${this.state.dailyOverTime[1]}</td>
               </tr>
               <tr style='text-align: center; background-color: white'>
                   <td>January</td>
-                  <td>${this.state.dailyOverTime[2]}</td>
+                  <td style='background-color: ${this.getColorDA(this.state.dailyOverTime[2])}'>${this.state.dailyOverTime[2]}</td>
               </tr>
               <tr style='text-align: center'>
                   <td>February</td>
-                  <td>${this.state.dailyOverTime[3]}</td>
+                  <td style='background-color: ${this.getColorDA(this.state.dailyOverTime[3])}'>${this.state.dailyOverTime[3]}</td>
               </tr>
               <tr style='text-align: center; background-color: white'>
                   <td>March</td>
-                  <td>${this.state.dailyOverTime[4]}</td>
+                  <td style='background-color: ${this.getColorDA(this.state.dailyOverTime[4])}'>${this.state.dailyOverTime[4]}</td>
               </tr>
           </table>
           <br />
@@ -179,28 +208,28 @@ export class Overview extends Component {
               </tr>
               <tr style='text-align: center; background-color: white'>
                   <td>November</td>
-                  <td> ${this.state.sleepPercent[0]}%</td>
-                  <td> ${this.state.sleepWake[0]}</td>
+                  <td style='background-color: ${this.getColorSleepPercentage(this.state.sleepPercent[0])}'> ${this.state.sleepPercent[0]}%</td>
+                  <td style='background-color: ${this.getColorSleepBouts(this.state.sleepWake[0])}'> ${this.state.sleepWake[0]}</td>
               </tr>
               <tr style='text-align: center'>
                   <td>December</td>
-                  <td> ${this.state.sleepPercent[1]}%</td>
-                  <td> ${this.state.sleepWake[1]}</td>
+                  <td style='background-color: ${this.getColorSleepPercentage(this.state.sleepPercent[1])}'> ${this.state.sleepPercent[1]}%</td>
+                  <td style='background-color: ${this.getColorSleepBouts(this.state.sleepWake[1])}'> ${this.state.sleepWake[1]}</td>
               </tr>
               <tr style='text-align: center; background-color: white'>
                   <td>January</td>
-                  <td> ${this.state.sleepPercent[2]}%</td>
-                  <td> ${this.state.sleepWake[2]}</td>
+                  <td style='background-color: ${this.getColorSleepPercentage(this.state.sleepPercent[2])}'> ${this.state.sleepPercent[2]}%</td>
+                  <td style='background-color: ${this.getColorSleepBouts(this.state.sleepWake[2])}'> ${this.state.sleepWake[2]}</td>
               </tr>
               <tr style='text-align: center'>
                   <td>February</td>
-                  <td> ${this.state.sleepPercent[3]}%</td>
-                  <td> ${this.state.sleepWake[3]}</td>
+                  <td style='background-color: ${this.getColorSleepPercentage(this.state.sleepPercent[3])}'> ${this.state.sleepPercent[3]}%</td>
+                  <td style='background-color: ${this.getColorSleepBouts(this.state.sleepWake[3])}'> ${this.state.sleepWake[3]}</td>
               </tr>
               <tr style='text-align: center; background-color: white'>
                   <td>March</td>
-                  <td> ${this.state.sleepPercent[4]}%</td>
-                  <td> ${this.state.sleepWake[4]}</td>
+                  <td style='background-color: ${this.getColorSleepPercentage(this.state.sleepPercent[4])}'> ${this.state.sleepPercent[4]}%</td>
+                  <td style='background-color: ${this.getColorSleepBouts(this.state.sleepWake[4])}'> ${this.state.sleepWake[4]}</td>
               </tr>
           </table>
           <br />
@@ -217,38 +246,38 @@ export class Overview extends Component {
               </tr>
               <tr style='background-color: white'>
                   <td>November</td>
-                  <td> ${this.state.novPacingPer} </td>
-                  <td> ${this.state.novLappingPer} </td>
-                  <td> ${this.state.novDirectPer} </td>
-                  <td> ${this.state.novRandomPer} </td>
+                  <td style='background-color: ${this.getColorMove(this.state.novPacingPer, "pacing")}'> ${this.state.novPacingPer}% </td>
+                  <td style='background-color: ${this.getColorMove(this.state.novPacingPer, "lapping")}'> ${this.state.novLappingPer}% </td>
+                  <td> ${this.state.novDirectPer}% </td>
+                  <td style='background-color: ${this.getColorMove(this.state.novRandomPer, "random")}'> ${this.state.novRandomPer}% </td>
               </tr>
               <tr>
                   <td>December</td>
-                  <td> ${this.state.decPacingPer} </td>
-                  <td> ${this.state.decLappingPer} </td>
-                  <td> ${this.state.decDirectPer} </td>
-                  <td> ${this.state.decRandomPer} </td>
+                  <td style='background-color: ${this.getColorMove(this.state.decPacingPer, "pacing")}'> ${this.state.decPacingPer}% </td>
+                  <td style='background-color: ${this.getColorMove(this.state.decLappingPer, "lapping")}'> ${this.state.decLappingPer}% </td>
+                  <td> ${this.state.decDirectPer}% </td>
+                  <td style='background-color: ${this.getColorMove(this.state.decRandomPer, "random")}'> ${this.state.decRandomPer}% </td>
               </tr>
               <tr style='background-color: white'>
                   <td>January</td>
-                  <td> ${this.state.janPacingPer} </td>
-                  <td> ${this.state.janLappingPer} </td>
-                  <td> ${this.state.janDirectPer} </td>
-                  <td> ${this.state.janRandomPer} </td>
+                  <td style='background-color: ${this.getColorMove(this.state.janPacingPer, "pacing")}'> ${this.state.janPacingPer}% </td>
+                  <td style='background-color: ${this.getColorMove(this.state.janLappingPer, "lapping")}'> ${this.state.janLappingPer}% </td>
+                  <td> ${this.state.janDirectPer}% </td>
+                  <td style='background-color: ${this.getColorMove(this.state.janRandomPer, "random")}'> ${this.state.janRandomPer}% </td>
               </tr>
               <tr>
                   <td>February</td>
-                  <td> ${this.state.febPacingPer} </td>
-                  <td> ${this.state.febLappingPer} </td>
-                  <td> ${this.state.febDirectPer} </td>
-                  <td> ${this.state.febRandomPer} </td>
+                  <td style='background-color: ${this.getColorMove(this.state.febPacingPer, "pacing")}'> ${this.state.febPacingPer}% </td>
+                  <td style='background-color: ${this.getColorMove(this.state.febLappingPer, "lapping")}'> ${this.state.febLappingPer}% </td>
+                  <td> ${this.state.febDirectPer}% </td>
+                  <td style='background-color: ${this.getColorMove(this.state.febRandomPer, "random")}'> ${this.state.febRandomPer}% </td>
               </tr>
               <tr style='background-color: white'>
                   <td>March</td>
-                  <td> ${this.state.marPacingPer} </td>
-                  <td> ${this.state.marLappingPer} </td>
-                  <td> ${this.state.marDirectPer} </td>
-                  <td> ${this.state.marRandomPer} </td>
+                  <td style='background-color: ${this.getColorMove(this.state.marPacingPer, "pacing")}'> ${this.state.marPacingPer}% </td>
+                  <td style='background-color: ${this.getColorMove(this.state.marLappingPer, "lapping")}'> ${this.state.marLappingPer}% </td>
+                  <td> ${this.state.marDirectPer}% </td>
+                  <td style='background-color: ${this.getColorMove(this.state.marRandomPer, "random")}'> ${this.state.marRandomPer}% </td>
               </tr>
           </table>
           <br />
@@ -576,6 +605,12 @@ class UTI extends React.Component {
     super(props);
   }
 
+  getColor = (num) => {
+    if (num == 0) return '';
+    if (num > 1) return 'red';
+    if (num == 1) return 'yellow';
+  }
+
   render() {
     return (
       <div id="overview">
@@ -625,78 +660,28 @@ class UTI extends React.Component {
               </tr>
               <tr>
                 <td>November</td>
-                {this.props.bathroomOverTime[0] == 0 ? (
-                  <td>{this.props.bathroomOverTime[0]}</td>
-                ) : (
-                  <td className="redTableCell">
-                    {this.props.bathroomOverTime[0]}
-                  </td>
-                )}
-                {this.props.tempOverTime[0] == 0 ? (
-                  <td>{this.props.tempOverTime[0]}</td>
-                ) : (
-                  <td className="redTableCell">{this.props.tempOverTime[0]}</td>
-                )}
+                  <td style={{ backgroundColor: this.getColor(this.props.bathroomOverTime[0])}}>{this.props.bathroomOverTime[0]}</td>
+                  <td style={{ backgroundColor: this.getColor(this.props.tempOverTime[0])}}>{this.props.tempOverTime[0]}</td>
               </tr>
               <tr>
                 <td>December</td>
-                {this.props.bathroomOverTime[1] == 0 ? (
-                  <td>{this.props.bathroomOverTime[1]}</td>
-                ) : (
-                  <td className="redTableCell">
-                    {this.props.bathroomOverTime[1]}
-                  </td>
-                )}
-                {this.props.tempOverTime[1] == 0 ? (
-                  <td>{this.props.tempOverTime[1]}</td>
-                ) : (
-                  <td className="redTableCell">{this.props.tempOverTime[1]}</td>
-                )}
+                  <td style={{ backgroundColor: this.getColor(this.props.bathroomOverTime[1])}}>{this.props.bathroomOverTime[1]}</td>
+                  <td style={{ backgroundColor: this.getColor(this.props.tempOverTime[1])}}>{this.props.tempOverTime[1]}</td>
               </tr>
               <tr>
                 <td>January</td>
-                {this.props.bathroomOverTime[2] == 0 ? (
-                  <td>{this.props.bathroomOverTime[2]}</td>
-                ) : (
-                  <td className="redTableCell">
-                    {this.props.bathroomOverTime[2]}
-                  </td>
-                )}
-                {this.props.tempOverTime[2] == 0 ? (
-                  <td>{this.props.tempOverTime[2]}</td>
-                ) : (
-                  <td className="redTableCell">{this.props.tempOverTime[2]}</td>
-                )}
+                  <td style={{ backgroundColor: this.getColor(this.props.bathroomOverTime[2])}}>{this.props.bathroomOverTime[2]}</td>
+                  <td style={{ backgroundColor: this.getColor(this.props.tempOverTime[2])}}>{this.props.tempOverTime[2]}</td>
               </tr>
               <tr>
                 <td>February</td>
-                {this.props.bathroomOverTime[3] == 0 ? (
-                  <td>{this.props.bathroomOverTime[3]}</td>
-                ) : (
-                  <td className="redTableCell">
-                    {this.props.bathroomOverTime[3]}
-                  </td>
-                )}
-                {this.props.tempOverTime[3] == 0 ? (
-                  <td>{this.props.tempOverTime[3]}</td>
-                ) : (
-                  <td className="redTableCell">{this.props.tempOverTime[3]}</td>
-                )}
+                  <td style={{ backgroundColor: this.getColor(this.props.bathroomOverTime[3])}}>{this.props.bathroomOverTime[3]}</td>
+                  <td style={{ backgroundColor: this.getColor(this.props.tempOverTime[3])}}>{this.props.tempOverTime[3]}</td>
               </tr>
               <tr>
                 <td>March</td>
-                {this.props.bathroomOverTime[4] == 0 ? (
-                  <td>{this.props.bathroomOverTime[4]}</td>
-                ) : (
-                  <td className="redTableCell">
-                    {this.props.bathroomOverTime[4]}
-                  </td>
-                )}
-                {this.props.tempOverTime[4] == 0 ? (
-                  <td>{this.props.tempOverTime[4]}</td>
-                ) : (
-                  <td className="redTableCell">{this.props.tempOverTime[4]}</td>
-                )}
+                  <td style={{ backgroundColor: this.getColor(this.props.bathroomOverTime[4])}}>{this.props.bathroomOverTime[4]}</td>
+                  <td style={{ backgroundColor: this.getColor(this.props.tempOverTime[4])}}>{this.props.tempOverTime[4]}</td>
               </tr>
             </table>
           </div>
@@ -709,6 +694,17 @@ class UTI extends React.Component {
 class Sleep extends React.Component {
   constructor(props) {
     super(props);
+  }
+
+  getColorPercentage = (num) => {
+    if (num < 40) return 'yellow';
+    if (num < 72.5) return 'red';
+    return '';
+  }
+
+  getColorBouts = (num) => {
+    if (num < 2) return '';
+    return 'red';
   }
 
   render() {
@@ -759,28 +755,28 @@ class Sleep extends React.Component {
             </tr>
             <tr>
               <td>November</td>
-              <td> {this.props.percent[0]}%</td>
-              <td> {this.props.wake[0]}</td>
+              <td style={{ backgroundColor: this.getColorPercentage(this.props.percent[0])}}> {this.props.percent[0]}%</td>
+              <td style={{ backgroundColor: this.getColorBouts(this.props.wake[0])}}> {this.props.wake[0]}</td>
             </tr>
             <tr>
               <td>December</td>
-              <td> {this.props.percent[1]}%</td>
-              <td> {this.props.wake[1]}</td>
+              <td style={{ backgroundColor: this.getColorPercentage(this.props.percent[1])}}> {this.props.percent[1]}%</td>
+              <td style={{ backgroundColor: this.getColorBouts(this.props.wake[1])}}> {this.props.wake[1]}</td>
             </tr>
             <tr>
               <td>January</td>
-              <td> {this.props.percent[2]}%</td>
-              <td> {this.props.wake[2]}</td>
+              <td style={{ backgroundColor: this.getColorPercentage(this.props.percent[2])}}> {this.props.percent[2]}%</td>
+              <td style={{ backgroundColor: this.getColorBouts(this.props.wake[2])}}> {this.props.wake[2]}</td>
             </tr>
             <tr>
               <td>February</td>
-              <td> {this.props.percent[3]}%</td>
-              <td> {this.props.wake[3]}</td>
+              <td style={{ backgroundColor: this.getColorPercentage(this.props.percent[3])}}> {this.props.percent[3]}%</td>
+              <td style={{ backgroundColor: this.getColorBouts(this.props.wake[3])}}> {this.props.wake[3]}</td>
             </tr>
             <tr>
               <td>March</td>
-              <td> {this.props.percent[4]}%</td>
-              <td> {this.props.wake[4]}</td>
+              <td style={{ backgroundColor: this.getColorPercentage(this.props.percent[4])}}> {this.props.percent[4]}%</td>
+              <td style={{ backgroundColor: this.getColorBouts(this.props.wake[4])}}> {this.props.wake[4]}</td>
             </tr>
           </table>
         </div>
@@ -792,6 +788,12 @@ class Sleep extends React.Component {
 class DA extends React.Component {
   constructor(props) {
     super(props);
+  }
+
+  getColor = (num) => {
+    if (num == 0) return '';
+    if (num > 18) return 'yellow';
+    if (num > 0) return 'red';
   }
 
   render() {
@@ -827,53 +829,23 @@ class DA extends React.Component {
               </tr>
               <tr>
                 <td>November</td>
-                {this.props.dailyOverTime[0] == 0 ? (
-                  <td>{this.props.dailyOverTime[0]}</td>
-                ) : (
-                  <td className="redTableCell">
-                    {this.props.dailyOverTime[0]}
-                  </td>
-                )}
+                  <td style={{ backgroundColor: this.getColor(this.props.dailyOverTime[0])}}>{this.props.dailyOverTime[0]}</td>
               </tr>
               <tr>
                 <td>December</td>
-                {this.props.dailyOverTime[1] == 0 ? (
-                  <td>{this.props.dailyOverTime[1]}</td>
-                ) : (
-                  <td className="redTableCell">
-                    {this.props.dailyOverTime[1]}
-                  </td>
-                )}
+                <td style={{ backgroundColor: this.getColor(this.props.dailyOverTime[1])}}>{this.props.dailyOverTime[1]}</td>
               </tr>
               <tr>
                 <td>January</td>
-                {this.props.dailyOverTime[2] == 0 ? (
-                  <td>{this.props.dailyOverTime[2]}</td>
-                ) : (
-                  <td className="redTableCell">
-                    {this.props.dailyOverTime[2]}
-                  </td>
-                )}
+                <td style={{ backgroundColor: this.getColor(this.props.dailyOverTime[2])}}>{this.props.dailyOverTime[2]}</td>
               </tr>
               <tr>
                 <td>February</td>
-                {this.props.dailyOverTime[3] == 0 ? (
-                  <td>{this.props.dailyOverTime[3]}</td>
-                ) : (
-                  <td className="redTableCell">
-                    {this.props.dailyOverTime[3]}
-                  </td>
-                )}
+                <td style={{ backgroundColor: this.getColor(this.props.dailyOverTime[3])}}>{this.props.dailyOverTime[3]}</td>
               </tr>
               <tr>
                 <td>March</td>
-                {this.props.dailyOverTime[4] == 0 ? (
-                  <td>{this.props.dailyOverTime[4]}</td>
-                ) : (
-                  <td className="redTableCell">
-                    {this.props.dailyOverTime[4]}
-                  </td>
-                )}
+                <td style={{ backgroundColor: this.getColor(this.props.dailyOverTime[4])}}>{this.props.dailyOverTime[4]}</td>
               </tr>
             </table>
           </div>
@@ -886,6 +858,12 @@ class DA extends React.Component {
 class MOVE extends React.Component {
   constructor(props) {
     super(props);
+  }
+
+  getColor = (num, type) => {
+    if (type == 'random' && num > 60) return 'yellow';
+    if ((type == 'pacing' || type == 'lapping') && num > 50) return 'red';
+    return '';
   }
 
   render() {
@@ -938,38 +916,38 @@ class MOVE extends React.Component {
             </tr>
             <tr>
               <td>November</td>
-              <td> {this.props.novPacingPer}%</td>
-              <td> {this.props.novLappingPer}%</td>
+              <td style={{ backgroundColor: this.getColor(this.props.novPacingPer, 'pacing')}}> {this.props.novPacingPer}%</td>
+              <td style={{ backgroundColor: this.getColor(this.props.novLappingPer, 'lapping')}}> {this.props.novLappingPer}%</td>
               <td> {this.props.novDirectPer}%</td>
-              <td> {this.props.novRandomPer}%</td>
+              <td style={{ backgroundColor: this.getColor(this.props.novRandomPer, 'random')}}> {this.props.novRandomPer}%</td>
             </tr>
             <tr>
               <td>December</td>
-              <td> {this.props.decPacingPer}%</td>
-              <td> {this.props.decLappingPer}%</td>
+              <td style={{ backgroundColor: this.getColor(this.props.decPacingPer, 'pacing')}}> {this.props.decPacingPer}%</td>
+              <td style={{ backgroundColor: this.getColor(this.props.decLappingPer, 'lapping')}}> {this.props.decLappingPer}%</td>
               <td> {this.props.decDirectPer}%</td>
-              <td> {this.props.decRandomPer}%</td>
+              <td style={{ backgroundColor: this.getColor(this.props.decRandomPer, 'random')}}> {this.props.decRandomPer}%</td>
             </tr>
             <tr>
               <td>January</td>
-              <td> {this.props.janPacingPer}%</td>
-              <td> {this.props.janLappingPer}%</td>
+              <td style={{ backgroundColor: this.getColor(this.props.janPacingPer, 'pacing')}}> {this.props.janPacingPer}%</td>
+              <td style={{ backgroundColor: this.getColor(this.props.janLappingPer, 'lapping')}}> {this.props.janLappingPer}%</td>
               <td> {this.props.janDirectPer}%</td>
-              <td> {this.props.janRandomPer}%</td>
+              <td style={{ backgroundColor: this.getColor(this.props.janRandomPer, 'random')}}> {this.props.janRandomPer}%</td>
             </tr>
             <tr>
               <td>February</td>
-              <td> {this.props.febPacingPer}%</td>
-              <td> {this.props.febLappingPer}%</td>
+              <td style={{ backgroundColor: this.getColor(this.props.febPacingPer, 'pacing')}}> {this.props.febPacingPer}%</td>
+              <td style={{ backgroundColor: this.getColor(this.props.febLappingPer, 'lapping')}}> {this.props.febLappingPer}%</td>
               <td> {this.props.febDirectPer}%</td>
-              <td> {this.props.febRandomPer}%</td>
+              <td style={{ backgroundColor: this.getColor(this.props.febRandomPer, 'random')}}> {this.props.febRandomPer}%</td>
             </tr>
             <tr>
               <td>March</td>
-              <td> {this.props.marPacingPer}%</td>
-              <td> {this.props.marLappingPer}%</td>
+              <td style={{ backgroundColor: this.getColor(this.props.marPacingPer, 'pacing')}}> {this.props.marPacingPer}%</td>
+              <td style={{ backgroundColor: this.getColor(this.props.marLappingPer, 'lapping')}}> {this.props.marLappingPer}%</td>
               <td> {this.props.marDirectPer}%</td>
-              <td> {this.props.marRandomPer}%</td>
+              <td style={{ backgroundColor: this.getColor(this.props.marRandomPer, 'random')}}> {this.props.marRandomPer}%</td>
             </tr>
           </table>
         </div>

@@ -531,8 +531,8 @@ class DatabaseAPI(generics.GenericAPIView):
             query = ("SELECT * FROM bad_sleep_month")
             tableTitle = "Abnormal"
             color = "red"
-            percentResult = [100.0, 88.3, 68.3, 65.4, 72.4]
-            wakeResult = [0, 1, 3, 3, 2]
+            percentResult = [100.0, 88.3, 68.3, 65.4, 82.4]
+            wakeResult = [0, 1, 3, 3, 1]
         else:
             query = ("SELECT * FROM random_sleep_month")
             tableTitle = "Random"
