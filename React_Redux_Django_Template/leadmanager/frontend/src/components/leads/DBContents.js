@@ -41,9 +41,7 @@ export class DBContents extends Component {
           there is a help team email for any technical issues located below as
           well that you can contact us by.
         </h6>
-          <img
-          src="/static/frontend/resources/Forget-Me-Not.png"
-        ></img>
+        <img src="/static/frontend/resources/Forget-Me-Not.png"></img>
       </div>
     );
   }

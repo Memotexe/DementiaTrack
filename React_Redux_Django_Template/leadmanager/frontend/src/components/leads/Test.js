@@ -9,7 +9,7 @@ export class Test extends Component {
     this.state = {
       result: [],
       start: "",
-      end: ""
+      end: "",
     };
   }
 
@@ -17,23 +17,26 @@ export class Test extends Component {
     let start = e.target.value;
 
     this.setState({ start });
-  }
+  };
 
   setEnd = (e) => {
     let end = e.target.value;
 
     this.setState({ end });
-  }
+  };
 
   clicked = async () => {
     let repo = new Repository();
 
-    let response = await repo.testBackendConnection(this.state.start, this.state.end);
+    let response = await repo.testBackendConnection(
+      this.state.start,
+      this.state.end
+    );
 
     this.setState({
       result: response.Test,
     });
-  }
+  };
 
   render() {
     return (
@@ -45,7 +48,7 @@ export class Test extends Component {
         <button onClick={this.clicked}>Run</button>
         <p>Result: {this.state.result}</p>
         <h5>Start Date:</h5>
-        <input 
+        <input
           onChange={this.setStart}
           type="date"
           id="start"
