@@ -41,7 +41,7 @@ class DatabaseAPI(generics.GenericAPIView):
 
         sender_address = 'dementiatrack@gmail.com'
         sender_pass = lines[0]
-        receiver_address = 'perrbm04@pfw.edu'
+        receiver_address = 'mccatd02@pfw.edu'
 
         message = MIMEMultipart()
         message['From'] = sender_address
