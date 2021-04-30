@@ -82,13 +82,13 @@ export class Overview extends Component {
 
   getColorSleepPercentage = (num) => {
     if (num < 40) return 'yellow';
-    if (num < 70) return 'red';
+    if (num < 72.5) return 'red';
     return '';
   }
 
   getColorSleepBouts = (num) => {
-    if (num < 3) return '';
-    return 'red';
+    if (num > 2) return 'red';
+    return '';
   }
 
   sendNotification = async (utiFlag, sleepFlag, DAFlag, moveFlag) => {
@@ -703,8 +703,8 @@ class Sleep extends React.Component {
   }
 
   getColorBouts = (num) => {
-    if (num < 2) return '';
-    return 'red';
+    if (num > 2) return 'red';
+    return '';
   }
 
   render() {
