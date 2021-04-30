@@ -27,3 +27,6 @@
       password it will need changed in the settings.py file under leadmanager
     - In regards to adding data to the MySQL server simply open MySQL Workbench and create the schema dementia_track
       then import all necessary data files
+#7.) To run email on overview
+    -First create file under leadmanager/database called emailpassword.txt and put in '3&MSugsWHGbi2txh'
+    -Change reciever address on line 45 in api.py to whatever email address you want to send to.
