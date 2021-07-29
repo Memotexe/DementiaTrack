@@ -1,0 +1,23 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+django = "*"
+djangorestframework = "*"
+django-rest-knox = "*"
+mysqlclient = "*"
+mysql-connector-python = "*"
+pycaret = "*"
+adtk = "*"
+prometheus-flask-exporter = "*"
+pyspc = "*"
+numpy = "*"
+django-cors-headers = "*"
+pyspcalt = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.8"

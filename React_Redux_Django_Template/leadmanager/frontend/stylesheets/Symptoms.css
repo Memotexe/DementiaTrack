@@ -1,0 +1,67 @@
+#page {
+  margin-bottom: 50px;
+  width: 100%;
+}
+
+#title {
+  text-align: center;
+  margin: 20px;
+}
+
+h3,
+h4 {
+  text-align: center;
+}
+
+#symptomContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+}
+
+.symptom {
+  padding: 20px;
+  border-radius: 10px;
+  margin: 10px;
+  box-shadow: 3px 3px 5px 6px #ccc;
+  width: 100%;
+}
+
+#overview {
+  background-color: white;
+  padding: 20px;
+  text-align: center;
+  border-radius: 10px;
+  background-color: lightgray;
+  width: 50%;
+  margin: 50px auto;
+  min-width: 300px;
+}
+
+.button {
+  background-color: #6699cc;
+  border: 1px solid #6699cc;
+  border-radius: 2px;
+  color: white;
+  margin: 10px;
+}
+
+#tableContainer {
+  display: flex;
+  flex-direction: row;
+}
+
+@media only screen and (max-width: 1000px) {
+  #tableContainer {
+    flex-wrap: wrap;
+  }
+
+  .symptom {
+    width: 100%;
+  }
+
+  #overview {
+    width: 75%;
+  }
+}
